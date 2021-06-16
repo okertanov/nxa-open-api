@@ -1,0 +1,75 @@
+##
+## Copyright (c) 2020 - Team11. All rights reserved.
+##
+
+version: '3.7'
+
+services:
+
+  nxa-open-api:
+    image: nxa-open-api:latest
+    container_name: nxa-open-api
+    hostname: "nxa-open-api"
+    build:
+      dockerfile: Dockerfile
+      target: production
+      context: .
+    links:
+      - "nxa-open-api-database:nxa-open-api-database"
+    depends_on:
+      - nxa-open-api-database
+    networks:
+      - nxa_open_api_net
+    ports:
+      - ${API_HTTP_PORT}:${API_HTTP_PORT}
+    environment:
+      # Services
+      API_HOST: ${API_HOST}
+      API_HTTP_PORT: ${API_HTTP_PORT}
+      # DB
+      API_DB_HOST: ${API_DB_HOST}
+      API_DB_PORT: ${API_DB_PORT}
+      API_DB_DATABASE: ${API_DB_DATABASE}
+      API_DB_USER: ${API_DB_USER}
+      API_DB_PASSWORD: ${API_DB_PASSWORD}
+
+  #
+  # From: https://hub.docker.com/_/postgres
+  #
+  nxa-open-api-database:
+    image: postgres:12
+    container_name: nxa-open-api-database
+    hostname: "nxa-open-api-database"
+    ports:
+      - ${API_DB_PORT}:${API_DB_PORT}
+    networks:
+      - nxa_open_api_net
+    volumes:
+        - nxa-open-api-database-data:/var/lib/postgresql/data
+    environment:
+        POSTGRES_DB: ${API_DB_DATABASE}
+        POSTGRES_USER: ${API_DB_USER}
+        POSTGRES_PASSWORD: ${API_DB_PASSWORD}
+
+  #
+  # From: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+  # WARNING: DEV ONLY
+  #
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: nxa-open-api-pgadmin
+    hostname: "nxa-open-api-pgadmin"
+    networks:
+      - nxa_open_api_net
+    environment:
+        PGADMIN_DEFAULT_EMAIL: pgadmin@xdaro.com
+        PGADMIN_DEFAULT_PASSWORD: 0e4896a9-c3c1-46de-bb69-48032f00eccc
+    ports:
+      - 5050:80
+
+volumes:
+  nxa-open-api-database-data:
+
+networks:
+  nxa_open_api_net:
+    external: false
