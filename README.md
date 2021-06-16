@@ -18,5 +18,7 @@ Build & Run for Prod
 
 Links
 -----
+[https://andit.atlassian.net/wiki/spaces/NXA/pages/441450504/Neo+Frontier+Launchpad+2021](https://andit.atlassian.net/wiki/spaces/NXA/pages/441450504/Neo+Frontier+Launchpad+2021)  
 [https://andit.atlassian.net/wiki/spaces/NXA/pages/409272583/DVITA+open+API+modules](https://andit.atlassian.net/wiki/spaces/NXA/pages/409272583/DVITA+open+API+modules)  
+[https://andit.atlassian.net/wiki/spaces/NXA/pages/438272032/NXA+Plugins](https://andit.atlassian.net/wiki/spaces/NXA/pages/438272032/NXA+Plugins)  
 
