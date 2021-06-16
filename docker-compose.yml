@@ -43,11 +43,10 @@ services:
     container_name: rabbitmq
     hostname: "rabbitmq"
     networks:
-      - triggers_net
+      - nxa_open_api_net
     labels:
       NAME: "rabbitmq"
     environment:
-      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     ports:
