@@ -1,0 +1,43 @@
+variables:
+  REGISTRY_IMAGE: registry.teamxi.cloud/nxa-nft/nxa-openapi
+  DOCKER_TLS_CERTDIR: "/certs"
+
+stages:
+  - build
+
+# include:
+  # jobs to run after merge requests is done
+#  - local: /gitlab-ci/jobs-after-merge.yml
+  # jobs to run when merge requests arrive
+#  - local: /gitlab-ci/jobs-before-merge.yml
+
+Build-Nxa-Nft:
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  stage: build
+  tags:
+    - docker
+    - build
+  before_script:
+    - echo $HARBOR_USERNAME
+    - echo $HARBOR_REGISTRY
+    - echo -n $HARBOR_PASSWORD | docker login -u $HARBOR_USERNAME --password-stdin $HARBOR_REGISTRY
+  after_script:
+    - docker logout $HARBOR_REGISTRY
+  script:
+    - apk update && apk add git make
+    # - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.teamxi.cloud/team11/frontend/admin-config.git admin-frontend-config
+    # - make build-environment ENVIRONMENT=bankomia-agent
+    - docker pull $REGISTRY_IMAGE:latest || true
+    - >
+      docker build -f Dockerfile
+      --pull
+      --cache-from $REGISTRY_IMAGE:latest
+      --tag $REGISTRY_IMAGE:$CI_COMMIT_SHA
+      --tag $REGISTRY_IMAGE:latest
+      .
+    - docker push $REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $REGISTRY_IMAGE:latest
+  
+  
