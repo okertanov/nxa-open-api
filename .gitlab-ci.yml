@@ -1,5 +1,5 @@
 variables:
-  REGISTRY_IMAGE: registry.teamxi.cloud/nxa-nft/nxa-openapi
+  REGISTRY_IMAGE: registry.teamxi.cloud/nxa-nft/nxa-open-api
   DOCKER_TLS_CERTDIR: "/certs"
 
 stages:
@@ -40,4 +40,4 @@ Build-Nxa-Nft:
     - docker push $REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $REGISTRY_IMAGE:latest
   
-  
+
