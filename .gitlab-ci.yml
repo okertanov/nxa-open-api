@@ -11,7 +11,7 @@ stages:
   # jobs to run when merge requests arrive
 #  - local: /gitlab-ci/jobs-before-merge.yml
 
-Build-Nxa-Nft:
+Build-nxa-open-api:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
