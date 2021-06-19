@@ -62,7 +62,7 @@ Test SSH:
   - build
   script:
   # try to connect to GitLab.com
-  - ssh ubuntu@REMOTE_HOST "ifconfig; docker-compose || true"
+  - ssh ubuntu@$REMOTE_HOST "ifconfig; docker-compose || true"
 
   # try to clone yourself. A *PUBLIC* key paired to the SSH_PRIVATE_KEY was added as deploy key to this repository
   # - 'sudo su -'
