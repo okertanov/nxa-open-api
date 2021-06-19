@@ -66,7 +66,7 @@ Test SSH:
   # try to connect to GitLab.com
   - scp ./docker-compose.yml ubuntu@$REMOTE_HOST:~/
   - ssh ubuntu@$REMOTE_HOST "ls; pwd;"
-  - ssh ubuntu@$REMOTE_HOST "sudo su -; mv -f ./docker-compose.yml /srv/docker-compose.yml"
+  - ssh ubuntu@$REMOTE_HOST "sudo mv -f ./docker-compose.yml /srv/docker-compose.yml"
 
   # try to clone yourself. A *PUBLIC* key paired to the SSH_PRIVATE_KEY was added as deploy key to this repository
   # - 'sudo su -'
