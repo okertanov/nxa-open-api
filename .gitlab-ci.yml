@@ -1,9 +1,11 @@
 variables:
   REGISTRY_IMAGE: registry.teamxi.cloud/nxa-nft/nxa-open-api
   DOCKER_TLS_CERTDIR: "/certs"
+  REMOTE_HOST: openapi.nft.teamxi.cloud
 
 stages:
   - build
+  - deploy
 
 # include:
   # jobs to run after merge requests is done
@@ -13,6 +15,7 @@ stages:
 
 Build-nxa-open-api:
   image: docker:19.03.12
+  when: manual
   services:
     - docker:19.03.12-dind
   stage: build
@@ -40,4 +43,27 @@ Build-nxa-open-api:
     - docker push $REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $REGISTRY_IMAGE:latest
   
+Test SSH:
+  image: ubuntu
+  depends: []
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+
+    - ssh-keyscan $REMOTE_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  tags:
+  - docker
+  - build
+  script:
+  # try to connect to GitLab.com
+  - ssh ubuntu@REMOTE_HOST "ifconfig; docker-compose || true"
+
+  # try to clone yourself. A *PUBLIC* key paired to the SSH_PRIVATE_KEY was added as deploy key to this repository
+  # - 'sudo su -'
+  # - docker-compose
 
