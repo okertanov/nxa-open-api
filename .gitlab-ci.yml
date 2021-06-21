@@ -62,6 +62,8 @@ reDeploy:
   - build
   script:
   #
+  - ssh ubuntu@$REMOTE_HOST "echo -n $HARBOR_PASSWORD | docker login -u $HARBOR_USERNAME --password-stdin $HARBOR_REGISTRY"
+  #
   - scp ./aws/docker-compose.yml ubuntu@$REMOTE_HOST:~/docker-compose/
   - scp ./.env ubuntu@$REMOTE_HOST:~/docker-compose/
   - ssh ubuntu@$REMOTE_HOST "ls; pwd;"
