@@ -68,7 +68,7 @@ reDeploy:
   - scp ./.env ubuntu@$REMOTE_HOST:~/docker-compose/
   - ssh ubuntu@$REMOTE_HOST "ls; pwd;"
   - ssh ubuntu@$REMOTE_HOST "cd docker-compose/; source .env; docker-compose down || true"
-  - ssh ubuntu@$REMOTE_HOST "cd docker-compose/; source .env; docker-compose up -d"
+  - ssh ubuntu@$REMOTE_HOST "cd docker-compose/; source .env; docker-compose up --force-recreate -d"
 
 
   # try to clone yourself. A *PUBLIC* key paired to the SSH_PRIVATE_KEY was added as deploy key to this repository
