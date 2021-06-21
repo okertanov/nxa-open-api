@@ -61,15 +61,12 @@ Test SSH:
   - docker
   - build
   script:
-  - pwd
-  - 'ls -la'
-  # try to connect to GitLab.com
+  #
   - scp ./aws/docker-compose.yml ubuntu@$REMOTE_HOST:~/docker-compose/
   - scp ./.env ubuntu@$REMOTE_HOST:~/docker-compose/
   - ssh ubuntu@$REMOTE_HOST "ls; pwd;"
-  # - ssh ubuntu@$REMOTE_HOST "sudo mv -f ./docker-compose.yml /srv/docker-compose/docker-compose.yml"
-  # - ssh ubuntu@$REMOTE_HOST "sudo docker-compose up --detach"
-  # - ssh ubuntu@$REMOTE_HOST "docker-compose up --detach"
+  - ssh ubuntu@$REMOTE_HOST "cd docker-compose/; source .env; docker-compose down || true; \
+        docker-compose up -d"
 
   # try to clone yourself. A *PUBLIC* key paired to the SSH_PRIVATE_KEY was added as deploy key to this repository
   # - 'sudo su -'
