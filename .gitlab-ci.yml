@@ -64,7 +64,8 @@ Test SSH:
   - pwd
   - 'ls -la'
   # try to connect to GitLab.com
-  - scp ./docker-compose.yml ubuntu@$REMOTE_HOST:~/docker-compose/
+  - scp ./aws/docker-compose.yml ubuntu@$REMOTE_HOST:~/docker-compose/
+  - scp ./.env ubuntu@$REMOTE_HOST:~/docker-compose/
   - ssh ubuntu@$REMOTE_HOST "ls; pwd;"
   # - ssh ubuntu@$REMOTE_HOST "sudo mv -f ./docker-compose.yml /srv/docker-compose/docker-compose.yml"
   # - ssh ubuntu@$REMOTE_HOST "sudo docker-compose up --detach"
