@@ -15,7 +15,7 @@ stages:
 
 Build-nxa-open-api:
   image: docker:19.03.12
-  when: manual
+  # when: manual
   services:
     - docker:19.03.12-dind
   stage: build
@@ -43,10 +43,10 @@ Build-nxa-open-api:
     - docker push $REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $REGISTRY_IMAGE:latest
   
-Test SSH:
+reDeploy:
   image: ubuntu
   stage: deploy
-  needs: []
+  # needs: []
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
     - eval $(ssh-agent -s)
