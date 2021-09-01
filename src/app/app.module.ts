@@ -9,6 +9,9 @@ import { TransactionModule } from '../transaction/transaction.module';
 import { WalletModule } from '../wallet/wallet.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ExplorerModule } from '../explorer/explorer.module';
+import { MonitorModule } from '../monitor/monitor.module';
+import { StatisticModule } from '../statistic/statistic.module';
 
 @Module({
   imports: [
@@ -37,7 +40,10 @@ import { AppService } from './app.service';
     TransactionModule,
     AssetsModule,
     WalletModule,
-    GovernanceModule
+    GovernanceModule,
+    ExplorerModule,
+    MonitorModule,
+    StatisticModule
   ],
   controllers: [AppController],
   providers: [AppService],
