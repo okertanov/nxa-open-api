@@ -23,7 +23,7 @@ services:
     ports:
       - ${API_HTTP_PORT}:${API_HTTP_PORT}
     environment:
-      # Services
+      # Service
       API_HOST: ${API_HOST}
       API_HTTP_PORT: ${API_HTTP_PORT}
       # DB
@@ -32,6 +32,11 @@ services:
       API_DB_DATABASE: ${API_DB_DATABASE}
       API_DB_USER: ${API_DB_USER}
       API_DB_PASSWORD: ${API_DB_PASSWORD}
+      # MQ
+      MQ_ENDPOINT: ${MQ_ENDPOINT}
+      MQ_EXCHANGE_LISTENER_BLOCKS: ${MQ_EXCHANGE_LISTENER_BLOCKS}
+      MQ_EXCHANGE_LISTENER_TRANSACTIONS: ${MQ_EXCHANGE_LISTENER_TRANSACTIONS}
+
 
   #
   # From:

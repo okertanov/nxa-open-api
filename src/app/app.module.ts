@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AssetsModule } from '../assets/assets.module';
+import { BlockchainModule } from '../blockchain/blockchain.module';
 import { ServiceStatusModule } from '../status/service.status.module';
+import { TransactionModule } from '../transaction/transaction.module';
+import { WalletModule } from '../wallet/wallet.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -27,7 +31,11 @@ import { AppService } from './app.service';
         migrationsDir: 'src/migration',
       }
     }),
-    ServiceStatusModule
+    ServiceStatusModule,
+    BlockchainModule,
+    TransactionModule,
+    AssetsModule,
+    WalletModule
   ],
   controllers: [AppController],
   providers: [AppService],
