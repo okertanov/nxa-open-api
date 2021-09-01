@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GovernanceModule } from '../governance/governance.module';
 import { AssetsModule } from '../assets/assets.module';
 import { BlockchainModule } from '../blockchain/blockchain.module';
 import { ServiceStatusModule } from '../status/service.status.module';
@@ -35,7 +36,8 @@ import { AppService } from './app.service';
     BlockchainModule,
     TransactionModule,
     AssetsModule,
-    WalletModule
+    WalletModule,
+    GovernanceModule
   ],
   controllers: [AppController],
   providers: [AppService],
