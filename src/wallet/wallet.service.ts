@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BlockchainAssetDto } from 'src/assets/dto/blockchain.asset.dto';
+import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
 import { BlockchainBalanceDto } from './dto/blockchain.balance.dto';
 
 @Injectable()

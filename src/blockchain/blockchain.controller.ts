@@ -1,17 +1,41 @@
-import { Controller, Get, Logger, Param, Req } from '@nestjs/common';
+import { Controller, Get, Logger, OnApplicationBootstrap, OnApplicationShutdown, Param, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { BlockchainAccessService } from './blockchain.access.service';
 import { BlockchainService } from './blockchain.service';
 import { BlockchainInfoDto } from './dto/blockchain.info.dto';
 import { BlockchainBlock } from './types/blockchain.block';
+import { BlockchainNetwork } from './types/blockchain.network';
 import { BlockchainTransaction } from './types/blockchain.transaction';
 
 @ApiTags('Blockchain')
 @Controller('/blockchain')
-export class BlockchainController {
+export class BlockchainController implements OnApplicationBootstrap, OnApplicationShutdown {
     private readonly logger = new Logger(BlockchainController.name);
 
-    constructor(private readonly blockchainService: BlockchainService) {
+    constructor(
+        private readonly blockchainAccessService: BlockchainAccessService,
+        private readonly blockchainService: BlockchainService
+    ) {
+    }
+
+    async onApplicationBootstrap(): Promise<any> {
+        try {
+            this.logger.debug('Initializing...');
+            this.blockchainAccessService.connect(BlockchainNetwork.Default);
+            await this.blockchainAccessService.testConnection();
+        } catch(e) {
+            this.logger.error(e);
+        }
+    }
+
+    onApplicationShutdown(signal?: string): any {
+        try {
+            this.logger.debug(`Terminating with ${signal}...`);
+            this.blockchainAccessService.disconnect();
+        } catch(e) {
+            this.logger.error(e);
+        }
     }
 
     @Get('/info')

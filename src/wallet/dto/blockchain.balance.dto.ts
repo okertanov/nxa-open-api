@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BlockchainAssetDto } from "src/assets/dto/blockchain.asset.dto";
+import { BlockchainAssetDto } from "../../assets/dto/blockchain.asset.dto";
 import { Decimal } from 'decimal.js';
 
 export class BlockchainBalanceDto {

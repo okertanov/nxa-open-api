@@ -14,7 +14,14 @@ export class BlockchainAssetDto {
         BlockchainAssetDto.DVITA_HASH,
         'DVITA',
         'DVITA',
-        0
+        0,
+        new BlockchainAssetMetadata(
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'Dvita is a platform that supports DLT to improve financial inclusion, transparency and the UN’s SDGs.',
+            'http://dvitahomepage.teamxi.cloud/',
+            'http://dvitahomepage.teamxi.cloud/blocks'
+        )
     );
 
     @ApiHideProperty()
@@ -22,7 +29,14 @@ export class BlockchainAssetDto {
         BlockchainAssetDto.DVG_HASH,
         'DVG',
         'DVG',
-        8
+        8,
+        new BlockchainAssetMetadata(
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'Dvita is a platform that supports DLT to improve financial inclusion, transparency and the UN’s SDGs.',
+            'http://dvitahomepage.teamxi.cloud/',
+            'http://dvitahomepage.teamxi.cloud/blocks'
+        )
     );
 
     @ApiHideProperty()
@@ -30,7 +44,14 @@ export class BlockchainAssetDto {
         BlockchainAssetDto.NEO_HASH,
         'NEO',
         'NEO',
-        0
+        0,
+        new BlockchainAssetMetadata(
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'Neo is unique in that it was the first public blockchain platform to adopt a dual token mechanism. It separates the rights of governance from the rights of using the network. It also provides a means of acquiring the tokens needing to pay transaction fees.',
+            'https://neo.org/',
+            'https://neo3.neotube.io/'
+        )
     );
 
     @ApiHideProperty()
@@ -38,7 +59,14 @@ export class BlockchainAssetDto {
         BlockchainAssetDto.GAS_HASH,
         'GAS',
         'GAS',
-        8
+        8,
+        new BlockchainAssetMetadata(
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'http://dvitahomepage.teamxi.cloud/assets/logos/logo2.svg',
+            'The Neo network charges GAS for the operation and storage of tokens and smart contracts, preventing the abuse of node resources.',
+            'https://neo.org/',
+            'https://neo3.neotube.io/'
+        )
     );
 
     @ApiProperty()
@@ -61,7 +89,7 @@ export class BlockchainAssetDto {
         code: string,
         name: string,
         decimals: string  | number | undefined,
-        metadata?: BlockchainAssetMetadata
+        metadata: BlockchainAssetMetadata | undefined
     ) {
         this.hash = hash;
         this.code = code;
@@ -106,10 +134,10 @@ export class BlockchainAssetDto {
         // Other by code or hash
         if (codeOrHash.toLowerCase().startsWith('0x')) {
             // By hash
-            return new BlockchainAssetDto(codeOrHash, '', '', undefined);
+            return new BlockchainAssetDto(codeOrHash, '', '', undefined, undefined);
         } else {
             // By code
-            return new BlockchainAssetDto(undefined, codeOrHash, '', undefined);
+            return new BlockchainAssetDto(undefined, codeOrHash, '', undefined, undefined);
         }
     }
 }

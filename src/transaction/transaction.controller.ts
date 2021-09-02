@@ -24,16 +24,16 @@ export class TransactionController {
         return this.transactionService.getTransactionStatus(hash);
     }
 
-    @Post('/create')
-    @ApiOperation({ summary: 'Create transaction from raw signed payload' })
-    @ApiResponse({ status: 201, description: 'Created Transaction status', type: TransactionStatusDto })
+    @Post('/broadcast')
+    @ApiOperation({ summary: 'Broadcast transaction from raw signed payload' })
+    @ApiResponse({ status: 201, description: 'Broadcasted Transaction status', type: TransactionStatusDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async postTransaction(
         @Req() req: Request,
         @Body() body: unknown
     ): Promise<TransactionStatusDto> {
         this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.transactionService.createTransactionRaw(body);
+        return this.transactionService.broadcastTransactionRaw(body);
     }
 
     @Put('/:hash')

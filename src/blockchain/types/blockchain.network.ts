@@ -23,7 +23,7 @@ export class BlockchainNetwork {
         BlockchainNetworkType.NXA,
         '199',
         'NXA-TESTNET',
-        'http://nxa-testnet-node-public:20332'
+        'http://192.168.1.191:20332' /* aka nxa-testnet-public.lan */
     );
 
     public static readonly Default = BlockchainNetwork.Nxa;

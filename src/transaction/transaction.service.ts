@@ -8,7 +8,7 @@ export class TransactionService {
         return txStatus;
     }
 
-    async createTransactionRaw(body: unknown): Promise<TransactionStatusDto> {
+    async broadcastTransactionRaw(body: unknown): Promise<TransactionStatusDto> {
         const txStatus = new TransactionStatusDto();
         return txStatus;
     }
