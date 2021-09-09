@@ -75,7 +75,7 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const assetFromCodeOrHash = BlockchainAssetDto.fromCodeOrHash(asset);
         const nep17Balances = await this.apiRpcClient.getNep17Balances(address);
         const balances = BlockchainBalanceDto.fromRpcBalances(nep17Balances);
-        const balance = balances.find(b => b.asset.hash === assetFromCodeOrHash.hash && b.asset.code === assetFromCodeOrHash.code);
+        const balance = balances.find(b => b.asset.hash === assetFromCodeOrHash.hash || b.asset.code === assetFromCodeOrHash.code);
         return balance;
     }
 
