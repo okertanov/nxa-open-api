@@ -8,6 +8,8 @@ import { BlockchainNetwork } from "./types/blockchain.network";
 import { BlockchainProviderInterface } from "./types/blockchain.provider.interface";
 import { BlockchainAccessServiceInterface } from "./types/blockchain.access.service.interface";
 import { BlockchainBalanceDto } from "../wallet/dto/blockchain.balance.dto";
+import { BlockchainBlock } from "./types/blockchain.block";
+import { BlockchainTransaction } from "./types/blockchain.transaction";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
@@ -32,6 +34,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
         return this.provider.testConnection();
     }
 
+    async getLastBlock(): Promise<BlockchainBlock> {
+        return this.provider.getLastBlock();
+    }
+
     async balanceOf(address: string): Promise<BlockchainBalanceDto[]> {
         return this.provider.balanceOf(address);
     }
@@ -46,5 +52,13 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     async deploySmartContractItem(network: BlockchainNetwork, dto: DeploySmartContractItemDto): Promise<DeploySmartContractResultDto> {
         return this.provider.deploySmartContractItem(network, dto);
+    }
+
+    async getTransaction(txHash: string): Promise<BlockchainTransaction> {
+        return this.provider.getTransaction(txHash);
+    }
+
+    async broadcastTransaction(tx: string): Promise<string> {
+        return this.provider.broadcastTransaction(tx);
     }
 }

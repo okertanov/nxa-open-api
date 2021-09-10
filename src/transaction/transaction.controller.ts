@@ -1,6 +1,8 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Req } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { PlainBody } from '../shared/decorators/plain.body';
+import { BroadcastTransactionDto } from './dto/broadcast.transaction.dto';
 import { TransactionStatusDto } from './dto/transaction.status.dto';
 import { TransactionService } from './transaction.service';
 
@@ -27,13 +29,16 @@ export class TransactionController {
     @Post('/broadcast')
     @ApiOperation({ summary: 'Broadcast transaction from raw signed payload' })
     @ApiResponse({ status: 201, description: 'Broadcasted Transaction status', type: TransactionStatusDto })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: TransactionStatusDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    @ApiConsumes('text/plain', 'application/json')
     async postTransaction(
         @Req() req: Request,
-        @Body() body: unknown
+        @Body() body: BroadcastTransactionDto,
+        @PlainBody() plainBody: string
     ): Promise<TransactionStatusDto> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.transactionService.broadcastTransactionRaw(body);
+        this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(plainBody)}`);
+        return this.transactionService.broadcastTransactionRaw(plainBody);
     }
 
     @Put('/:hash')
@@ -43,10 +48,11 @@ export class TransactionController {
     async modifyTransaction(
         @Req() req: Request,
         @Param('hash') hash: string,
-        @Body() body: unknown
+        @Body() body: BroadcastTransactionDto,
+        @PlainBody() plainBody: string
     ): Promise<TransactionStatusDto> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.transactionService.modifyTransaction(hash, body);
+        this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(plainBody)}`);
+        return this.transactionService.modifyTransaction(hash, plainBody);
     }
 
     @Delete('/:hash')

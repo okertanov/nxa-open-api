@@ -8,6 +8,8 @@ import { DeploySmartContractResultDto } from '../../../blockchain/dto/deploy.sma
 import { BlockchainProviderInterface } from '../../../blockchain/types/blockchain.provider.interface';
 import { BlockchainBalanceDto } from '../../../wallet/dto/blockchain.balance.dto';
 import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network';
+import { BlockchainBlock } from '../../../blockchain/types/blockchain.block';
+import { BlockchainTransaction } from '../../../blockchain/types/blockchain.transaction';
 
 //
 // NxaBlockchainProvider
@@ -65,6 +67,18 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         console.dir(nep17Balances);
     }
 
+    async getLastBlock(): Promise<BlockchainBlock> {
+        const blockCount = await this.apiRpcClient.getBlockCount();
+        const block = await this.apiRpcClient.getBlock(blockCount - 1, 1);
+        const blockchainBlock = new BlockchainBlock();
+        blockchainBlock.version = block.version.toString();
+        blockchainBlock.index = block.index.toString();
+        blockchainBlock.hash = block.hash;
+        blockchainBlock.timestamp = block.time;
+        blockchainBlock.transactions = [];
+        return blockchainBlock;
+    }
+
     async balanceOf(address: string): Promise<BlockchainBalanceDto[]> {
         const nep17Balances = await this.apiRpcClient.getNep17Balances(address);
         const balances = BlockchainBalanceDto.fromRpcBalances(nep17Balances);
@@ -89,5 +103,34 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
 
     async deploySmartContractItem(network: BlockchainNetwork, dto: DeploySmartContractItemDto): Promise<DeploySmartContractResultDto> {
         return new DeploySmartContractResultDto(undefined, undefined, undefined ,undefined);
+    }
+
+    async getTransaction(txHash: string): Promise<BlockchainTransaction> {
+        const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
+        const txBlock = await this.apiRpcClient.getBlock(rawTx.blockhash, true);
+        
+        const tx = new BlockchainTransaction();
+        tx.blockHash = rawTx.blockhash;
+        tx.blockIndex = txBlock.index.toString();
+        tx.index = rawTx.nonce.toString();
+        tx.hash = rawTx.hash;
+        tx.size = rawTx.size.toString();
+        tx.version = rawTx.version.toString();
+        tx.nonce = rawTx.nonce.toString();
+        tx.sender = rawTx.sender;
+        tx.sysfee = rawTx.sysfee;
+        tx.netfee = rawTx.netfee;
+        tx.script = rawTx.script;
+        tx.timestamp = rawTx.blocktime;
+
+        return tx;
+    }
+
+    async broadcastTransaction(tx: string): Promise<string> {
+        const hex = Neon.u.HexString.fromHex(tx);
+        this.logger.debug(`Broadcasting: '${hex.toString()}'`);
+        const txhash = await this.apiRpcClient.sendRawTransaction(hex);
+        this.logger.debug(`Broadcasted: '${hex.toString()}',\nTX hash: '${txhash}'`);
+        return txhash;
     }
 }

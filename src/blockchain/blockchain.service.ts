@@ -1,12 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { BlockchainAccessService } from './blockchain.access.service';
 import { BlockchainInfoDto, BlockchainType } from './dto/blockchain.info.dto';
 import { BlockchainBlock } from './types/blockchain.block';
 import { BlockchainTransaction } from './types/blockchain.transaction';
 
 @Injectable()
 export class BlockchainService {
+    constructor(
+        private readonly blockchainAccessService: BlockchainAccessService,
+    ) {
+    }
+
     async getInfo(): Promise<BlockchainInfoDto> {
-        const info = new BlockchainInfoDto(BlockchainType.NXA, 'N3', '199', true, null);
+        const block = await this.blockchainAccessService.getLastBlock();
+        const info = new BlockchainInfoDto(BlockchainType.NXA, 'N3', '199', true, block.index);
         return info;
     }
 
@@ -16,7 +23,7 @@ export class BlockchainService {
     }
 
     async getLatestBlock(): Promise<BlockchainBlock> {
-        const block = new BlockchainBlock();
+        const block = await this.blockchainAccessService.getLastBlock();
         return block;
     }
 
@@ -41,7 +48,7 @@ export class BlockchainService {
     }
 
     async getTransactionByHash(hash: string): Promise<BlockchainTransaction> {
-        const tx = new BlockchainTransaction();
+        const tx = await this.blockchainAccessService.getTransaction(hash);
         return tx;
     }
 }

@@ -66,7 +66,7 @@ export class GovernanceController {
         @Req() req: Request,
         @Body() body: BlockchainGovernanceVoteRequestDto
     ): Promise<BlockchainGovernanceVoteResultDto> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
+        this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
         return this.governanceService.vote(body);
     }
 }

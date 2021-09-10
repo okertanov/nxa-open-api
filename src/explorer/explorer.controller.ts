@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { BlockchainAssetDto } from 'src/assets/dto/blockchain.asset.dto';
-import { BlockchainSmartContract } from 'src/blockchain/types/blockchain.smart.contract';
+import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
+import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.contract';
 import { BlockchainBlock } from '../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../blockchain/types/blockchain.transaction';
 import { ExplorerService } from './explorer.service';
