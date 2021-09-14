@@ -11,14 +11,14 @@ export class BlockchainService {
     ) {
     }
 
-    async getInfo(): Promise<BlockchainInfoDto> {
+    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
         const block = await this.blockchainAccessService.getLastBlock();
         const info = new BlockchainInfoDto(BlockchainType.NXA, 'N3', '199', true, block.index);
         return info;
     }
 
     async getGenesisBlock(): Promise<BlockchainBlock> {
-        const block = new BlockchainBlock();
+        const block = await this.blockchainAccessService.getGenesisBlock();
         return block;
     }
 
@@ -27,24 +27,24 @@ export class BlockchainService {
         return block;
     }
 
-    async getBlockById(id: string | number): Promise<BlockchainBlock> {
-        const block = new BlockchainBlock();
+    async getBlockByNumber(id: string | number): Promise<BlockchainBlock> {
+        const block = await this.blockchainAccessService.getBlockByNumber(id);
         return block;
     }
 
     async getBlockByHash(hash: string): Promise<BlockchainBlock> {
-        const block = new BlockchainBlock();
+        const block = await this.blockchainAccessService.getBlockByHash(hash);
         return block;
     }
 
     async getBlockTransactionsByBlockId(id: string | number): Promise<BlockchainTransaction[]> {
-        const txs = [];
-        return txs;
+        const block = await this.blockchainAccessService.getBlockByNumber(id);
+        return block.transactions;
     }
 
     async getBlockTransactionsByBlockHash(hash: string): Promise<BlockchainTransaction[]> {
-        const txs = [];
-        return txs;
+        const block = await this.blockchainAccessService.getBlockByHash(hash);
+        return block.transactions;
     }
 
     async getTransactionByHash(hash: string): Promise<BlockchainTransaction> {

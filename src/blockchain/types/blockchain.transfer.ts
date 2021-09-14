@@ -1,12 +1,21 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { BlockchainAssetDto } from "../../assets/dto/blockchain.asset.dto";
 import { BlockchainTransaction } from "./blockchain.transaction";
+
+//
+// BlockchainTransferType
+//
+export enum BlockchainTransferType {
+    RECEIVED = 'RECEIVED',
+    SENT = 'SENT',
+}
 
 //
 // BlockchainTransfer
 //
 export class BlockchainTransfer {
     @ApiProperty()
-    blockHash: string;
+    type: BlockchainTransferType;
 
     @ApiProperty()
     blockIndex: string;
@@ -26,6 +35,26 @@ export class BlockchainTransfer {
     @ApiProperty()
     timestamp: number;
 
-    @ApiPropertyOptional()
-    transaction?: BlockchainTransaction;
+    @ApiProperty()
+    asset: BlockchainAssetDto;
+
+    constructor(
+        type: BlockchainTransferType,
+        blockIndex: string,
+        txHash: string,
+        from: string,
+        to: string,
+        amount: string,
+        timestamp: number,
+        asset: BlockchainAssetDto
+    ) {
+        this.type = type;
+        this.blockIndex = blockIndex;
+        this.txHash = txHash;
+        this.from = from;
+        this.to = to;
+        this.amount = amount;
+        this.timestamp = timestamp;
+        this.asset = asset;
+    }
 }

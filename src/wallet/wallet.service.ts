@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
 import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
 import { BlockchainBalanceDto } from './dto/blockchain.balance.dto';
+import { BlockchainTransfer } from '../blockchain/types/blockchain.transfer';
 
 @Injectable()
 export class WalletService {
@@ -31,5 +32,10 @@ export class WalletService {
         const asset = BlockchainAssetDto.fromCodeOrHash(hash);
         const balance = this.blockchainAccessService.balanceByAssetOf(asset.hash, address);
         return balance;
+    }
+
+    async getTransfersByAddress(address: string): Promise<BlockchainTransfer[]> {
+        const transfers = this.blockchainAccessService.getTransfersByAddress(address);
+        return transfers;
     }
 }

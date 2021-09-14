@@ -46,7 +46,7 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
         @Req() req: Request
     ): Promise<BlockchainInfoDto> {
         this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.blockchainService.getInfo();
+        return this.blockchainService.getBlockchainInfo();
     }
 
     @Get('/block/genesis')
@@ -80,7 +80,7 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
         @Param('id') id: string,
     ): Promise<BlockchainBlock> {
         this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.blockchainService.getBlockById(id);
+        return this.blockchainService.getBlockByNumber(id);
     } 
 
     @Get('/block/hash/:hash')

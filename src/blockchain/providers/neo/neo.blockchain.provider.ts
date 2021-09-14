@@ -10,6 +10,7 @@ import { BlockchainBalanceDto } from '../../../wallet/dto/blockchain.balance.dto
 import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network';
 import { BlockchainBlock } from '../../../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../../../blockchain/types/blockchain.transaction';
+import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
 
 //
 // NeoBlockchainProvider
@@ -67,15 +68,29 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         console.dir(nep17Balances);
     }
 
+    async getGenesisBlock(): Promise<BlockchainBlock> {
+        const block = await this.apiRpcClient.getBlock(0, 1);
+        const blockchainBlock = BlockchainBlock.fromRaw(block);
+        return blockchainBlock;
+    }
+
     async getLastBlock(): Promise<BlockchainBlock> {
         const blockCount = await this.apiRpcClient.getBlockCount();
         const block = await this.apiRpcClient.getBlock(blockCount - 1, 1);
-        const blockchainBlock = new BlockchainBlock();
-        blockchainBlock.version = block.version.toString();
-        blockchainBlock.index = block.index.toString();
-        blockchainBlock.hash = block.hash;
-        blockchainBlock.timestamp = block.time;
-        blockchainBlock.transactions = [];
+        const blockchainBlock = BlockchainBlock.fromRaw(block);
+        return blockchainBlock;
+    }
+
+    async getBlockByNumber(num: string | number): Promise<BlockchainBlock> {
+        const numId = Number.parseInt(num.toString());
+        const block = await this.apiRpcClient.getBlock(numId, 1);
+        const blockchainBlock = BlockchainBlock.fromRaw(block);
+        return blockchainBlock;
+    }
+
+    async getBlockByHash(hash: string): Promise<BlockchainBlock> {
+        const block = await this.apiRpcClient.getBlock(hash, 1);
+        const blockchainBlock = BlockchainBlock.fromRaw(block);
         return blockchainBlock;
     }
 
@@ -105,24 +120,35 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         return new DeploySmartContractResultDto(undefined, undefined, undefined ,undefined);
     }
 
+    async getTransfersByAddress(address: string): Promise<BlockchainTransfer[]> {
+        const nep17Transfers = await this.apiRpcClient.getNep17Transfers(address);
+        const sent = nep17Transfers.sent.map(s => new BlockchainTransfer(
+            BlockchainTransferType.SENT,
+            s.blockindex.toString(),
+            s.txhash,
+            nep17Transfers.address,
+            s.transferaddress,
+            s.amount,
+            s.timestamp,
+            BlockchainAssetDto.fromCodeOrHash(s.assethash)
+        ));
+        const received = nep17Transfers.received.map(s => new BlockchainTransfer(
+            BlockchainTransferType.RECEIVED,
+            s.blockindex.toString(),
+            s.txhash,
+            s.transferaddress,
+            nep17Transfers.address,
+            s.amount,
+            s.timestamp,
+            BlockchainAssetDto.fromCodeOrHash(s.assethash)
+        ));
+        return [...sent, ...received];
+    }
+
     async getTransaction(txHash: string): Promise<BlockchainTransaction> {
         const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
         const txBlock = await this.apiRpcClient.getBlock(rawTx.blockhash, true);
-        
-        const tx = new BlockchainTransaction();
-        tx.blockHash = rawTx.blockhash;
-        tx.blockIndex = txBlock.index.toString();
-        tx.index = rawTx.nonce.toString();
-        tx.hash = rawTx.hash;
-        tx.size = rawTx.size.toString();
-        tx.version = rawTx.version.toString();
-        tx.nonce = rawTx.nonce.toString();
-        tx.sender = rawTx.sender;
-        tx.sysfee = rawTx.sysfee;
-        tx.netfee = rawTx.netfee;
-        tx.script = rawTx.script;
-        tx.timestamp = rawTx.blocktime;
-
+        const tx = BlockchainTransaction.fromRaw(rawTx.blockhash, txBlock.index.toString(), rawTx.blocktime, rawTx);
         return tx;
     }
 

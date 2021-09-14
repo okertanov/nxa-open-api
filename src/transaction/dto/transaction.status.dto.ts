@@ -12,15 +12,15 @@ export class TransactionStatusDto {
     @ApiProperty()
     status: TransactionStatus;
 
-    @ApiProperty()
-    transaction: BlockchainTransaction;
+    @ApiPropertyOptional()
+    transaction?: BlockchainTransaction;
 
     @ApiPropertyOptional()
     error?: string;
 
     constructor(status: TransactionStatus, transaction?: BlockchainTransaction, error?: string) {
         this.status = status;
-        this.transaction = transaction ?? new BlockchainTransaction();
+        this.transaction = transaction;
         this.error = error;
     }
 }

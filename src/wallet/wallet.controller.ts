@@ -1,6 +1,7 @@
 import { Controller, Get, Logger, Param, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
+import { BlockchainTransfer } from '../blockchain/types/blockchain.transfer';
 import { BlockchainBalanceDto } from './dto/blockchain.balance.dto';
 import { WalletService } from './wallet.service';
 
@@ -52,12 +53,24 @@ export class WalletController {
     @ApiOperation({ summary: 'Get an address balance for a token hash' })
     @ApiResponse({ status: 200, description: 'An address balance for a token hash', type: BlockchainBalanceDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
-    async getTransactionStatus(
+    async getTokenBalance(
         @Req() req: Request,
         @Param('address') address: string,
         @Param('hash') hash: string
     ): Promise<BlockchainBalanceDto> {
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.walletService.getTokenBalance(address, hash);
+    }
+
+    @Get('/transfers/:address')
+    @ApiOperation({ summary: 'Get the transfers e.g in/out transfers by address' })
+    @ApiResponse({ status: 200, description: 'The transfers by address', type: BlockchainTransfer, isArray: true })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getTransfersByAddress(
+        @Req() req: Request,
+        @Param('address') address: string
+    ): Promise<BlockchainTransfer[]> {
+        this.logger.verbose(`${req.method} : ${req.url}`);
+        return this.walletService.getTransfersByAddress(address);
     }
 }
