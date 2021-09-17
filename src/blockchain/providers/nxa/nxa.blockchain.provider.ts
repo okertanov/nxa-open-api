@@ -121,7 +121,10 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async getTransfersByAddress(address: string): Promise<BlockchainTransfer[]> {
-        const nep17Transfers = await this.apiRpcClient.getNep17Transfers(address);
+        const startDateTimestamp = (+new Date(2021, 0, 1, 0, 0, 0, 0)).toString();
+        const endDateTimestamp = Date.now().toString();
+        const nep17Transfers = await this.apiRpcClient.getNep17Transfers(address, startDateTimestamp, endDateTimestamp);
+        console.dir(nep17Transfers);
         const sent = nep17Transfers.sent.map(s => new BlockchainTransfer(
             BlockchainTransferType.SENT,
             s.blockindex.toString(),
