@@ -159,4 +159,8 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         this.logger.debug(`Broadcasted: '${hex.toString()}',\nTX hash: '${txhash}'`);
         return txhash;
     }
+
+    async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
+        return undefined;
+    }
 }

@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { ExplorerModule } from '../explorer/explorer.module';
 import { MonitorModule } from '../monitor/monitor.module';
 import { StatisticModule } from '../statistic/statistic.module';
+import { FaucetModule } from '../faucet/faucet.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { StatisticModule } from '../statistic/statistic.module';
     GovernanceModule,
     ExplorerModule,
     MonitorModule,
-    StatisticModule
+    StatisticModule,
+    FaucetModule
   ],
   controllers: [AppController],
   providers: [AppService],

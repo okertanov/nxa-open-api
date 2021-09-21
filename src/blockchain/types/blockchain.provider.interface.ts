@@ -1,3 +1,4 @@
+import { BlockchainAssetDto } from "../../assets/dto/blockchain.asset.dto";
 import { BlockchainBalanceDto } from "../../wallet/dto/blockchain.balance.dto";
 import { DeploySmartContractDto } from "../dto/deploy.smart.contract.dto";
 import { DeploySmartContractItemDto } from "../dto/deploy.smart.contract.item";
@@ -30,4 +31,6 @@ export interface BlockchainProviderInterface {
 
     getTransaction(txHash: string): Promise<BlockchainTransaction>;
     broadcastTransaction(tx: string): Promise<string>;
+
+    transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string>;
 }

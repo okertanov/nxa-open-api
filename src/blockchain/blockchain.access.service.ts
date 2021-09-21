@@ -11,6 +11,7 @@ import { BlockchainBalanceDto } from "../wallet/dto/blockchain.balance.dto";
 import { BlockchainBlock } from "./types/blockchain.block";
 import { BlockchainTransaction } from "./types/blockchain.transaction";
 import { BlockchainTransfer } from "./types/blockchain.transfer";
+import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
@@ -77,5 +78,9 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     async broadcastTransaction(tx: string): Promise<string> {
         return this.provider.broadcastTransaction(tx);
+    }
+
+    async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
+        return this.provider.transferFromSystem(asset, address, amount);
     }
 }

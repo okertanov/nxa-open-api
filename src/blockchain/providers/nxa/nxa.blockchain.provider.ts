@@ -124,7 +124,6 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const startDateTimestamp = (+new Date(2021, 0, 1, 0, 0, 0, 0)).toString();
         const endDateTimestamp = Date.now().toString();
         const nep17Transfers = await this.apiRpcClient.getNep17Transfers(address, startDateTimestamp, endDateTimestamp);
-        console.dir(nep17Transfers);
         const sent = nep17Transfers.sent.map(s => new BlockchainTransfer(
             BlockchainTransferType.SENT,
             s.blockindex.toString(),
@@ -161,5 +160,9 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const txhash = await this.apiRpcClient.sendRawTransaction(hex);
         this.logger.debug(`Broadcasted: '${hex.toString()}',\nTX hash: '${txhash}'`);
         return txhash;
+    }
+
+    async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
+        return undefined;
     }
 }
