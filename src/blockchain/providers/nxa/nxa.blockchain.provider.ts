@@ -18,6 +18,7 @@ import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/
 @Injectable()
 export class NxaBlockchainProvider implements BlockchainProviderInterface {
     private readonly logger = new Logger(NxaBlockchainProvider.name);
+    private static nonce = 1;
 
     private apiRpcClient: NeonCore.rpc.RPCClient;
 
@@ -163,6 +164,112 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
-        return undefined;
+        const networkMagic = 199;
+        const systemFaucetWif = 'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5';
+
+        const systemFaucetAccount = new Neon.wallet.Account(systemFaucetWif);
+        const receiveAccount = new Neon.wallet.Account(address);
+
+        const inputs = {
+            fromAccount: systemFaucetAccount,
+            toAccount: receiveAccount,
+            tokenScriptHash: asset.hash,
+            amountToTransfer: Neon.u.BigInteger.fromNumber(amount),
+            networkMagic: networkMagic,
+        };
+
+        this.logger.debug(`Transfering from system: ${amount} (${inputs.amountToTransfer.toString()}) of ${asset.code} (${asset.hash}) from ${inputs.fromAccount.address} to ${inputs.toAccount.address}`);
+
+        // See https://dojo.coz.io/neo3/neon-js/docs/en/guides/basic/transfer.html
+        const script = Neon.sc.createScript({
+            scriptHash: inputs.tokenScriptHash,
+            operation: 'transfer',
+            args: [
+                Neon.sc.ContractParam.hash160(inputs.fromAccount.address),
+                Neon.sc.ContractParam.hash160(inputs.toAccount.address),
+                Neon.sc.ContractParam.integer(inputs.amountToTransfer),
+                Neon.sc.ContractParam.any('')
+            ],
+        });
+
+        // Get block num aka height for the expiration
+        const currentHeight = await this.apiRpcClient.getBlockCount();
+
+        // Create RAW TX
+        const rawTx = new Neon.tx.Transaction({
+            nonce: NxaBlockchainProvider.nonce++,
+            signers: [
+              {
+                account: inputs.fromAccount.scriptHash,
+                scopes: Neon.tx.WitnessScope.CalledByEntry,
+              },
+            ],
+            validUntilBlock: currentHeight + 10,
+            systemFee: Neon.u.BigInteger.fromNumber(0),
+            networkFee: Neon.u.BigInteger.fromNumber(0),
+            script: script,
+        });
+
+        // Calculate & update network fee
+        const networkFee = await this.getNetworkFee(rawTx);
+        rawTx.networkFee = networkFee;
+
+        // Calculate & update system fee
+        const systemFee = await this.getSystemFee(rawTx);
+        rawTx.systemFee = systemFee;
+
+        // Sign & convert
+        const signedTx = rawTx.sign(inputs.fromAccount, inputs.networkMagic);
+        const serializedTx = signedTx.serialize(true);
+        const serializedTxHex = Neon.u.HexString.fromHex(serializedTx);
+
+        this.logger.debug(`Signed TX:\n${JSON.stringify(signedTx.toJson())}`);
+        this.logger.debug(`Serialized TX hex:\n${serializedTxHex.toString()}`);
+
+        // Send raw TX
+        const txhash = await this.apiRpcClient.sendRawTransaction(serializedTxHex);
+
+        this.logger.debug(`TX hash:\n${txhash}`);
+
+        return txhash;
+    }
+
+    private async getNetworkFee(tx: any): Promise<NeonCore.u.BigInteger> {
+        const feePerByteInvokeResponse = await this.apiRpcClient.invokeFunction(
+            Neon.CONST.NATIVE_CONTRACT_HASH.PolicyContract,
+            "getFeePerByte"
+        );
+        
+        if (feePerByteInvokeResponse.state !== "HALT") {
+            throw new Error(`Unable to retrieve data to calculate network fee. State: ${feePerByteInvokeResponse.state}, Exception: ${feePerByteInvokeResponse.exception}`);
+        }
+
+        const feePerByte = Neon.u.BigInteger.fromNumber(feePerByteInvokeResponse.stack[0].value.toString());
+
+        // Account for witness size
+        const transactionByteSize = tx.serialize().length / 2 + 109;
+
+        // Hardcoded. Running a witness is always the same cost for the basic account.
+        const witnessProcessingFee = Neon.u.BigInteger.fromNumber(1_000_390);
+        const networkFeeEstimate = feePerByte
+            .mul(transactionByteSize)
+            .add(witnessProcessingFee);
+
+          return networkFeeEstimate;
+    }
+
+    private async getSystemFee(tx: any): Promise<NeonCore.u.BigInteger> {
+        const invokeFunctionResponse = await this.apiRpcClient.invokeScript(
+            Neon.u.HexString.fromHex(tx.script),
+            tx.signers
+        );
+
+        if (invokeFunctionResponse.state !== "HALT") {
+            throw new Error(`Transfer script errored out! State: ${invokeFunctionResponse.state}, Exception: ${invokeFunctionResponse.exception}`);
+        }
+
+        const requiredSystemFee = Neon.u.BigInteger.fromNumber(invokeFunctionResponse.gasconsumed);
+
+        return requiredSystemFee;
     }
 }

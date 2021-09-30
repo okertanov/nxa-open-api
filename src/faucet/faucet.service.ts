@@ -1,12 +1,15 @@
 import { Injectable } from "@nestjs/common";
+import { BlockchainTransaction } from "../blockchain/types/blockchain.transaction";
 import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 import { BlockchainAccessService } from "../blockchain/blockchain.access.service";
 import { TransactionStatusDto, TransactionStatus } from "../transaction/dto/transaction.status.dto";
 
 @Injectable()
 export class FaucetService {
+    // 1 DVITA
     private static readonly maxDvitaFaucetAmount = 1;
-    private static readonly maxDvgFaucetAmount = 10;
+    // 10 DVG in decimals scale
+    private static readonly maxDvgFaucetAmount = 10_0000_0000;
 
     constructor(
         private readonly blockchainAccessService: BlockchainAccessService        
@@ -18,7 +21,7 @@ export class FaucetService {
             address,
             FaucetService.maxDvitaFaucetAmount.toString()
         );
-        const dvtTxStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED);
+        const dvtTxStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED, BlockchainTransaction.Empty);
         dvtTxStatus.transaction.hash = dvtTxHash;
 
         const dvgTxHash = await this.blockchainAccessService.transferFromSystem(
@@ -26,7 +29,7 @@ export class FaucetService {
             address,
             FaucetService.maxDvgFaucetAmount.toString()
         );
-        const dvgTxStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED);
+        const dvgTxStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED, BlockchainTransaction.Empty);
         dvgTxStatus.transaction.hash = dvgTxHash;
         
         return [dvtTxStatus, dvgTxStatus];

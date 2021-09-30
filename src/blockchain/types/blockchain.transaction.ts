@@ -5,6 +5,8 @@ import { ApiProperty } from "@nestjs/swagger";
 // See neo/Network/P2P/Payloads/Transaction.cs
 //
 export class BlockchainTransaction {
+    public static get Empty() { return new BlockchainTransaction('', '', '', '', '', '', '', '', '', '', '', 0) };
+
     @ApiProperty()
     blockHash: string;
 
