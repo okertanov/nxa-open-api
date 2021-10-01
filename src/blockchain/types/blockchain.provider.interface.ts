@@ -33,4 +33,7 @@ export interface BlockchainProviderInterface {
     broadcastTransaction(tx: string): Promise<string>;
 
     transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string>;
+
+    getSystemFeeForScript(script: string): Promise<string>;
+    getNetworkFeeForLength(length: number): Promise<string>;
 }

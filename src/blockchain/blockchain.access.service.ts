@@ -83,4 +83,12 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
         return this.provider.transferFromSystem(asset, address, amount);
     }
+
+    async getSystemFeeForScript(script: string): Promise<string> {
+        return this.provider.getSystemFeeForScript(script);
+    }
+
+    async getNetworkFeeForLength(length: number): Promise<string> {
+        return this.provider.getNetworkFeeForLength(length);
+    }
 }

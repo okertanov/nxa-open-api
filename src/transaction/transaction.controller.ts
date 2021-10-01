@@ -3,6 +3,7 @@ import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger
 import { Request } from 'express';
 import { PlainBody } from '../shared/decorators/plain.body';
 import { BroadcastTransactionDto } from './dto/broadcast.transaction.dto';
+import { TransactionFeesDto } from './dto/transaction.fees.dto';
 import { TransactionStatusDto } from './dto/transaction.status.dto';
 import { TransactionService } from './transaction.service';
 
@@ -65,5 +66,18 @@ export class TransactionController {
     ): Promise<TransactionStatusDto> {
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.transactionService.deleteTransaction(hash);
+    }
+
+    @Get('/fees/:script/:length')
+    @ApiOperation({ summary: 'Get current transaction fees (Net & Sys)' })
+    @ApiResponse({ status: 200, description: 'The Transaction fees', type: TransactionFeesDto })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getTransactionFees(
+        @Req() req: Request,
+        @Param('script') script: string,
+        @Param('length') length: number,
+    ): Promise<TransactionFeesDto> {
+        this.logger.verbose(`${req.method} : ${req.url}`);
+        return this.transactionService.getTransactionFees(script, length);
     }
 }

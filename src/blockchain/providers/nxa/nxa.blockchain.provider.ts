@@ -211,15 +211,17 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         });
 
         // Calculate & update network fee
-        const networkFee = await this.getNetworkFee(rawTx);
+        const networkFee = await this.getNetworkFee(rawTx.serialize().length);
         rawTx.networkFee = networkFee;
 
         // Calculate & update system fee
-        const systemFee = await this.getSystemFee(rawTx);
+        const systemFee = await this.getSystemFee(rawTx.script, rawTx.signers);
         rawTx.systemFee = systemFee;
 
         // Sign & convert
         const signedTx = rawTx.sign(inputs.fromAccount, inputs.networkMagic);
+        console.dir(signedTx.toJson());
+        console.dir(signedTx.script.toString());
         const serializedTx = signedTx.serialize(true);
         const serializedTxHex = Neon.u.HexString.fromHex(serializedTx);
 
@@ -234,7 +236,32 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         return txhash;
     }
 
-    private async getNetworkFee(tx: any): Promise<NeonCore.u.BigInteger> {
+    async getSystemFeeForScript(script: string): Promise<string> {
+        const systemFaucetWif = 'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5';
+        const systemFaucetAccount = new Neon.wallet.Account(systemFaucetWif);
+
+        const dummyTx = new Neon.tx.Transaction({
+            signers: [
+              {
+                account: systemFaucetAccount.scriptHash,
+                scopes: Neon.tx.WitnessScope.CalledByEntry,
+              },
+            ],
+            systemFee: Neon.u.BigInteger.fromNumber(0),
+            networkFee: Neon.u.BigInteger.fromNumber(0),
+            script: script,
+        });
+
+        const systemFee = await this.getSystemFee(dummyTx.script, dummyTx.signers);
+        return systemFee.toString();
+    }
+
+    async getNetworkFeeForLength(length: number): Promise<string> {
+        const networkFee = await this.getNetworkFee(length);
+        return networkFee.toString();
+    }
+
+    private async getNetworkFee(txLength: number): Promise<NeonCore.u.BigInteger> {
         const feePerByteInvokeResponse = await this.apiRpcClient.invokeFunction(
             Neon.CONST.NATIVE_CONTRACT_HASH.PolicyContract,
             "getFeePerByte"
@@ -247,7 +274,7 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const feePerByte = Neon.u.BigInteger.fromNumber(feePerByteInvokeResponse.stack[0].value.toString());
 
         // Account for witness size
-        const transactionByteSize = tx.serialize().length / 2 + 109;
+        const transactionByteSize = Math.ceil(txLength / 2) + 109;
 
         // Hardcoded. Running a witness is always the same cost for the basic account.
         const witnessProcessingFee = Neon.u.BigInteger.fromNumber(1_000_390);
@@ -258,10 +285,10 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
           return networkFeeEstimate;
     }
 
-    private async getSystemFee(tx: any): Promise<NeonCore.u.BigInteger> {
+    private async getSystemFee(script: NeonCore.u.HexString, signers: NeonCore.tx.Signer[]): Promise<NeonCore.u.BigInteger> {
         const invokeFunctionResponse = await this.apiRpcClient.invokeScript(
-            Neon.u.HexString.fromHex(tx.script),
-            tx.signers
+            Neon.u.HexString.fromHex(script),
+            signers
         );
 
         if (invokeFunctionResponse.state !== "HALT") {

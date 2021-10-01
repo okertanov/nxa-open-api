@@ -163,4 +163,12 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
         return undefined;
     }
+
+    async getSystemFeeForScript(script: string): Promise<string> {
+        return undefined;
+    }
+
+    async getNetworkFeeForLength(length: number): Promise<string> {
+        return undefined;
+    }
 }

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
-import { BroadcastTransactionDto } from './dto/broadcast.transaction.dto';
+import { TransactionFeesDto } from './dto/transaction.fees.dto';
 import { TransactionStatus, TransactionStatusDto } from './dto/transaction.status.dto';
 
 @Injectable()
@@ -57,5 +57,12 @@ export class TransactionService {
     async deleteTransaction(hash: string): Promise<TransactionStatusDto> {
         const txStatus = new TransactionStatusDto(TransactionStatus.NEW);
         return txStatus;
+    }
+
+    async getTransactionFees(script: string, length: number): Promise<TransactionFeesDto> {
+        const systemFee = await this.blockchainAccessService.getSystemFeeForScript(script);
+        const networkFee = await this.blockchainAccessService.getNetworkFeeForLength(length);
+        const dto = new TransactionFeesDto(script, length, systemFee, networkFee);
+        return dto;
     }
 }
