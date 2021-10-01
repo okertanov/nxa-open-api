@@ -36,7 +36,7 @@ export class BlockchainToken {
     @ApiPropertyOptional()
     ownerAddress?: string;
 
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ type: () => BlockchainSmartContract })
     contract?: BlockchainSmartContract;
 
     @ApiPropertyOptional()

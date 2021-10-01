@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { BlockchainToken } from "./blockchain.token";
 import { BlockchainTransaction } from "./blockchain.transaction";
 
 //
@@ -7,7 +8,16 @@ import { BlockchainTransaction } from "./blockchain.transaction";
 //
 export class BlockchainSmartContract {
     @ApiProperty()
-    script: string;
+    code: string;
+
+    @ApiPropertyOptional()
+    name?: string;
+
+    @ApiPropertyOptional()
+    script?: string; 
+
+    @ApiPropertyOptional()
+    description?: string;
 
     @ApiPropertyOptional()
     scriptHash?: string;
@@ -20,4 +30,29 @@ export class BlockchainSmartContract {
 
     @ApiPropertyOptional()
     transaction?: BlockchainTransaction;
+
+    @ApiPropertyOptional({ type: () => BlockchainToken })
+    token?: BlockchainToken;
+
+    constructor(
+        code: string,
+        name?: string,
+        script?: string,
+        description?: string,
+        scriptHash?: string,
+        address?: string,
+        ownerAddress?: string,
+        transaction?: BlockchainTransaction,
+        token?: BlockchainToken
+    ) {
+        this.code = code;
+        this.script = script;
+        this.name = name;
+        this.description = description;
+        this.scriptHash = scriptHash;
+        this.address = address;
+        this.ownerAddress = ownerAddress;
+        this.transaction = transaction;
+        this.token = token;
+    }
 }
