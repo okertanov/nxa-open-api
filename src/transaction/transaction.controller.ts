@@ -18,6 +18,7 @@ export class TransactionController {
     @Get('/status/:hash')
     @ApiOperation({ summary: 'Get current transaction status' })
     @ApiResponse({ status: 200, description: 'The Transaction status', type: TransactionStatusDto })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: TransactionStatusDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getTransactionStatus(
         @Req() req: Request,
@@ -45,6 +46,7 @@ export class TransactionController {
     @Put('/:hash')
     @ApiOperation({ summary: 'Modify unannounced Transaction by its hash' })
     @ApiResponse({ status: 200, description: 'Modified unannounced Transaction status', type: TransactionStatusDto })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: TransactionStatusDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async modifyTransaction(
         @Req() req: Request,
@@ -59,6 +61,7 @@ export class TransactionController {
     @Delete('/:hash')
     @ApiOperation({ summary: 'Delete/rollback unannounced Transaction by its hash' })
     @ApiResponse({ status: 200, description: 'Deleted/rolled-back unannounced Transaction status', type: TransactionStatusDto })
+    @ApiResponse({ status: 400, description: 'Bad Request', type: TransactionStatusDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async deleteTransaction(
         @Req() req: Request,

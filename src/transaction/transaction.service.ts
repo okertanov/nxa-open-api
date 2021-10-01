@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { BlockchainTransaction } from '../blockchain/types/blockchain.transaction';
 import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
 import { TransactionFeesDto } from './dto/transaction.fees.dto';
@@ -28,7 +28,7 @@ export class TransactionService {
             const txStatus = new TransactionStatusDto(TransactionStatus.FAILED);
             txStatus.error = e.message ?? 'Unknown error';
 
-            throw new BadRequestException(txStatus, txStatus.error);
+            throw new InternalServerErrorException(txStatus, txStatus.error);
         } 
     }
 
@@ -46,7 +46,7 @@ export class TransactionService {
             const txStatus = new TransactionStatusDto(TransactionStatus.FAILED);
             txStatus.error = e.message ?? 'Unknown error';
 
-            throw new BadRequestException(txStatus, txStatus.error);
+            throw new InternalServerErrorException(txStatus, txStatus.error);
         }
     }
 
