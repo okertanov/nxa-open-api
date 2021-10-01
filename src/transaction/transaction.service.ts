@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BlockchainTransaction } from '../blockchain/types/blockchain.transaction';
 import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
 import { TransactionFeesDto } from './dto/transaction.fees.dto';
 import { TransactionStatus, TransactionStatusDto } from './dto/transaction.status.dto';
@@ -17,7 +18,7 @@ export class TransactionService {
             const tx = await this.blockchainAccessService.getTransaction(hash);
             
             const status = tx.blockHash ? TransactionStatus.CONFIRMED : TransactionStatus.ANNOUNCED;
-            const txStatus = new TransactionStatusDto(status);
+            const txStatus = new TransactionStatusDto(status, BlockchainTransaction.Empty);
             txStatus.transaction = tx;
 
             return txStatus;
@@ -35,7 +36,7 @@ export class TransactionService {
         try {
             const txHash = await this.blockchainAccessService.broadcastTransaction(body);
 
-            const txStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED);
+            const txStatus = new TransactionStatusDto(TransactionStatus.ANNOUNCED, BlockchainTransaction.Empty);
             txStatus.transaction.hash = txHash;
 
             return txStatus;
