@@ -12,6 +12,7 @@ import { BlockchainBlock } from "./types/blockchain.block";
 import { BlockchainTransaction } from "./types/blockchain.transaction";
 import { BlockchainTransfer } from "./types/blockchain.transfer";
 import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
+import { BlockchainGovernanceMemberDto } from "../governance/dto/blockchain.governance.member.dto";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
@@ -34,6 +35,18 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     testConnection(): Promise<void> {
         return this.provider.testConnection();
+    }
+
+    async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
+        return this.provider.getFoundationMembers();
+    }
+
+    async getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]> {
+        return this.provider.getCouncilMembers();
+    }
+
+    async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
+        return this.provider.getCandidates();
     }
 
     async getGenesisBlock(): Promise<BlockchainBlock> {

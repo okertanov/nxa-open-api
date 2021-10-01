@@ -2,41 +2,71 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class BlockchainGovernanceMemberDto {
     @ApiProperty()
-    address: string;
-
-    @ApiProperty()
     publicKey: string;
 
     @ApiProperty()
-    rank: number;
-
-    @ApiProperty()
-    totalVotes: number;
-
-    @ApiProperty()
-    isConsensusMaker: boolean;
+    address: string;
 
     @ApiProperty()
     isCouncilMember: boolean;
 
     @ApiProperty()
-    name: string;
-
-    @ApiProperty()
-    description: string;
+    isConsensusMaker: boolean;
+  
+    @ApiPropertyOptional()
+    rank?: number;
 
     @ApiPropertyOptional()
-    location: string;
+    totalVotes?: number;
 
     @ApiPropertyOptional()
-    site: string;
+    name?: string;
 
     @ApiPropertyOptional()
-    email: string;
+    description?: string;
 
     @ApiPropertyOptional()
-    github: string;
+    location?: string;
 
     @ApiPropertyOptional()
-    telegram: string;
+    site?: string;
+
+    @ApiPropertyOptional()
+    email?: string;
+
+    @ApiPropertyOptional()
+    github?: string;
+
+    @ApiPropertyOptional()
+    telegram?: string;
+
+    constructor(
+        publicKey: string,
+        address: string,
+        isCouncilMember: boolean,
+        isConsensusMaker: boolean,
+        rank?: number,
+        totalVotes?: number,
+        name?: string,
+        description?: string,
+        location?: string,
+        site?: string,
+        email?: string,
+        github?: string,
+        telegram?: string
+    ) {
+        this.publicKey = publicKey;
+        this.address = address;
+        this.isCouncilMember = isCouncilMember;
+        this.isConsensusMaker = isConsensusMaker;
+        this.rank = rank;
+        this.totalVotes = totalVotes;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.site = site;
+        this.email = email;
+        this.github = github;
+        this.telegram = telegram;
+    }
 }

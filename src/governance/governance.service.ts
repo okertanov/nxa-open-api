@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
 import { BlockchainGovernanceMemberDto } from './dto/blockchain.governance.member.dto';
 import { BlockchainGovernanceRegistrationRequestDto } from './dto/blockchain.governance.registration.request';
 import { BlockchainGovernanceRegistrationResultDto } from './dto/blockchain.governance.registration.result.dto';
@@ -7,18 +8,23 @@ import { BlockchainGovernanceVoteResultDto } from './dto/blockchain.governance.v
 
 @Injectable()
 export class GovernanceService {
+    constructor(
+        private readonly blockchainAccessService: BlockchainAccessService
+    ) {
+    }
+
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        const candidates = [];
-        return candidates;
+        const foundationMembers = await this.blockchainAccessService.getFoundationMembers();
+        return foundationMembers;
     }
 
     async getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        const candidates = [];
-        return candidates;
+        const councilMembers = await this.blockchainAccessService.getCouncilMembers();
+        return councilMembers;
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
-        const candidates = [];
+        const candidates = await this.blockchainAccessService.getCandidates();
         return candidates;
     }
 

@@ -12,9 +12,10 @@ export class FaucetService {
     private static readonly maxDvgFaucetAmount = 10_0000_0000;
 
     constructor(
-        private readonly blockchainAccessService: BlockchainAccessService        
+        private readonly blockchainAccessService: BlockchainAccessService
     ) {
     }
+
     async depositAddress(address: string): Promise<TransactionStatusDto[]> {
         const dvtTxHash = await this.blockchainAccessService.transferFromSystem(
             BlockchainAssetDto.DVITA_ASSET,

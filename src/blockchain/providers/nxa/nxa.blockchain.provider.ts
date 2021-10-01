@@ -11,6 +11,7 @@ import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network'
 import { BlockchainBlock } from '../../../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../../../blockchain/types/blockchain.transaction';
 import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
+import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 
 //
 // NxaBlockchainProvider
@@ -67,6 +68,30 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
 
         const nep17Balances = await this.apiRpcClient.getNep17Balances('NVGLB1NDt49nChTZmYemYEx1hQrmcviu2k');
         console.dir(nep17Balances);
+    }
+
+    async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
+        // TODO: Align to RPC Ext
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'getcommittee' });
+        const publicKeys = await this.apiRpcClient.execute<string[]>(rpcQuery);
+        const foundationMembers = publicKeys.map(pk => new BlockchainGovernanceMemberDto(pk, '', true, true));
+        return foundationMembers;
+    }
+
+    async getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]> {
+        // TODO: Align to RPC Ext
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'getcommittee' });
+        const publicKeys = await this.apiRpcClient.execute<string[]>(rpcQuery);
+        const councilMembers = publicKeys.map(pk => new BlockchainGovernanceMemberDto(pk, '', true, true));
+        return councilMembers;
+    }
+
+    async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
+        // TODO: Align to RPC Ext
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'getcommittee' });
+        const publicKeys = await this.apiRpcClient.execute<string[]>(rpcQuery);
+        const candidates = publicKeys.map(pk => new BlockchainGovernanceMemberDto(pk, '', true, true));
+        return candidates;
     }
 
     async getGenesisBlock(): Promise<BlockchainBlock> {

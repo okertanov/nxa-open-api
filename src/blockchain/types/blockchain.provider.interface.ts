@@ -1,3 +1,4 @@
+import { BlockchainGovernanceMemberDto } from "../../governance/dto/blockchain.governance.member.dto";
 import { BlockchainAssetDto } from "../../assets/dto/blockchain.asset.dto";
 import { BlockchainBalanceDto } from "../../wallet/dto/blockchain.balance.dto";
 import { DeploySmartContractDto } from "../dto/deploy.smart.contract.dto";
@@ -15,6 +16,10 @@ export interface BlockchainProviderInterface {
     connect(network: BlockchainNetwork): void;
     disconnect(): void;
     testConnection(): Promise<void>;
+
+    getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]>;
+    getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]>;
+    getCandidates(): Promise<BlockchainGovernanceMemberDto[]>;
 
     getGenesisBlock(): Promise<BlockchainBlock>;
     getLastBlock(): Promise<BlockchainBlock>;
