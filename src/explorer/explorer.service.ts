@@ -18,15 +18,17 @@ export class ExplorerService {
     }
 
     async getBlock(hash: string): Promise<BlockchainBlock> {
-        return undefined;
+        const block = await this.blockchainAccessService.getBlockByHash(hash);
+        return block;
     }
 
-    async getTransactions(): Promise<BlockchainTransaction[]> {
+    async getTransactions(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainTransaction[]> {
         return [];
     }
 
     async getTransaction(hash: string): Promise<BlockchainTransaction> {
-        return undefined;
+        const tx = await this.blockchainAccessService.getTransaction(hash);
+        return tx;
     }
 
     async getContracts(): Promise<BlockchainSmartContract[]> {

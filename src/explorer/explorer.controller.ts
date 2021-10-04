@@ -30,8 +30,8 @@ export class ExplorerController {
     }
 
     @Get('/block/:hash')
-    @ApiOperation({ summary: 'Get paginated blocks for explorer' })
-    @ApiResponse({ status: 200, description: 'The paginated blocks for explorer', type: BlockchainBlock })
+    @ApiOperation({ summary: 'Get block by hash for explorer' })
+    @ApiResponse({ status: 200, description: 'The block by hash for explorer', type: BlockchainBlock })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getBlock(
         @Req() req: Request,
@@ -46,15 +46,18 @@ export class ExplorerController {
     @ApiResponse({ status: 200, description: 'The paginated transactions for explorer', type: BlockchainTransaction, isArray: true })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getTransactions(
-        @Req() req: Request
+        @Req() req: Request,
+        @Query('from') from: number,
+        @Query('limit') limit: number,
+        @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainTransaction[]> {
         this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.explorerService.getTransactions();
+        return this.explorerService.getTransactions(from, limit, order);
     }
 
     @Get('/transaction/:hash')
-    @ApiOperation({ summary: 'Get paginated transaction for explorer' })
-    @ApiResponse({ status: 200, description: 'The paginated transaction for explorer', type: BlockchainTransaction })
+    @ApiOperation({ summary: 'Get transaction by hash for explorer' })
+    @ApiResponse({ status: 200, description: 'The transaction by hash for explorer', type: BlockchainTransaction })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getTransaction(
         @Req() req: Request,
@@ -66,7 +69,7 @@ export class ExplorerController {
 
     @Get('/contracts')
     @ApiOperation({ summary: 'Get paginated contracts for explorer' })
-    @ApiResponse({ status: 200, description: 'The paginated transactions for explorer', type: BlockchainSmartContract, isArray: true })
+    @ApiResponse({ status: 200, description: 'The paginated contracts for explorer', type: BlockchainSmartContract, isArray: true })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getContracts(
         @Req() req: Request
@@ -76,8 +79,8 @@ export class ExplorerController {
     }
 
     @Get('/contract/:hash')
-    @ApiOperation({ summary: 'Get paginated contract for explorer' })
-    @ApiResponse({ status: 200, description: 'The paginated contract for explorer', type: BlockchainSmartContract })
+    @ApiOperation({ summary: 'Get contract for explorer' })
+    @ApiResponse({ status: 200, description: 'The contract by hash for explorer', type: BlockchainSmartContract })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getContract(
         @Req() req: Request,
@@ -99,8 +102,8 @@ export class ExplorerController {
     }
 
     @Get('/token/:hash')
-    @ApiOperation({ summary: 'Get paginated token for explorer' })
-    @ApiResponse({ status: 200, description: 'The paginated token for explorer', type: BlockchainAssetDto })
+    @ApiOperation({ summary: 'Get token for explorer' })
+    @ApiResponse({ status: 200, description: 'The token by hash for explorer', type: BlockchainAssetDto })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getToken(
         @Req() req: Request,
