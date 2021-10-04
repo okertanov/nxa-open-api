@@ -51,4 +51,9 @@ export class BlockchainService {
         const tx = await this.blockchainAccessService.getTransaction(hash);
         return tx;
     }
+
+    async getPaginatedBlocks(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
+        const blocks = await this.blockchainAccessService.getBlocksRange(from, limit, order);
+        return blocks;
+    }
 }

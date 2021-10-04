@@ -65,6 +65,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
         return this.provider.getBlockByHash(hash);
     }
 
+    async getBlocksRange(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
+        return this.provider.getBlocksRange(from, limit, order);
+    }
+
     async balanceOf(address: string): Promise<BlockchainBalanceDto[]> {
         return this.provider.balanceOf(address);
     }

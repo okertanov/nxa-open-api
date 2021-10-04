@@ -12,6 +12,7 @@ import { BlockchainBlock } from '../../../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../../../blockchain/types/blockchain.transaction';
 import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
+import { ArgumentOutOfRangeError } from 'rxjs';
 
 //
 // NxaBlockchainProvider
@@ -118,6 +119,45 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const block = await this.apiRpcClient.getBlock(hash, 1);
         const blockchainBlock = BlockchainBlock.fromRaw(block);
         return blockchainBlock;
+    }
+
+    async getBlocksRange(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
+        if (from < 0) {
+            throw new ArgumentOutOfRangeError();
+        }
+
+        if (limit < 0 && limit > 100) {
+            throw new ArgumentOutOfRangeError();
+        }
+
+        let tasks: Promise<BlockchainBlock>[] = [];
+
+        const latsBlock = await this.getLastBlock();
+        const latsBlockIndex = Number(latsBlock.index);
+
+        if (order === 'ascending') {
+            // E.g: (99, 10, ascending) -> [99 - 108]
+            for (let num = from; num <= from + limit - 1; num++) {
+                if (num > latsBlockIndex) {
+                    break;
+                }
+                tasks.push(this.getBlockByNumber(num));
+            }
+        }
+
+        if (order === 'descending') {
+            // E.g: (99, 10, descending) -> [99 - 90]
+            for (let num = from; num >= from - limit + 1; num--) {
+                if (num < 0) {
+                    break;
+                }
+                tasks.push(this.getBlockByNumber(num));
+            }
+        }
+
+        const blocks = await Promise.all(tasks);
+
+        return blocks;
     }
 
     async balanceOf(address: string): Promise<BlockchainBalanceDto[]> {

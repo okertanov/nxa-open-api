@@ -1,4 +1,4 @@
-import { Controller, Get, Logger, OnApplicationBootstrap, OnApplicationShutdown, Param, Req } from '@nestjs/common';
+import { Controller, Get, Logger, OnApplicationBootstrap, OnApplicationShutdown, Param, Query, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { BlockchainAccessService } from './blockchain.access.service';
@@ -130,4 +130,18 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.blockchainService.getTransactionByHash(hash);
     }
+
+    @Get('/blocks')
+    @ApiOperation({ summary: 'Get Blockchain blocks by paginated range' })
+    @ApiResponse({ status: 200, description: 'The Blockchain blocks by paginated range', type: BlockchainBlock, isArray: true })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getPaginatedBlocks(
+        @Req() req: Request,
+        @Query('from') from: number,
+        @Query('limit') limit: number,
+        @Query('order') order: 'ascending' | 'descending',
+    ): Promise<BlockchainBlock[]> {
+        this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
+        return this.blockchainService.getPaginatedBlocks(from, limit, order);
+    } 
 }

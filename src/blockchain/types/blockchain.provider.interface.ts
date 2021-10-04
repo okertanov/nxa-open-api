@@ -26,6 +26,8 @@ export interface BlockchainProviderInterface {
     getBlockByNumber(num: string | number): Promise<BlockchainBlock>;
     getBlockByHash(hash: string): Promise<BlockchainBlock>;
 
+    getBlocksRange(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]>;
+
     balanceOf(address: string): Promise<BlockchainBalanceDto[]>;
     balanceByAssetOf(asset: string, address: string): Promise<BlockchainBalanceDto>;
 

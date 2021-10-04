@@ -107,6 +107,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         return blockchainBlock;
     }
 
+    async getBlocksRange(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
+        return undefined;
+    }
+
     async balanceOf(address: string): Promise<BlockchainBalanceDto[]> {
         const nep17Balances = await this.apiRpcClient.getNep17Balances(address);
         const balances = BlockchainBalanceDto.fromRpcBalances(nep17Balances);
