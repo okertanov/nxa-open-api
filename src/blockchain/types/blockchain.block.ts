@@ -43,6 +43,9 @@ export class BlockchainBlock {
     hash: string;
 
     @ApiProperty()
+    size: number;
+
+    @ApiProperty()
     timestamp: number;
 
     @ApiProperty()
@@ -58,6 +61,7 @@ export class BlockchainBlock {
         version: string,
         index: string,
         hash: string,
+        size: number,
         timestamp: number,
         confirmations: number,
         witnesses: BlockchainBlockWhitness[],
@@ -66,6 +70,7 @@ export class BlockchainBlock {
         this.version = version;
         this.index = index;
         this.hash = hash;
+        this.size = size;
         this.timestamp = timestamp;
         this.confirmations = confirmations;
         this.witnesses = witnesses;
@@ -77,6 +82,7 @@ export class BlockchainBlock {
             rawBlock.version.toString(),
             rawBlock.index.toString(),
             rawBlock.hash,
+            rawBlock.size,
             rawBlock.time,
             rawBlock.confirmations,
             BlockchainBlockWhitness.fromRawArray(rawBlock.witnesses),
