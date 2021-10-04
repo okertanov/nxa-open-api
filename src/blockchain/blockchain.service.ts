@@ -13,6 +13,7 @@ export class BlockchainService {
 
     async getBlockchainInfo(): Promise<BlockchainInfoDto> {
         const block = await this.blockchainAccessService.getLastBlock();
+        // TODO: Use real values
         const info = new BlockchainInfoDto(BlockchainType.NXA, 'N3', '199', true, block.index);
         return info;
     }
@@ -55,5 +56,10 @@ export class BlockchainService {
     async getPaginatedBlocks(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
         const blocks = await this.blockchainAccessService.getBlocksRange(from, limit, order);
         return blocks;
+    }
+
+    async getPaginatedTransactions(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainTransaction[]> {
+        // TODO: Use SQL DB for Transactions collected by Node Block Plugin or API block indexer worker
+        return [];
     }
 }

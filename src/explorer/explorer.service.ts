@@ -3,11 +3,18 @@ import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.co
 import { BlockchainBlock } from '../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../blockchain/types/blockchain.transaction';
 import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
+import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
 
 @Injectable()
 export class ExplorerService {
-    async getBlocks(): Promise<BlockchainBlock[]> {
-        return [];
+    constructor(
+        private readonly blockchainAccessService: BlockchainAccessService,
+    ) {
+    }
+
+    async getBlocks(from: number, limit: number, order: 'ascending' | 'descending'): Promise<BlockchainBlock[]> {
+        const blocks = await this.blockchainAccessService.getBlocksRange(from, limit, order);
+        return blocks;
     }
 
     async getBlock(hash: string): Promise<BlockchainBlock> {

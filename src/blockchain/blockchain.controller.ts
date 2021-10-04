@@ -143,5 +143,19 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
     ): Promise<BlockchainBlock[]> {
         this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
         return this.blockchainService.getPaginatedBlocks(from, limit, order);
+    }
+
+    @Get('/transactions')
+    @ApiOperation({ summary: 'Get Blockchain transactions by paginated range' })
+    @ApiResponse({ status: 200, description: 'The Blockchain transactions by paginated range', type: BlockchainTransaction, isArray: true })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getPaginatedTransactions(
+        @Req() req: Request,
+        @Query('from') from: number,
+        @Query('limit') limit: number,
+        @Query('order') order: 'ascending' | 'descending',
+    ): Promise<BlockchainTransaction[]> {
+        this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
+        return this.blockchainService.getPaginatedTransactions(from, limit, order);
     } 
 }

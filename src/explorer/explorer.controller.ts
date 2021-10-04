@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, Query, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
@@ -20,10 +20,13 @@ export class ExplorerController {
     @ApiResponse({ status: 200, description: 'The paginated blocks for explorer', type: BlockchainBlock, isArray: true })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getBlocks(
-        @Req() req: Request
+        @Req() req: Request,
+        @Query('from') from: number,
+        @Query('limit') limit: number,
+        @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainBlock[]> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.explorerService.getBlocks();
+        this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
+        return this.explorerService.getBlocks(from, limit, order);
     }
 
     @Get('/block/:hash')
