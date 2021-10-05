@@ -21,12 +21,12 @@ export class ExplorerController {
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getBlocks(
         @Req() req: Request,
-        @Query('from') from: number,
-        @Query('limit') limit: number,
+        @Query('from') from: string,
+        @Query('limit') limit: string,
         @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainBlock[]> {
         this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
-        return this.explorerService.getBlocks(from, limit, order);
+        return this.explorerService.getBlocks(parseInt(from, 10), parseInt(limit, 10), order);
     }
 
     @Get('/block/:hash')
@@ -47,12 +47,12 @@ export class ExplorerController {
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getTransactions(
         @Req() req: Request,
-        @Query('from') from: number,
-        @Query('limit') limit: number,
+        @Query('from') from: string,
+        @Query('limit') limit: string,
         @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainTransaction[]> {
         this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.explorerService.getTransactions(from, limit, order);
+        return this.explorerService.getTransactions(parseInt(from, 10), parseInt(limit, 10), order);
     }
 
     @Get('/transaction/:hash')

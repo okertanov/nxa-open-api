@@ -130,32 +130,34 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
             throw new ArgumentOutOfRangeError();
         }
 
-        let tasks: Promise<BlockchainBlock>[] = [];
+        let blocks: BlockchainBlock[] = [];
 
         const latsBlock = await this.getLastBlock();
         const latsBlockIndex = Number(latsBlock.index);
 
         if (order === 'ascending') {
             // E.g: (99, 10, ascending) -> [99 - 108]
-            for (let num = from; num <= from + limit - 1; num++) {
+            const to = from + limit - 1;
+            for (let num = from; num <= to; num++) {
                 if (num > latsBlockIndex) {
                     break;
                 }
-                tasks.push(this.getBlockByNumber(num));
+                const block = await this.getBlockByNumber(num);
+                blocks.push(block);
             }
         }
 
         if (order === 'descending') {
             // E.g: (99, 10, descending) -> [99 - 90]
-            for (let num = from; num >= from - limit + 1; num--) {
+            const to = from - limit + 1;
+            for (let num = from; num >= to; num--) {
                 if (num < 0) {
                     break;
                 }
-                tasks.push(this.getBlockByNumber(num));
+                const block = await this.getBlockByNumber(num);
+                blocks.push(block);
             }
         }
-
-        const blocks = await Promise.all(tasks);
 
         return blocks;
     }

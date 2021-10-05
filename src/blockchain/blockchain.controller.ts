@@ -137,12 +137,12 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getPaginatedBlocks(
         @Req() req: Request,
-        @Query('from') from: number,
-        @Query('limit') limit: number,
+        @Query('from') from: string,
+        @Query('limit') limit: string,
         @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainBlock[]> {
         this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
-        return this.blockchainService.getPaginatedBlocks(from, limit, order);
+        return this.blockchainService.getPaginatedBlocks(parseInt(from, 10), parseInt(limit, 10), order);
     }
 
     @Get('/transactions')
@@ -151,11 +151,11 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async getPaginatedTransactions(
         @Req() req: Request,
-        @Query('from') from: number,
-        @Query('limit') limit: number,
+        @Query('from') from: string,
+        @Query('limit') limit: string,
         @Query('order') order: 'ascending' | 'descending',
     ): Promise<BlockchainTransaction[]> {
         this.logger.verbose(`${req.method} : ${req.url} : ${from} : ${limit}`);
-        return this.blockchainService.getPaginatedTransactions(from, limit, order);
+        return this.blockchainService.getPaginatedTransactions(parseInt(from, 10), parseInt(limit, 10), order);
     } 
 }
