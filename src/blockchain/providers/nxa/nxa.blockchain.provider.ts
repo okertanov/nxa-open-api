@@ -71,6 +71,10 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         console.dir(nep17Balances);
     }
 
+    isAddressValid(address: string): boolean {
+        return NeonCore.wallet.isAddress(address);
+    }
+
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
         // TODO: Align to RPC Ext
         const rpcQuery = new NeonCore.rpc.Query({ method: 'getcommittee' });

@@ -69,6 +69,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         console.dir(nep17Balances);
     }
 
+    isAddressValid(address: string): boolean {
+        return NeonCore.wallet.isAddress(address);
+    }
+
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
         return undefined;
     }

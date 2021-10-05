@@ -17,6 +17,8 @@ export interface BlockchainProviderInterface {
     disconnect(): void;
     testConnection(): Promise<void>;
 
+    isAddressValid(address: string): boolean;
+
     getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]>;
     getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]>;
     getCandidates(): Promise<BlockchainGovernanceMemberDto[]>;

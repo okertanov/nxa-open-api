@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { BlockchainTransaction } from "../blockchain/types/blockchain.transaction";
 import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 import { BlockchainAccessService } from "../blockchain/blockchain.access.service";
@@ -17,6 +17,10 @@ export class FaucetService {
     }
 
     async depositAddress(address: string): Promise<TransactionStatusDto[]> {
+        if (!this.blockchainAccessService.isAddressValid(address)) {
+            throw new BadRequestException(address, 'Invalid address')
+        }
+
         const dvtTxHash = await this.blockchainAccessService.transferFromSystem(
             BlockchainAssetDto.DVITA_ASSET,
             address,

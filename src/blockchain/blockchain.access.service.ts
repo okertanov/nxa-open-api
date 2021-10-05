@@ -37,6 +37,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
         return this.provider.testConnection();
     }
 
+    isAddressValid(address: string): boolean {
+        return this.provider.isAddressValid(address);
+    }
+
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
         return this.provider.getFoundationMembers();
     }
