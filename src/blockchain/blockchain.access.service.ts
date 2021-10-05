@@ -13,28 +13,35 @@ import { BlockchainTransaction } from "./types/blockchain.transaction";
 import { BlockchainTransfer } from "./types/blockchain.transfer";
 import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 import { BlockchainGovernanceMemberDto } from "../governance/dto/blockchain.governance.member.dto";
+import { NxaBlockchainExtProvider } from "./providers/nxa/nxa.blockchain.ext.provider";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
     private readonly provider: BlockchainProviderInterface;
+    private readonly providerExt: NxaBlockchainExtProvider;
 
     constructor(
-        private readonly neoBlockchainProvider: NeoBlockchainProvider,
-        private readonly nxaBlockchainProvider: NxaBlockchainProvider
+        readonly neoBlockchainProvider: NeoBlockchainProvider,
+        readonly nxaBlockchainProvider: NxaBlockchainProvider,
+        readonly nxaBlockchainExtProvider: NxaBlockchainExtProvider
     ) {
         this.provider = nxaBlockchainProvider;
+        this.providerExt = nxaBlockchainExtProvider;
     }
 
     connect(network: BlockchainNetwork): void {
         this.provider.connect(network);
+        this.providerExt.connect(network);
     }
     
     disconnect(): void {
+        this.providerExt.disconnect();
         this.provider.disconnect();
     }
 
-    testConnection(): Promise<void> {
-        return this.provider.testConnection();
+    async testConnection(): Promise<void> {
+        await this.provider.testConnection();
+        await this.providerExt.testConnection();
     }
 
     isAddressValid(address: string): boolean {

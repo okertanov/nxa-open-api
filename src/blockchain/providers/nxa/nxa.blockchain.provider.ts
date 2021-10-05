@@ -1,5 +1,5 @@
-import * as NeonCore from '@cityofzion/neon-core';
 import * as Neon from '@cityofzion/neon-js';
+import * as NeonCore from '@cityofzion/neon-core';
 import { Injectable, Logger } from '@nestjs/common';
 import { BlockchainAssetDto } from '../../../assets/dto/blockchain.asset.dto';
 import { DeploySmartContractDto } from '../../../blockchain/dto/deploy.smart.contract.dto';
@@ -30,8 +30,6 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         this.logger.debug(`Connectiong to: '${endpoint}'...`);
         
         this.apiRpcClient = new Neon.rpc.RPCClient(endpoint);
-        
-        console.dir(this.apiRpcClient);
     }
 
     disconnect(): void {
