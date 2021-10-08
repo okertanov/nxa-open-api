@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BlockchainToken } from "./blockchain.token";
+import { SmartContractEntity } from "../../entity/smart.contract.entity";
+import { BlockchainToken, BlockchainTokenType } from "./blockchain.token";
 import { BlockchainTransaction } from "./blockchain.transaction";
 
 //
@@ -54,5 +55,27 @@ export class BlockchainSmartContract {
         this.ownerAddress = ownerAddress;
         this.transaction = transaction;
         this.token = token;
+    }
+
+    static fromEntity(entity: SmartContractEntity): BlockchainSmartContract {
+        return new BlockchainSmartContract(
+            entity.code,
+            entity.name,
+            entity.script,
+            entity.description,
+            entity.scriptHash,
+            entity.address,
+            entity.ownerAddress,
+            BlockchainTransaction.fromHash(entity.txHash),
+            new BlockchainToken(
+                BlockchainTokenType[entity.type],
+                entity.code,
+                entity.name,
+                entity.decimals,
+                entity.scriptHash,
+                entity.address,
+                entity.ownerAddress
+            )
+        );
     }
 }

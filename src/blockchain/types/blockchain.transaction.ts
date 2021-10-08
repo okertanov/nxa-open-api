@@ -88,4 +88,21 @@ export class BlockchainTransaction {
             timestamp
         );
     }
+
+    public static fromHash(txHash: string): BlockchainTransaction {
+        return new BlockchainTransaction(
+            undefined,
+            undefined,
+            undefined,
+            txHash ?? undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined,
+            undefined
+        );
+    }
 }

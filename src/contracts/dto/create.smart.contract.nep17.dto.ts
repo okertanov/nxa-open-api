@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateSmartContractNep17Dto {
     @ApiProperty()
@@ -8,5 +8,17 @@ export class CreateSmartContractNep17Dto {
     symbol: string;
 
     @ApiProperty()
-    decimals: string;
+    decimals: number;
+
+    @ApiProperty()
+    initial: string;
+
+    @ApiPropertyOptional()
+    tokenUrl?: string;
+
+    @ApiPropertyOptional()
+    iconUrl?: string;
+
+    @ApiPropertyOptional()
+    description?: string;
 }

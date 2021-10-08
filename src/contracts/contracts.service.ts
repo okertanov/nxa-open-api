@@ -4,9 +4,16 @@ import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.co
 import { CreateSmartContractNep17Dto } from './dto/create.smart.contract.nep17.dto';
 import { CreateSmartContractNep11Dto } from './dto/create.smart.contract.nep11.dto';
 import { CreateSmartContractSourceDto } from './dto/create.smart.contract.source.dto';
+import { SmartContractRepository } from '../repository/smart.contract.repository';
+import { SmartContractType } from 'src/entity/smart.contract.entity';
 
 @Injectable()
 export class ContractsService {
+    constructor(
+        private readonly smartContractRepository: SmartContractRepository
+    ) {
+    }
+
     async getNativeContracts(): Promise<BlockchainSmartContract[]> {
         // TODO: to call ExtRPC for that (to impl first)
         // See list nativecontract
@@ -110,7 +117,7 @@ export class ContractsService {
     async getAllContracts(): Promise<BlockchainSmartContract[]> {
         const nativeContracts = await this.getNativeContracts();
 
-        const deployedContracts = [
+        const manuallyDeployedContracts = [
             new BlockchainSmartContract(
                 'T11',
                 'Team11Token',
@@ -131,7 +138,10 @@ export class ContractsService {
             ),
         ];
 
-        const allContracts = [...nativeContracts, ...deployedContracts];
+        const dbContractEntities = await this.smartContractRepository.find();
+        const dbContracts = dbContractEntities.map(BlockchainSmartContract.fromEntity);
+
+        const allContracts = [...nativeContracts, ...manuallyDeployedContracts, ...dbContracts];
 
         return allContracts;
     }
@@ -141,10 +151,36 @@ export class ContractsService {
     }
 
     async createTokenContract(dto: CreateSmartContractNep17Dto): Promise<BlockchainSmartContract> {
-        return undefined;
+        const entity = this.smartContractRepository.create();
+        entity.type = SmartContractType.NEP17;
+        entity.code = dto.symbol;
+        entity.name = dto.name;
+        entity.decimals = dto.decimals;
+        entity.initial = dto.initial;
+        entity.tokenUrl = dto.tokenUrl;
+        entity.iconUrl = dto.iconUrl;
+        entity.description = dto.description;
+
+        const savedEntity = await this.smartContractRepository.save(entity);
+        const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
+        return savedDto;
     }
 
     async createNftContract(dto: CreateSmartContractNep11Dto): Promise<BlockchainSmartContract> {
-        return undefined;
+        const entity = this.smartContractRepository.create();
+        entity.type = SmartContractType.NEP11;
+        entity.code = dto.symbol;
+        entity.name = dto.name;
+        entity.decimals = 0;
+        entity.initial = '0';
+        entity.tokenUrl = dto.tokenUrl;
+        entity.iconUrl = dto.iconUrl;
+        entity.assetUrl = dto.assetUrl;
+        entity.previewUrl = dto.previewUrl;
+        entity.description = dto.description;
+
+        const savedEntity = await this.smartContractRepository.save(entity);
+        const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
+        return savedDto;
     }
 }
