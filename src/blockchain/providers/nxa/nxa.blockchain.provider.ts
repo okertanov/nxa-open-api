@@ -1,6 +1,6 @@
 import * as Neon from '@cityofzion/neon-js';
 import * as NeonCore from '@cityofzion/neon-core';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { BlockchainAssetDto } from '../../../assets/dto/blockchain.asset.dto';
 import { DeploySmartContractDto } from '../../../blockchain/dto/deploy.smart.contract.dto';
 import { DeploySmartContractItemDto } from '../../../blockchain/dto/deploy.smart.contract.item';
@@ -219,8 +219,8 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
 
     async getTransaction(txHash: string): Promise<BlockchainTransaction> {
         const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
-        const txBlock = await this.apiRpcClient.getBlock(rawTx.blockhash, true);
-        const tx = BlockchainTransaction.fromRaw(rawTx.blockhash, txBlock.index.toString(), rawTx.blocktime, rawTx);
+        const txBlock = rawTx?.blockhash ? await this.apiRpcClient.getBlock(rawTx.blockhash, true) : undefined;
+        const tx = BlockchainTransaction.fromRaw(rawTx.blockhash, txBlock?.index.toString(), rawTx.blocktime, rawTx);
         return tx;
     }
 

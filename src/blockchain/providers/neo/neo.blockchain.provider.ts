@@ -168,8 +168,8 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
 
     async getTransaction(txHash: string): Promise<BlockchainTransaction> {
         const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
-        const txBlock = await this.apiRpcClient.getBlock(rawTx.blockhash, true);
-        const tx = BlockchainTransaction.fromRaw(rawTx.blockhash, txBlock.index.toString(), rawTx.blocktime, rawTx);
+        const txBlock = rawTx?.blockhash ? await this.apiRpcClient.getBlock(rawTx.blockhash, true) : undefined;
+        const tx = BlockchainTransaction.fromRaw(rawTx.blockhash, txBlock?.index.toString(), rawTx.blocktime, rawTx);
         return tx;
     }
 

@@ -17,7 +17,7 @@ export class TransactionService {
         try {
             const tx = await this.blockchainAccessService.getTransaction(hash);
             
-            const status = tx.blockHash ? TransactionStatus.CONFIRMED : TransactionStatus.ANNOUNCED;
+            const status = tx?.blockHash ? TransactionStatus.CONFIRMED : TransactionStatus.ANNOUNCED;
             const txStatus = new TransactionStatusDto(status, BlockchainTransaction.Empty);
             txStatus.transaction = tx;
 

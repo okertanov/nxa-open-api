@@ -16,10 +16,21 @@ export class ContractsController {
     @ApiOperation({ summary: 'Get Native smart contracts' })
     @ApiResponse({ status: 200, description: 'The Native smart contracts', type: BlockchainSmartContract, isArray: true })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
-    async getBlockchainNodes(
+    async getNativeContracts(
         @Req() req: Request
     ): Promise<BlockchainSmartContract[]> {
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.contractsService.getNativeContracts();
+    }
+
+    @Get('/all')
+    @ApiOperation({ summary: 'Get All smart contracts' })
+    @ApiResponse({ status: 200, description: 'All smart contracts', type: BlockchainSmartContract, isArray: true })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getAllContracts(
+        @Req() req: Request
+    ): Promise<BlockchainSmartContract[]> {
+        this.logger.verbose(`${req.method} : ${req.url}`);
+        return this.contractsService.getAllContracts();
     }
 }

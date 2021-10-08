@@ -19,19 +19,19 @@ export class BlockchainToken {
     type: BlockchainTokenType;
 
     @ApiProperty()
-    name: string;
-
-    @ApiProperty()
     symbol: string;
 
     @ApiProperty()
-    decimals: number;
+    name: string;
 
     @ApiProperty()
-    factor: number;
+    decimals: number;
     
     @ApiPropertyOptional()
-    address?: string;
+    scriptHash: string;
+
+    @ApiPropertyOptional()
+    address: string;
 
     @ApiPropertyOptional()
     ownerAddress?: string;
@@ -41,4 +41,26 @@ export class BlockchainToken {
 
     @ApiPropertyOptional()
     transaction?: BlockchainTransaction;
+
+    constructor(
+        type: BlockchainTokenType,
+        symbol: string,
+        name: string,
+        decimals: number,
+        scriptHash: string,
+        address: string,
+        ownerAddress?: string,
+        contract?: BlockchainSmartContract,
+        transaction?: BlockchainTransaction
+    ) {
+        this.type = type;
+        this.symbol = symbol;
+        this.name = name;
+        this.decimals = decimals;
+        this.scriptHash = scriptHash;
+        this.address = address;
+        this.ownerAddress = ownerAddress;
+        this.contract = contract;
+        this.transaction = transaction;
+    }
 }
