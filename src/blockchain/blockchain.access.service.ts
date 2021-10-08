@@ -18,30 +18,24 @@ import { NxaBlockchainExtProvider } from "./providers/nxa/nxa.blockchain.ext.pro
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
     private readonly provider: BlockchainProviderInterface;
-    private readonly providerExt: NxaBlockchainExtProvider;
 
     constructor(
         readonly neoBlockchainProvider: NeoBlockchainProvider,
         readonly nxaBlockchainProvider: NxaBlockchainProvider,
-        readonly nxaBlockchainExtProvider: NxaBlockchainExtProvider
     ) {
         this.provider = nxaBlockchainProvider;
-        this.providerExt = nxaBlockchainExtProvider;
     }
 
     connect(network: BlockchainNetwork): void {
         this.provider.connect(network);
-        this.providerExt.connect(network);
     }
     
     disconnect(): void {
-        this.providerExt.disconnect();
         this.provider.disconnect();
     }
 
     async testConnection(): Promise<void> {
         await this.provider.testConnection();
-        await this.providerExt.testConnection();
     }
 
     isAddressValid(address: string): boolean {

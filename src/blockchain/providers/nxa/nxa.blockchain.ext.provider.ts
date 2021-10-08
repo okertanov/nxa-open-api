@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as Neon from '@cityofzion/neon-js';
 import * as NeonCore from '@cityofzion/neon-core';
 import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network';
+import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
+import { BlockchainGovernanceRegistrationResultDto } from '../../../governance/dto/blockchain.governance.registration.result.dto';
 
 //
 // NxaBlockchainExtProvider
@@ -34,13 +36,38 @@ export class NxaBlockchainExtProvider {
         const rpcResult0 = await this.apiRpcClient.execute<any>(rpcQuery0);
         console.dir(rpcResult0);
 
-        const rpcQuery1 = new NeonCore.rpc.Query({ method: 'getcandidates' });
-        const rpcResult1 = await this.apiRpcClient.execute<any>(rpcQuery1);
-        console.dir(rpcResult1);
-
         //const rpcTestAccount = new Neon.wallet.Account('035997eaa3682cab4a2f701a9085ab891ad97e852b2ba30bdb5713fe62856664d7');
         //const rpcQuery2 = new NeonCore.rpc.Query({ method: 'getaccountstate', params: [rpcTestAccount.address] });
         //const rpcResult2 = await this.apiRpcClient.execute<any>(rpcQuery2);
         //console.dir(rpcResult2);
+    }
+
+    async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'getcandidates' });
+        const rpcResult = await this.apiRpcClient.execute<string[]>(rpcQuery);
+        const rpcResultNormalized = rpcResult.map(r => r?.split(':')[0]?.trim()).filter(r => !!r);
+        const candidates = rpcResultNormalized.map(r => new BlockchainGovernanceMemberDto(
+            r,
+            (new Neon.wallet.Account(r)).address,
+            false,
+            false
+        ));
+        return candidates;
+    }
+
+    async registerCandidate(registrarAddress: string, candidatePublicKey: string,): Promise<BlockchainGovernanceRegistrationResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistercandidatetx', params: [candidatePublicKey] });
+        const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
+
+        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
+        return result;
+    }
+
+    async voite(registrarAddress: string, candidatePublicKey: string,): Promise<BlockchainGovernanceRegistrationResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistercandidatetx', params: [candidatePublicKey] });
+        const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
+
+        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
+        return result;
     }
 }

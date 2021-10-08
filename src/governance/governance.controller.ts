@@ -49,17 +49,6 @@ export class GovernanceController {
         return this.governanceService.getCandidates();
     }
 
-    @Get('/consensus/current')
-    @ApiOperation({ summary: 'Get Current consensus makers' })
-    @ApiResponse({ status: 200, description: 'Current consensus makers list', type: BlockchainGovernanceMemberDto, isArray: true })
-    @ApiResponse({ status: 500, description: 'Internal Server Error' })
-    async getCurrentConsensusMakers(
-        @Req() req: Request
-    ): Promise<BlockchainGovernanceMemberDto[]> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.governanceService.getCurrentConsensusMakers();
-    }
-
     @Post('/vote')
     @ApiOperation({ summary: 'Vote for a member' })
     @ApiResponse({ status: 200, description: 'Vote result', type: BlockchainGovernanceVoteResultDto })

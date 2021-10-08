@@ -2,6 +2,7 @@ import { Controller, Get, Logger, OnApplicationBootstrap, OnApplicationShutdown,
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { BlockchainAccessService } from './blockchain.access.service';
+import { BlockchainGovernanceService } from './blockchain.governance.service';
 import { BlockchainService } from './blockchain.service';
 import { BlockchainInfoDto } from './dto/blockchain.info.dto';
 import { BlockchainBlock } from './types/blockchain.block';
@@ -15,6 +16,7 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
 
     constructor(
         private readonly blockchainAccessService: BlockchainAccessService,
+        private readonly blockchainGovernanceService: BlockchainGovernanceService,
         private readonly blockchainService: BlockchainService
     ) {
     }
@@ -22,8 +24,12 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
     async onApplicationBootstrap(): Promise<any> {
         try {
             this.logger.debug('Initializing...');
+
             this.blockchainAccessService.connect(BlockchainNetwork.Default);
             await this.blockchainAccessService.testConnection();
+
+            this.blockchainGovernanceService.connect(BlockchainNetwork.Default);
+            await this.blockchainGovernanceService.testConnection();
         } catch(e) {
             this.logger.error(e);
         }
@@ -32,6 +38,8 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
     onApplicationShutdown(signal?: string): any {
         try {
             this.logger.debug(`Terminating with ${signal}...`);
+
+            this.blockchainGovernanceService.disconnect();
             this.blockchainAccessService.disconnect();
         } catch(e) {
             this.logger.error(e);
