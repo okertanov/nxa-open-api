@@ -33,8 +33,8 @@ export class GovernanceService {
         return result;
     }
 
-    async unregisterCandidate(pubkey: string): Promise<BlockchainGovernanceRegistrationResultDto> {
-        const result = await this.blockchainGovernanceService.unregisterCandidate(pubkey);
+    async unregisterCandidate(request: BlockchainGovernanceRegistrationRequestDto): Promise<BlockchainGovernanceRegistrationResultDto> {
+        const result = await this.blockchainGovernanceService.unregisterCandidate(request);
         return result;
     }
 

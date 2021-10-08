@@ -79,9 +79,9 @@ export class GovernanceController {
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async deleteUnregisterCandidate(
         @Req() req: Request,
-        @Param('pubkey') pubkey: string
+        @Body() body: BlockchainGovernanceRegistrationRequestDto
     ): Promise<BlockchainGovernanceRegistrationResultDto> {
-        this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(pubkey)}`);
-        return this.governanceService.unregisterCandidate(pubkey);
+        this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
+        return this.governanceService.unregisterCandidate(body);
     }
 }

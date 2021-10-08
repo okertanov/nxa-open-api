@@ -42,16 +42,17 @@ export class BlockchainGovernanceService {
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
-        return this.nxaBlockchainExtProvider.getCandidates();
+        // TODO: Reveiving via Original RPC
+        //return this.nxaBlockchainExtProvider.getCandidates();
+        return this.bBlockchainAccessService.getCouncilMembers();
     }
 
     async registerCandidate(dto: BlockchainGovernanceRegistrationRequestDto): Promise<BlockchainGovernanceRegistrationResultDto> {
         return this.nxaBlockchainExtProvider.registerCandidate(dto.registrarAddress, dto.candidatePublicKey);
     }
 
-    async unregisterCandidate(pubKey: string): Promise<BlockchainGovernanceRegistrationResultDto> {
-        const result = new BlockchainGovernanceRegistrationResultDto('', pubKey, '');
-        return result;
+    async unregisterCandidate(dto: BlockchainGovernanceRegistrationRequestDto): Promise<BlockchainGovernanceRegistrationResultDto> {
+        return this.nxaBlockchainExtProvider.unregisterCandidate(dto.registrarAddress, dto.candidatePublicKey);
     }
 
     async vote(request: BlockchainGovernanceVoteRequestDto): Promise<BlockchainGovernanceVoteResultDto> {
