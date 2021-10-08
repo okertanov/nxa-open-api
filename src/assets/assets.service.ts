@@ -6,7 +6,8 @@ export class AssetsService {
     async getAllAssets(): Promise<BlockchainAssetDto[]> {
         const assets = [
             BlockchainAssetDto.DVITA_ASSET,
-            BlockchainAssetDto.DVG_ASSET
+            BlockchainAssetDto.DVG_ASSET,
+            BlockchainAssetDto.T11_ASSET
         ];
         return assets;
     }
