@@ -18,7 +18,7 @@ export class BlockchainAssetDto {
         'DVITA',
         0,
         new BlockchainAssetMetadata(
-            'http://dvitae.teamxi.cloud/assets/logos/logo2.svg',
+            'http://dvita.teamxi.cloud/assets/logos/logo2.svg',
             'http://dvita.teamxi.cloud/assets/logos/logo2.svg',
             'Dvita is a platform that supports DLT to improve financial inclusion, transparency and the UN’s SDGs.',
             'http://dvita.teamxi.cloud/',
