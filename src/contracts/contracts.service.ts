@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { BlockchainToken, BlockchainTokenType } from '../blockchain/types/blockchain.token';
 import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.contract';
+import { CreateSmartContractNep17Dto } from './dto/create.smart.contract.nep17.dto';
+import { CreateSmartContractNep11Dto } from './dto/create.smart.contract.nep11.dto';
+import { CreateSmartContractSourceDto } from './dto/create.smart.contract.source.dto';
 
 @Injectable()
 export class ContractsService {
@@ -131,5 +134,17 @@ export class ContractsService {
         const allContracts = [...nativeContracts, ...deployedContracts];
 
         return allContracts;
+    }
+
+    async createContractFromSource(dto: CreateSmartContractSourceDto): Promise<BlockchainSmartContract> {
+        return undefined;
+    }
+
+    async createTokenContract(dto: CreateSmartContractNep17Dto): Promise<BlockchainSmartContract> {
+        return undefined;
+    }
+
+    async createNftContract(dto: CreateSmartContractNep11Dto): Promise<BlockchainSmartContract> {
+        return undefined;
     }
 }
