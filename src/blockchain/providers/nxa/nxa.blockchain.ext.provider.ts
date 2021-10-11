@@ -45,13 +45,13 @@ export class NxaBlockchainExtProvider {
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
         const rpcQuery = new NeonCore.rpc.Query({ method: 'getcandidates' });
         const rpcResult = await this.apiRpcClient.execute<{ candidates: string[]}>(rpcQuery);
-        console.dir(rpcResult);
-        const rpcResultNormalized = rpcResult.candidates.map(r => r?.split(':')[0]?.trim()).filter(r => !!r);
-        const candidates = rpcResultNormalized.map(r => new BlockchainGovernanceMemberDto(
-            r,
-            (new Neon.wallet.Account(r)).address,
+        const candidates = rpcResult.candidates.map(candidate => new BlockchainGovernanceMemberDto(
+            candidate['PubKey'],
+            (new Neon.wallet.Account(candidate['PubKey'])).address,
             false,
-            false
+            false,
+            0,
+            parseInt(candidate['DVITA'], 10)
         ));
         return candidates;
     }

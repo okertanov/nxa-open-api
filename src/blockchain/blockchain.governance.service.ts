@@ -32,19 +32,17 @@ export class BlockchainGovernanceService {
     }
 
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Reveiving via Original RPC
+        // TODO: Receiving via Original RPC
         return this.bBlockchainAccessService.getFoundationMembers();
     }
 
     async getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Reveiving via Original RPC
+        // TODO: Receiving via Original RPC
         return this.bBlockchainAccessService.getCouncilMembers();
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Reveiving via Original RPC
-        //return this.nxaBlockchainExtProvider.getCandidates();
-        return this.bBlockchainAccessService.getCouncilMembers();
+        return this.nxaBlockchainExtProvider.getCandidates();
     }
 
     async registerCandidate(dto: BlockchainGovernanceRegistrationRequestDto): Promise<BlockchainGovernanceRegistrationResultDto> {
