@@ -160,6 +160,8 @@ export class ContractsService {
         entity.tokenUrl = dto.tokenUrl;
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
+        entity.address = '0000000000000000000000000000000000000000';
+        entity.scriptHash = '0x0000000000000000000000000000000000000000';
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
@@ -177,6 +179,8 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = dto.metadata;
+        entity.address = '0000000000000000000000000000000000000000';
+        entity.scriptHash = '0x0000000000000000000000000000000000000000';
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
