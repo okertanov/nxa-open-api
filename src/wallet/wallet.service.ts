@@ -54,4 +54,9 @@ export class WalletService {
         const transfers = this.blockchainAccessService.getTransfersByAddress(address);
         return transfers;
     }
+
+    async getUnclaimedByAddress(address: string): Promise<BlockchainBalanceDto> {
+        const unclaimed = this.blockchainAccessService.getUnclaimedByAddress(address);
+        return unclaimed;
+    }
 }

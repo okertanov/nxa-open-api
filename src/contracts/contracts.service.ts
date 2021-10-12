@@ -5,7 +5,7 @@ import { CreateSmartContractNep17Dto } from './dto/create.smart.contract.nep17.d
 import { CreateSmartContractNep11Dto } from './dto/create.smart.contract.nep11.dto';
 import { CreateSmartContractSourceDto } from './dto/create.smart.contract.source.dto';
 import { SmartContractRepository } from '../repository/smart.contract.repository';
-import { SmartContractType } from 'src/entity/smart.contract.entity';
+import { SmartContractType } from '../entity/smart.contract.entity';
 
 @Injectable()
 export class ContractsService {

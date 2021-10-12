@@ -5,9 +5,6 @@ export class BlockchainGovernanceVoteRequestDto {
     voterAddress: string;
 
     @ApiProperty()
-    candidateAddress: string;
-
-    @ApiProperty()
     candidatePublicKey: string;
 
     @ApiProperty()

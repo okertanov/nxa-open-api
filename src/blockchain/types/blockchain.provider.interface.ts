@@ -45,4 +45,6 @@ export interface BlockchainProviderInterface {
 
     getSystemFeeForScript(script: string): Promise<string>;
     getNetworkFeeForLength(length: number): Promise<string>;
+
+    getUnclaimedByAddress(address: string): Promise<BlockchainBalanceDto>;
 }

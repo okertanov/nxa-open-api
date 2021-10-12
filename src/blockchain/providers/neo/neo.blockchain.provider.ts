@@ -166,6 +166,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         return [...sent, ...received];
     }
 
+    async getUnclaimedByAddress(address: string): Promise<BlockchainBalanceDto> {
+        return undefined;
+    }
+
     async getTransaction(txHash: string): Promise<BlockchainTransaction> {
         const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
         const txBlock = rawTx?.blockhash ? await this.apiRpcClient.getBlock(rawTx.blockhash, true) : undefined;

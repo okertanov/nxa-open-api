@@ -217,6 +217,13 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         return [...sent, ...received];
     }
 
+    async getUnclaimedByAddress(address: string): Promise<BlockchainBalanceDto> {
+        const lastBlock = await this.getLastBlock();
+        const unclaimedBalanceRpc = await this.apiRpcClient.getUnclaimedGas(address);
+        const unclaimedBalance = new BlockchainBalanceDto(BlockchainAssetDto.DVG_ASSET, lastBlock.index, address, unclaimedBalanceRpc);
+        return unclaimedBalance;
+    }
+
     async getTransaction(txHash: string): Promise<BlockchainTransaction> {
         const rawTx = await this.apiRpcClient.getRawTransaction(txHash, true);
         const txBlock = rawTx?.blockhash ? await this.apiRpcClient.getBlock(rawTx.blockhash, true) : undefined;

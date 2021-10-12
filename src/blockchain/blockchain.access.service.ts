@@ -98,6 +98,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
         return this.provider.getTransaction(txHash);
     }
 
+    async getUnclaimedByAddress(address: string): Promise<BlockchainBalanceDto> {
+        return this.provider.getUnclaimedByAddress(address);
+    }
+
     async broadcastTransaction(tx: string): Promise<string> {
         return this.provider.broadcastTransaction(tx);
     }

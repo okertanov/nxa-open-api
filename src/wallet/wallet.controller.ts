@@ -73,4 +73,16 @@ export class WalletController {
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.walletService.getTransfersByAddress(address);
     }
+
+    @Get('/unclaimed/:address')
+    @ApiOperation({ summary: 'Get the unclaimed DVGs by address' })
+    @ApiResponse({ status: 200, description: 'The unclaimed DVGs by address', type: BlockchainBalanceDto })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getUnclaimedByAddress(
+        @Req() req: Request,
+        @Param('address') address: string
+    ): Promise<BlockchainBalanceDto> {
+        this.logger.verbose(`${req.method} : ${req.url}`);
+        return this.walletService.getUnclaimedByAddress(address);
+    }
 }
