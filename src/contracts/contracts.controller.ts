@@ -40,6 +40,7 @@ export class ContractsController {
     @Post('/create/source')
     @ApiOperation({ summary: 'Create any SC from source' })
     @ApiResponse({ status: 200, description: 'Creates SC from source', type: BlockchainSmartContract })
+    @ApiResponse({ status: 400, description: 'Bad Request' })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async createContractFromSource(
         @Req() req: Request,
@@ -52,6 +53,7 @@ export class ContractsController {
     @Post('/create/token')
     @ApiOperation({ summary: 'Create a NEP17 token' })
     @ApiResponse({ status: 200, description: 'Create a NEP17 token', type: BlockchainSmartContract })
+    @ApiResponse({ status: 400, description: 'Bad Request' })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async createTokenContract(
         @Req() req: Request,
@@ -64,6 +66,7 @@ export class ContractsController {
     @Post('/create/nft')
     @ApiOperation({ summary: 'Create a NEP11 NFT token' })
     @ApiResponse({ status: 200, description: 'Created a NEP11 NFT token', type: BlockchainSmartContract })
+    @ApiResponse({ status: 400, description: 'Bad Request' })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
     async postRegisterCandidate(
         @Req() req: Request,

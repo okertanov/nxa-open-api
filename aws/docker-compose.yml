@@ -33,6 +33,9 @@ services:
       API_DB_DATABASE: ${API_DB_DATABASE}
       API_DB_USER: ${API_DB_USER}
       API_DB_PASSWORD: ${API_DB_PASSWORD}
+      # CaaS
+      CAAS_API_BASE_URL: ${CAAS_API_BASE_URL}
+      CAAS_API_TOKEN: ${CAAS_API_TOKEN}
 
   #
   # From:

@@ -6,11 +6,13 @@ import { CreateSmartContractNep11Dto } from './dto/create.smart.contract.nep11.d
 import { CreateSmartContractSourceDto } from './dto/create.smart.contract.source.dto';
 import { SmartContractRepository } from '../repository/smart.contract.repository';
 import { SmartContractType } from '../entity/smart.contract.entity';
+import { SmartContractCompilerService } from './compiler/smart.contract.compiler.service';
 
 @Injectable()
 export class ContractsService {
     constructor(
-        private readonly smartContractRepository: SmartContractRepository
+        private readonly smartContractRepository: SmartContractRepository,
+        private readonly smartContractCompilerService: SmartContractCompilerService
     ) {
     }
 
@@ -147,10 +149,21 @@ export class ContractsService {
     }
 
     async createContractFromSource(dto: CreateSmartContractSourceDto): Promise<BlockchainSmartContract> {
-        return undefined;
+        // 1. Compile
+        const compileResult = await this.smartContractCompilerService.compileSource(dto.source);
+
+        // 2. Dto
+        const contract = new BlockchainSmartContract();
+        return contract;
     }
 
     async createTokenContract(dto: CreateSmartContractNep17Dto): Promise<BlockchainSmartContract> {
+        // 1. Compile
+        const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
+
+        // 2. Deploy
+
+        // 3. Persist
         const entity = this.smartContractRepository.create();
         entity.type = SmartContractType.NEP17;
         entity.code = dto.symbol;
@@ -165,10 +178,19 @@ export class ContractsService {
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
-        return savedDto;
+
+        // 4. Dto
+        const contract = new BlockchainSmartContract();
+        return contract;
     }
 
     async createNftContract(dto: CreateSmartContractNep11Dto): Promise<BlockchainSmartContract> {
+        // 1. Compile
+        const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
+
+        // 2. Deploy
+
+        // 3. Persist
         const entity = this.smartContractRepository.create();
         entity.type = SmartContractType.NEP11;
         entity.code = dto.symbol;
@@ -184,6 +206,9 @@ export class ContractsService {
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
-        return savedDto;
+        
+        // 4. Dto
+        const contract = new BlockchainSmartContract();
+        return contract;
     }
 }

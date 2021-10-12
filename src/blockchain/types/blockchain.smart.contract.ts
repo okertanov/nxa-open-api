@@ -8,8 +8,8 @@ import { BlockchainTransaction } from "./blockchain.transaction";
 // See neo/SmartContract/Contract.cs
 //
 export class BlockchainSmartContract {
-    @ApiProperty()
-    code: string;
+    @ApiPropertyOptional()
+    code?: string;
 
     @ApiPropertyOptional()
     name?: string;
@@ -36,7 +36,7 @@ export class BlockchainSmartContract {
     token?: BlockchainToken;
 
     constructor(
-        code: string,
+        code?: string,
         name?: string,
         script?: string,
         description?: string,

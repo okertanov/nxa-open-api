@@ -19,13 +19,13 @@ export class NxaBlockchainExtProvider {
     connect(network: BlockchainNetwork): void {
         const endpoint = network.rpcEndpoint;
 
-        this.logger.debug(`Connectiong to: '${endpoint}'...`);
+        this.logger.debug(`Connecting to: '${endpoint}'...`);
         
         this.apiRpcClient = new Neon.rpc.RPCClient(endpoint);
     }
 
     disconnect(): void {
-        this.logger.debug(`Disconnectiong from node...`);
+        this.logger.debug(`Disconnecting from node...`);
         this.apiRpcClient = undefined;
     }
 
