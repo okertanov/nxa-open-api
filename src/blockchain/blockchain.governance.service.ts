@@ -54,7 +54,6 @@ export class BlockchainGovernanceService {
     }
 
     async vote(request: BlockchainGovernanceVoteRequestDto): Promise<BlockchainGovernanceVoteResultDto> {
-        const result = new BlockchainGovernanceVoteResultDto();
-        return result;
+        return this.nxaBlockchainExtProvider.vote(request.voterAddress, request.voterPublicKey, request.candidatePublicKey);
     }
 }

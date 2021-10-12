@@ -4,6 +4,7 @@ import * as NeonCore from '@cityofzion/neon-core';
 import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network';
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 import { BlockchainGovernanceRegistrationResultDto } from '../../../governance/dto/blockchain.governance.registration.result.dto';
+import { BlockchainGovernanceVoteResultDto } from '../../../governance/dto/blockchain.governance.vote.result.dto';
 
 //
 // NxaBlockchainExtProvider
@@ -65,18 +66,19 @@ export class NxaBlockchainExtProvider {
     }
 
     async unregisterCandidate(registrarAddress: string, candidatePublicKey: string,): Promise<BlockchainGovernanceRegistrationResultDto> {
-        const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistercandidatetx', params: [candidatePublicKey] });
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createunregistercandidatetx', params: [candidatePublicKey] });
         const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
 
         const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
         return result;
     }
 
-    async voite(registrarAddress: string, candidatePublicKey: string,): Promise<BlockchainGovernanceRegistrationResultDto> {
-        const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistercandidatetx', params: [candidatePublicKey] });
-        const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
+    async vote(voterAddress: string, voterPublicKey: string, candidatePublicKey: string): Promise<BlockchainGovernanceVoteResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createvotetx', params: [voterPublicKey, candidatePublicKey] });
+        const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
+        console.dir(rpcResult);
 
-        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
+        const result = new BlockchainGovernanceVoteResultDto(voterAddress, candidatePublicKey, JSON.stringify(rpcResult.tx));
         return result;
     }
 }
