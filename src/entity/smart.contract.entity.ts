@@ -35,6 +35,9 @@ export class SmartContractEntity {
     description?: string;
 
     @Column({ unique: false, nullable: true })
+    metadata?: string;
+
+    @Column({ unique: false, nullable: true })
     script?: string;
 
     @Index()
@@ -56,12 +59,6 @@ export class SmartContractEntity {
 
     @Column({ unique: false, nullable: true })
     iconUrl?: string;
-
-    @Column({ unique: false, nullable: true })
-    assetUrl?: string;
-
-    @Column({ unique: false, nullable: true })
-    previewUrl?: string;
 
     @CreateDateColumn()
     createdDate: Date;

@@ -14,12 +14,6 @@ export class CreateSmartContractNep11Dto {
     iconUrl?: string;
 
     @ApiPropertyOptional()
-    assetUrl?: string;
-
-    @ApiPropertyOptional()
-    previewUrl?: string;
-
-    @ApiPropertyOptional()
     description?: string;
 
     @ApiPropertyOptional()

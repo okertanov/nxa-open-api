@@ -175,9 +175,8 @@ export class ContractsService {
         entity.initial = '0';
         entity.tokenUrl = dto.tokenUrl;
         entity.iconUrl = dto.iconUrl;
-        entity.assetUrl = dto.assetUrl;
-        entity.previewUrl = dto.previewUrl;
         entity.description = dto.description;
+        entity.metadata = dto.metadata;
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
