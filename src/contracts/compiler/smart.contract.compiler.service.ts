@@ -31,10 +31,56 @@ export class SmartContractCompilerService {
     }
 
     async compileTokenNep17(dto: CreateSmartContractNep17Dto): Promise<CaasResult> {
-        return undefined;
+        try {
+            const source = '';
+            const task = new CaasTask(source, [], {
+                systemOwnerAddress: dto.ownerAddress,
+                contractAuthorAddress: dto.ownerAddress,
+                contractAuthorName: 'Team11',
+                contractAuthorEmail: 'info@dvita.com',
+                contractName: dto.name,
+                contractSymbol: dto.symbol,
+                contractDescription: dto.description,
+                contractFactor: 0,
+                contractDecimals: dto.decimals
+            });
+            this.logger.debug(`Compiling ${task.contractSource}...`);
+            const createResult = await this.caasClient.createCompilerTask(task);
+            this.logger.debug(JSON.stringify(createResult));
+            if (createResult.error) {
+                throw new BadRequestException(createResult.error, 'Compilation error');
+            }
+            return createResult.result;
+        } catch(e) {
+            this.logger.error(`${e}, ${e.stack}`);
+            throw e;
+        }
     }
 
     async compileNftNep11(dto: CreateSmartContractNep11Dto): Promise<CaasResult> {
-        return undefined;
+        try {
+            const source = '';
+            const task = new CaasTask(source, [], {
+                systemOwnerAddress: dto.ownerAddress,
+                contractAuthorAddress: dto.ownerAddress,
+                contractAuthorName: 'Team11',
+                contractAuthorEmail: 'info@dvita.com',
+                contractName: dto.name,
+                contractSymbol: dto.symbol,
+                contractDescription: dto.description,
+                contractFactor: 0,
+                contractDecimals: 0
+            });
+            this.logger.debug(`Compiling ${task.contractSource}...`);
+            const createResult = await this.caasClient.createCompilerTask(task);
+            this.logger.debug(JSON.stringify(createResult));
+            if (createResult.error) {
+                throw new BadRequestException(createResult.error, 'Compilation error');
+            }
+            return createResult.result;
+        } catch(e) {
+            this.logger.error(`${e}, ${e.stack}`);
+            throw e;
+        }
     }
 }

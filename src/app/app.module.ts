@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { SearchModule } from '../search/search.module';
 import { AssetsModule } from '../assets/assets.module';
 import { BlockchainModule } from '../blockchain/blockchain.module';
 import { ContractsModule } from '../contracts/contracts.module';
@@ -48,6 +49,7 @@ import { AppService } from './app.service';
     StatisticModule,
     ContractsModule,
     FaucetModule,
+    SearchModule
   ],
   controllers: [AppController],
   providers: [AppService],

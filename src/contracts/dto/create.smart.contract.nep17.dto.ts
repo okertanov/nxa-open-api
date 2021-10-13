@@ -2,6 +2,9 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateSmartContractNep17Dto {
     @ApiProperty()
+    ownerAddress: string;
+    
+    @ApiProperty()
     name: string;
 
     @ApiProperty()

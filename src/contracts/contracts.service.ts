@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { BlockchainToken, BlockchainTokenType } from '../blockchain/types/blockchain.token';
 import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.contract';
 import { CreateSmartContractNep17Dto } from './dto/create.smart.contract.nep17.dto';
@@ -8,9 +8,12 @@ import { CreateSmartContractSourceDto } from './dto/create.smart.contract.source
 import { SmartContractRepository } from '../repository/smart.contract.repository';
 import { SmartContractType } from '../entity/smart.contract.entity';
 import { SmartContractCompilerService } from './compiler/smart.contract.compiler.service';
+import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
 
 @Injectable()
 export class ContractsService {
+    private readonly logger = new Logger(ContractsService.name);
+
     constructor(
         private readonly smartContractRepository: SmartContractRepository,
         private readonly smartContractCompilerService: SmartContractCompilerService
@@ -86,14 +89,14 @@ export class ContractsService {
                 '0xb34e1025391e953a918231df11478ec21b039e5f',
                 'NUdYfrbi9A4PXd4tgfZVczKRrrB6Yc3b2r',
                 undefined,
-                new Date(),
+                new Date(2021, 0, 1, 0, 0, 0, 0),
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
-                    'DvitaToken',
-                    'Dvita Token',
-                    2,
-                    '0xb34e1025391e953a918231df11478ec21b039e5f',
+                    BlockchainAssetDto.DVITA_ASSET.code,
+                    BlockchainAssetDto.DVITA_ASSET.name,
+                    parseInt(BlockchainAssetDto.DVITA_ASSET.decimals, 10),
+                    BlockchainAssetDto.DVITA_ASSET.hash,
                     'NUdYfrbi9A4PXd4tgfZVczKRrrB6Yc3b2r'
                 )
             ),
@@ -106,14 +109,14 @@ export class ContractsService {
                 '0xd2a4cff31913016155e38e474a2c06d08be276cf',
                 'NepwUjd9GhqgNkrfXaxj9mmsFhFzGoFuWM',
                 undefined,
-                new Date(),
+                new Date(2021, 0, 1, 0, 0, 0, 0),
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
-                    'GasToken',
-                    'Gas Token',
-                    2,
-                    '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+                    BlockchainAssetDto.DVG_ASSET.code,
+                    BlockchainAssetDto.DVG_ASSET.name,
+                    parseInt(BlockchainAssetDto.DVG_ASSET.decimals, 10),
+                    BlockchainAssetDto.DVG_ASSET.hash,
                     'NepwUjd9GhqgNkrfXaxj9mmsFhFzGoFuWM'
                 )
             ),
@@ -170,13 +173,41 @@ export class ContractsService {
         return dbContracts;
     }
 
+    async getContractByCode(code: string): Promise<BlockchainSmartContract> {
+        // First Mocked
+        const native = await this.getNativeContracts();
+        const foundNative = native.find(n => n?.token?.symbol?.toLowerCase() === code.toLowerCase());
+        if (foundNative) {
+            return foundNative;
+        }
+
+        // Then real DB
+        const dbContractEntity = await this.smartContractRepository.findOneOrFail({
+            where: {
+                'LOWER(code)': code.toLowerCase()
+              }
+        });
+        const dbContract = BlockchainSmartContract.fromEntity(dbContractEntity);
+        return dbContract;
+    }
+
     async getContractByHash(scriptHash: string): Promise<BlockchainSmartContract> {
+        // First Mocked
+        const native = await this.getNativeContracts();
+        const foundNative = native.find(n => n?.scriptHash === scriptHash);
+        if (foundNative) {
+            return foundNative;
+        }
+
+        // Then real DB
         const dbContractEntity = await this.smartContractRepository.findOneOrFail({ scriptHash });
         const dbContract = BlockchainSmartContract.fromEntity(dbContractEntity);
         return dbContract;
     }
 
     async createContractFromSource(dto: CreateSmartContractSourceDto): Promise<BlockchainSmartContract> {
+        this.logger.debug(`Creating contract from: \n${JSON.stringify(dto)}`);
+
         // 1. Compile
         const compileResult = await this.smartContractCompilerService.compileSource(dto.source);
 
@@ -186,6 +217,8 @@ export class ContractsService {
     }
 
     async createTokenContract(dto: CreateSmartContractNep17Dto): Promise<BlockchainSmartContract> {
+        this.logger.debug(`Creating Token contract from: \n${JSON.stringify(dto)}`);
+
         // 1. Compile
         const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
 
@@ -214,6 +247,8 @@ export class ContractsService {
     }
 
     async createNftContract(dto: CreateSmartContractNep11Dto): Promise<BlockchainSmartContract> {
+        this.logger.debug(`Creating NFT contract from: \n${JSON.stringify(dto)}`);
+
         // 1. Compile
         const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
 

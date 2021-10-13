@@ -129,10 +129,6 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         return balance;
     }
 
-    async deploy(...params: any): Promise<any> {
-        return {};
-    }
-
     async deploySmartContract(network: BlockchainNetwork, dto: DeploySmartContractDto): Promise<DeploySmartContractResultDto> {
         return new DeploySmartContractResultDto(undefined, undefined, undefined ,undefined);
     }

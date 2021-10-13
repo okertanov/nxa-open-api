@@ -1,6 +1,6 @@
 import * as Neon from '@cityofzion/neon-js';
 import * as NeonCore from '@cityofzion/neon-core';
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { BlockchainAssetDto } from '../../../assets/dto/blockchain.asset.dto';
 import { DeploySmartContractDto } from '../../../blockchain/dto/deploy.smart.contract.dto';
 import { DeploySmartContractItemDto } from '../../../blockchain/dto/deploy.smart.contract.item';
@@ -176,10 +176,6 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const balances = BlockchainBalanceDto.fromRpcBalances(nep17Balances);
         const balance = balances.find(b => b.asset.hash === assetFromCodeOrHash.hash || b.asset.code === assetFromCodeOrHash.code);
         return balance;
-    }
-
-    async deploy(...params: any): Promise<any> {
-        return {};
     }
 
     async deploySmartContract(network: BlockchainNetwork, dto: DeploySmartContractDto): Promise<DeploySmartContractResultDto> {

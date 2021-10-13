@@ -1,4 +1,8 @@
 export class CaasTask {
+    contractSource: string;
+
+    contractCompileOptions: string[];
+
     systemOwnerAddress?: string;
     contractAuthorAddress?: string;
     contractAuthorName?: string;
@@ -8,21 +12,19 @@ export class CaasTask {
     contractSymbol?: string;
     contractFactor?: string;
     contractDecimals?: string;
-    
-    contractSource: string;
-    contractCompileOptions: string[];
 
-    constructor(contractSource: string, contractCompileOptions?: string[]) {
+    constructor(contractSource: string, contractCompileOptions?: string[], contractTemplateOptions?: any) {
         this.contractSource = contractSource;
         this.contractCompileOptions = contractCompileOptions ?? [];
-        this.systemOwnerAddress = '0x00';
-        this.contractAuthorAddress = '0x00';
-        this.contractAuthorName = 'me';
-        this.contractAuthorEmail = 'me@me.me';
-        this.contractName = 'test1';
-        this.contractDescription = 'descr';
-        this.contractSymbol = 'T111';
-        this.contractFactor = '0';
-        this.contractDecimals = '0';
+
+        this.systemOwnerAddress = contractTemplateOptions?.systemOwnerAddress;
+        this.contractAuthorAddress = contractTemplateOptions?.contractAuthorAddress;
+        this.contractAuthorName = contractTemplateOptions?.contractAuthorName;
+        this.contractAuthorEmail = contractTemplateOptions?.contractAuthorEmail;
+        this.contractName = contractTemplateOptions?.contractName;
+        this.contractDescription = contractTemplateOptions?.contractDescription;
+        this.contractSymbol = contractTemplateOptions?.contractSymbol;
+        this.contractFactor = contractTemplateOptions?.contractFactor;
+        this.contractDecimals = contractTemplateOptions?.contractDecimals;
     }
 }
