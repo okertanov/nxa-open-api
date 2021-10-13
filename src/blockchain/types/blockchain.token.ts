@@ -36,6 +36,9 @@ export class BlockchainToken {
     @ApiPropertyOptional()
     ownerAddress?: string;
 
+    @ApiPropertyOptional()
+    iconUrl?: string;
+
     @ApiPropertyOptional({ type: () => BlockchainSmartContract })
     contract?: BlockchainSmartContract;
 
@@ -50,6 +53,7 @@ export class BlockchainToken {
         scriptHash: string,
         address: string,
         ownerAddress?: string,
+        iconUrl?: string,
         contract?: BlockchainSmartContract,
         transaction?: BlockchainTransaction
     ) {
@@ -60,6 +64,7 @@ export class BlockchainToken {
         this.scriptHash = scriptHash;
         this.address = address;
         this.ownerAddress = ownerAddress;
+        this.iconUrl = iconUrl;
         this.contract = contract;
         this.transaction = transaction;
     }

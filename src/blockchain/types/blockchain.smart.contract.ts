@@ -86,7 +86,8 @@ export class BlockchainSmartContract {
                 entity.decimals,
                 entity.scriptHash,
                 entity.address,
-                entity.ownerAddress
+                entity.ownerAddress,
+                entity.iconUrl
             )
         );
     }

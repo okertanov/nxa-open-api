@@ -1,4 +1,5 @@
 import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { BlockchainSmartContract } from "../../blockchain/types/blockchain.smart.contract";
 import { BlockchainAssetMetadata } from "./blockchain.asset.metadata";
 
 export class BlockchainAssetDto {
@@ -113,6 +114,16 @@ export class BlockchainAssetDto {
         this.name = name;
         this.decimals = decimals?.toString();
         this.metadata = metadata;
+    }
+
+    static fromSmartContract(sc: BlockchainSmartContract): BlockchainAssetDto {
+        return new BlockchainAssetDto(
+            sc.scriptHash,
+            sc.code,
+            sc.name,
+            sc.token?.decimals ?? 0,
+            new BlockchainAssetMetadata(sc.token?.iconUrl, sc.token?.iconUrl, sc.description)
+        );
     }
 
     static fromCodeOrHash(codeOrHash: string): BlockchainAssetDto {
