@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.contract';
@@ -35,6 +35,29 @@ export class ContractsController {
     ): Promise<BlockchainSmartContract[]> {
         this.logger.verbose(`${req.method} : ${req.url}`);
         return this.contractsService.getAllContracts();
+    }
+
+    @Get('/deployed')
+    @ApiOperation({ summary: 'Get Deployed smart contracts' })
+    @ApiResponse({ status: 200, description: 'Deployed smart contracts', type: BlockchainSmartContract, isArray: true })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getDeployedContracts(
+        @Req() req: Request
+    ): Promise<BlockchainSmartContract[]> {
+        this.logger.verbose(`${req.method} : ${req.url}`);
+        return this.contractsService.getDeployedContracts();
+    }
+
+    @Get('/hash/:scriptHash')
+    @ApiOperation({ summary: 'Get Contract by its script hash' })
+    @ApiResponse({ status: 200, description: 'Contract by its script hash', type: BlockchainSmartContract })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getContractByHash(
+        @Req() req: Request,
+        @Param('scriptHash') scriptHash: string
+    ): Promise<BlockchainSmartContract> {
+        this.logger.verbose(`${req.method} : ${req.url} : ${scriptHash}`);
+        return this.contractsService.getContractByHash(scriptHash);
     }
 
     @Post('/create/source')

@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 import { SmartContractEntity } from "../../entity/smart.contract.entity";
 import { BlockchainToken, BlockchainTokenType } from "./blockchain.token";
 import { BlockchainTransaction } from "./blockchain.transaction";
@@ -21,6 +21,9 @@ export class BlockchainSmartContract {
     description?: string;
 
     @ApiPropertyOptional()
+    metadata?: string;
+
+    @ApiPropertyOptional()
     scriptHash?: string;
 
     @ApiPropertyOptional()
@@ -28,6 +31,9 @@ export class BlockchainSmartContract {
 
     @ApiPropertyOptional()
     ownerAddress?: string;
+
+    @ApiPropertyOptional()
+    createdDate?: Date;
 
     @ApiPropertyOptional()
     transaction?: BlockchainTransaction;
@@ -40,9 +46,11 @@ export class BlockchainSmartContract {
         name?: string,
         script?: string,
         description?: string,
+        metadata?: string,
         scriptHash?: string,
         address?: string,
         ownerAddress?: string,
+        createdDate?: Date,
         transaction?: BlockchainTransaction,
         token?: BlockchainToken
     ) {
@@ -50,9 +58,11 @@ export class BlockchainSmartContract {
         this.script = script;
         this.name = name;
         this.description = description;
+        this.metadata = metadata;
         this.scriptHash = scriptHash;
         this.address = address;
         this.ownerAddress = ownerAddress;
+        this.createdDate = createdDate;
         this.transaction = transaction;
         this.token = token;
     }
@@ -63,9 +73,11 @@ export class BlockchainSmartContract {
             entity.name,
             entity.script,
             entity.description,
+            entity.metadata,
             entity.scriptHash,
             entity.address,
             entity.ownerAddress,
+            entity.createdDate,
             BlockchainTransaction.fromHash(entity.txHash),
             new BlockchainToken(
                 BlockchainTokenType[entity.type],

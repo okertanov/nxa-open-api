@@ -81,9 +81,11 @@ export class ContractsService {
                 'Dvita Token',
                 undefined,
                 undefined,
+                undefined,
                 '0xb34e1025391e953a918231df11478ec21b039e5f',
                 'NUdYfrbi9A4PXd4tgfZVczKRrrB6Yc3b2r',
                 undefined,
+                new Date(),
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
@@ -99,9 +101,11 @@ export class ContractsService {
                 'Gas Token',
                 undefined,
                 undefined,
+                undefined,
                 '0xd2a4cff31913016155e38e474a2c06d08be276cf',
                 'NepwUjd9GhqgNkrfXaxj9mmsFhFzGoFuWM',
                 undefined,
+                new Date(),
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
@@ -117,17 +121,25 @@ export class ContractsService {
     }
 
     async getAllContracts(): Promise<BlockchainSmartContract[]> {
+        //
+        // Native
+        //
         const nativeContracts = await this.getNativeContracts();
 
+        //
+        // TODO: Manually deployed for testing
+        //
         const manuallyDeployedContracts = [
             new BlockchainSmartContract(
                 'T11',
                 'Team11Token',
                 undefined,
                 undefined,
+                undefined,
                 '0x9072b3814fc2de5b4e122f73703ff313317d4ed6',
                 'Nj36aekV3CLybZQJ5NfjYoFgRXEzhV9GtS',
                 undefined,
+                new Date(),
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
@@ -140,12 +152,27 @@ export class ContractsService {
             ),
         ];
 
+        //
+        // DB contracts aka Deployed
+        //
         const dbContractEntities = await this.smartContractRepository.find();
         const dbContracts = dbContractEntities.map(BlockchainSmartContract.fromEntity);
 
         const allContracts = [...nativeContracts, ...manuallyDeployedContracts, ...dbContracts];
 
         return allContracts;
+    }
+
+    async getDeployedContracts(): Promise<BlockchainSmartContract[]> {
+        const dbContractEntities = await this.smartContractRepository.find();
+        const dbContracts = dbContractEntities.map(BlockchainSmartContract.fromEntity);
+        return dbContracts;
+    }
+
+    async getContractByHash(scriptHash: string): Promise<BlockchainSmartContract> {
+        const dbContractEntity = await this.smartContractRepository.findOneOrFail({ scriptHash });
+        const dbContract = BlockchainSmartContract.fromEntity(dbContractEntity);
+        return dbContract;
     }
 
     async createContractFromSource(dto: CreateSmartContractSourceDto): Promise<BlockchainSmartContract> {
@@ -173,6 +200,7 @@ export class ContractsService {
         entity.tokenUrl = dto.tokenUrl;
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
+        entity.metadata = undefined;
         entity.address = '0000000000000000000000000000000000000000';
         entity.scriptHash = '0x0000000000000000000000000000000000000000';
 
