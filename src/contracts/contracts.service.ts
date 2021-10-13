@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { BlockchainToken, BlockchainTokenType } from '../blockchain/types/blockchain.token';
 import { BlockchainSmartContract } from '../blockchain/types/blockchain.smart.contract';
@@ -201,8 +202,8 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = undefined;
-        entity.address = '0000000000000000000000000000000000000000';
-        entity.scriptHash = '0x0000000000000000000000000000000000000000';
+        entity.address = uuidv4();
+        entity.scriptHash = uuidv4();
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
@@ -229,8 +230,8 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = dto.metadata;
-        entity.address = '0000000000000000000000000000000000000000';
-        entity.scriptHash = '0x0000000000000000000000000000000000000000';
+        entity.address = uuidv4();
+        entity.scriptHash = uuidv4();
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
