@@ -77,7 +77,23 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         // TODO: Align to RPC Ext
         const rpcQuery = new NeonCore.rpc.Query({ method: 'getcommittee' });
         const publicKeys = await this.apiRpcClient.execute<string[]>(rpcQuery);
-        const foundationMembers = publicKeys.map(pk => new BlockchainGovernanceMemberDto(pk, '', true, true));
+        let rank = 0;
+        const multisigBalance = await this.balanceByAssetOf('DVITA', 'NXZhQdDF6mNLHAspW2YF6SANYNJfnwaP2k');
+        const multisigBalanceNum = parseInt(multisigBalance.amount, 10) / 4;
+        const foundationMembers = publicKeys.map(pk => { 
+            const address = (new Neon.wallet.Account(pk)).address;
+            return new BlockchainGovernanceMemberDto(
+                pk,
+                '',
+                true,
+                true,
+                ++rank,
+                multisigBalanceNum,
+                `Foundation ${rank}`,
+                '',
+                'Riga, Latvia'
+            );
+        })
         return foundationMembers;
     }
 

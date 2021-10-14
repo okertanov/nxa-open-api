@@ -220,7 +220,7 @@ export class ContractsService {
         this.logger.debug(`Creating Token contract from: \n${JSON.stringify(dto)}`);
 
         // 1. Compile
-        const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
+        //const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
 
         // 2. Deploy
 
@@ -250,7 +250,7 @@ export class ContractsService {
         this.logger.debug(`Creating NFT contract from: \n${JSON.stringify(dto)}`);
 
         // 1. Compile
-        const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
+        //const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
 
         // 2. Deploy
 
