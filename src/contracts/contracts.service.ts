@@ -9,6 +9,9 @@ import { SmartContractRepository } from '../repository/smart.contract.repository
 import { SmartContractType } from '../entity/smart.contract.entity';
 import { SmartContractCompilerService } from './compiler/smart.contract.compiler.service';
 import { BlockchainAssetDto } from '../assets/dto/blockchain.asset.dto';
+import { BlockchainAccessService } from '../blockchain/blockchain.access.service';
+import { BlockchainNetwork } from '../blockchain/types/blockchain.network';
+import { DeploySmartContractDto } from '../blockchain/dto/deploy.smart.contract.dto';
 
 @Injectable()
 export class ContractsService {
@@ -16,7 +19,8 @@ export class ContractsService {
 
     constructor(
         private readonly smartContractRepository: SmartContractRepository,
-        private readonly smartContractCompilerService: SmartContractCompilerService
+        private readonly smartContractCompilerService: SmartContractCompilerService,
+        private readonly blockchainAccessService: BlockchainAccessService
     ) {
     }
 
@@ -210,6 +214,7 @@ export class ContractsService {
 
         // 1. Compile
         const compileResult = await this.smartContractCompilerService.compileSource(dto.source);
+        console.dir(compileResult);
 
         // 2. Dto
         const contract = new BlockchainSmartContract();
@@ -220,9 +225,13 @@ export class ContractsService {
         this.logger.debug(`Creating Token contract from: \n${JSON.stringify(dto)}`);
 
         // 1. Compile
-        //const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
+        const compileResult = await this.smartContractCompilerService.compileTokenNep17(dto);
+        console.dir(compileResult);
 
         // 2. Deploy
+        const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest);
+        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Nxa, deployDto);
+        console.dir(deployResult);
 
         // 3. Persist
         const entity = this.smartContractRepository.create();
@@ -235,24 +244,27 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = undefined;
-        entity.address = uuidv4();
-        entity.scriptHash = uuidv4();
+        entity.address = deployResult.contract.address;
+        entity.scriptHash = deployResult.contract.scriptHash;
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
-
-        // 4. Dto
-        const contract = new BlockchainSmartContract();
-        return contract;
+        console.dir(savedDto);
+        
+        return savedDto;
     }
 
     async createNftContract(dto: CreateSmartContractNep11Dto): Promise<BlockchainSmartContract> {
         this.logger.debug(`Creating NFT contract from: \n${JSON.stringify(dto)}`);
 
         // 1. Compile
-        //const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
+        const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
+        console.dir(compileResult);
 
         // 2. Deploy
+        const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest);
+        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Nxa, deployDto);
+        console.dir(deployResult);
 
         // 3. Persist
         const entity = this.smartContractRepository.create();
@@ -265,14 +277,13 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = dto.metadata;
-        entity.address = uuidv4();
-        entity.scriptHash = uuidv4();
+        entity.address = deployResult.contract.address;
+        entity.scriptHash = deployResult.contract.scriptHash;
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
+        console.dir(savedDto);
         
-        // 4. Dto
-        const contract = new BlockchainSmartContract();
-        return contract;
+        return savedDto;
     }
 }

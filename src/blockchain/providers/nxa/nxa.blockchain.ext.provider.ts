@@ -37,6 +37,10 @@ export class NxaBlockchainExtProvider {
         const rpcResult0 = await this.apiRpcClient.execute<any>(rpcQuery0);
         console.dir(rpcResult0);
 
+        const rpcQuery1 = new NeonCore.rpc.Query({ method: 'deploycontract' });
+        const rpcResult1 = await this.apiRpcClient.execute<any>(rpcQuery1);
+        console.dir(rpcResult1);
+
         //const rpcTestAccount = new Neon.wallet.Account('035997eaa3682cab4a2f701a9085ab891ad97e852b2ba30bdb5713fe62856664d7');
         //const rpcQuery2 = new NeonCore.rpc.Query({ method: 'getaccountstate', params: [rpcTestAccount.address] });
         //const rpcResult2 = await this.apiRpcClient.execute<any>(rpcQuery2);

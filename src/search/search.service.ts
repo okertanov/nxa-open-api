@@ -26,7 +26,7 @@ export class SearchService {
         }
 
         try {
-            if (this.isNumber(normalizedTerm)) {
+            if (!normalizedTerm.startsWith('0x') && this.isNumber(normalizedTerm)) {
                 // Search by Block number only
                 const blockNum = Number(normalizedTerm);
                 const block = await this.blockchainService.getBlockByNumber(blockNum);
@@ -35,7 +35,7 @@ export class SearchService {
                 }
             } else {
                 // Search by free text e.g block or tx hash, eating error and recovering for more search results.
-                
+
                 // 1. Block by human readable
                 try {
                     let block = undefined;

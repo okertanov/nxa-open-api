@@ -1,14 +1,20 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { BlockchainSmartContract } from "../types/blockchain.smart.contract";
-import { BlockchainToken } from "../types/blockchain.token";
 
 //
 // DeploySmartContractDto
 //
 export class DeploySmartContractDto {
     @ApiProperty()
-    contract: BlockchainSmartContract;
+    nefImageBase64: string;
 
     @ApiPropertyOptional()
-    token?: BlockchainToken;
+    manifest?: string;
+
+    constructor(
+        nefImageBase64: string,
+        manifest?: string
+    ) {
+        this.nefImageBase64 = nefImageBase64;
+        this.manifest = manifest;
+    }
 }
