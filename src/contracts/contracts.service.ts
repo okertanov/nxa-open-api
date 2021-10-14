@@ -244,8 +244,8 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = undefined;
-        entity.address = deployResult.contract.address;
-        entity.scriptHash = deployResult.contract.scriptHash;
+        entity.address = deployResult.contract?.address ?? uuidv4();
+        entity.scriptHash = deployResult.contract?.scriptHash ?? uuidv4();
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);
@@ -277,8 +277,8 @@ export class ContractsService {
         entity.iconUrl = dto.iconUrl;
         entity.description = dto.description;
         entity.metadata = dto.metadata;
-        entity.address = deployResult.contract.address;
-        entity.scriptHash = deployResult.contract.scriptHash;
+        entity.address = deployResult.contract?.address ?? uuidv4();
+        entity.scriptHash = deployResult.contract?.scriptHash ?? uuidv4();
 
         const savedEntity = await this.smartContractRepository.save(entity);
         const savedDto = BlockchainSmartContract.fromEntity(savedEntity);

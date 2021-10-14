@@ -5,6 +5,10 @@ import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network'
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 import { BlockchainGovernanceRegistrationResultDto } from '../../../governance/dto/blockchain.governance.registration.result.dto';
 import { BlockchainGovernanceVoteResultDto } from '../../../governance/dto/blockchain.governance.vote.result.dto';
+import { DeploySmartContractDto } from '../../../blockchain/dto/deploy.smart.contract.dto';
+import { DeploySmartContractResultDto } from '../../../blockchain/dto/deploy.smart.contract.result.dto';
+import { DeploySmartContractItemDto } from '../../../blockchain/dto/deploy.smart.contract.item';
+import { BlockchainSmartContract } from '../../../blockchain/types/blockchain.smart.contract';
 
 //
 // NxaBlockchainExtProvider
@@ -36,10 +40,6 @@ export class NxaBlockchainExtProvider {
         const rpcQuery0 = new NeonCore.rpc.Query({ method: 'healthcheck' });
         const rpcResult0 = await this.apiRpcClient.execute<any>(rpcQuery0);
         console.dir(rpcResult0);
-
-        const rpcQuery1 = new NeonCore.rpc.Query({ method: 'deploycontract' });
-        const rpcResult1 = await this.apiRpcClient.execute<any>(rpcQuery1);
-        console.dir(rpcResult1);
 
         //const rpcTestAccount = new Neon.wallet.Account('035997eaa3682cab4a2f701a9085ab891ad97e852b2ba30bdb5713fe62856664d7');
         //const rpcQuery2 = new NeonCore.rpc.Query({ method: 'getaccountstate', params: [rpcTestAccount.address] });
@@ -91,5 +91,26 @@ export class NxaBlockchainExtProvider {
 
         const result = new BlockchainGovernanceVoteResultDto(voterAddress, candidatePublicKey, JSON.stringify(rpcResult.tx));
         return result;
+    }
+
+    async deploySmartContract(network: BlockchainNetwork, dto: DeploySmartContractDto): Promise<DeploySmartContractResultDto> {
+        const rpcQuery1 = new NeonCore.rpc.Query({ method: 'deploycontract',
+            params: [
+                'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5',
+                dto.nefImageBase64,
+                dto.manifest
+            ]
+        });
+        const rpcResult1 = await this.apiRpcClient.execute<any>(rpcQuery1);
+        console.dir(rpcResult1);
+
+        const contract = new BlockchainSmartContract();
+        contract.address = rpcResult1.address;
+        contract.scriptHash = rpcResult1.scriptHash;
+        return new DeploySmartContractResultDto(undefined, undefined, contract ,undefined);
+    }
+
+    async deploySmartContractItem(network: BlockchainNetwork, dto: DeploySmartContractItemDto): Promise<DeploySmartContractResultDto> {
+        return new DeploySmartContractResultDto(undefined, undefined, undefined ,undefined);
     }
 }

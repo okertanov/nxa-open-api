@@ -22,6 +22,7 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
     constructor(
         readonly neoBlockchainProvider: NeoBlockchainProvider,
         readonly nxaBlockchainProvider: NxaBlockchainProvider,
+        readonly nxaBlockchainExtProvider: NxaBlockchainExtProvider,
     ) {
         this.provider = nxaBlockchainProvider;
     }
@@ -83,11 +84,11 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
     }
 
     async deploySmartContract(network: BlockchainNetwork, dto: DeploySmartContractDto): Promise<DeploySmartContractResultDto> {
-        return this.provider.deploySmartContract(network, dto);
+        return this.nxaBlockchainExtProvider.deploySmartContract(network, dto);
     }
 
     async deploySmartContractItem(network: BlockchainNetwork, dto: DeploySmartContractItemDto): Promise<DeploySmartContractResultDto> {
-        return this.provider.deploySmartContractItem(network, dto);
+        return this.nxaBlockchainExtProvider.deploySmartContractItem(network, dto);
     }
 
     async getTransfersByAddress(address: string): Promise<BlockchainTransfer[]> {

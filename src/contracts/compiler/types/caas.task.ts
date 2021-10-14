@@ -12,6 +12,7 @@ export class CaasTask {
     contractSymbol?: string;
     contractFactor?: string;
     contractDecimals?: string;
+    contractInitialCoins?: string;
 
     constructor(contractSource: string, contractCompileOptions?: string[], contractTemplateOptions?: any) {
         this.contractSource = contractSource;
@@ -26,5 +27,6 @@ export class CaasTask {
         this.contractSymbol = contractTemplateOptions?.contractSymbol;
         this.contractFactor = contractTemplateOptions?.contractFactor;
         this.contractDecimals = contractTemplateOptions?.contractDecimals;
+        this.contractInitialCoins = contractTemplateOptions?.contractInitialCoins;
     }
 }
