@@ -135,38 +135,12 @@ export class ContractsService {
         const nativeContracts = await this.getNativeContracts();
 
         //
-        // TODO: Manually deployed for testing
-        //
-        const manuallyDeployedContracts = [
-            new BlockchainSmartContract(
-                'T11',
-                'Team11Token',
-                undefined,
-                undefined,
-                undefined,
-                '0x9072b3814fc2de5b4e122f73703ff313317d4ed6',
-                'Nj36aekV3CLybZQJ5NfjYoFgRXEzhV9GtS',
-                undefined,
-                new Date(),
-                undefined,
-                new BlockchainToken(
-                    BlockchainTokenType.NEP17,
-                    'T11',
-                    'Team11Token',
-                    2,
-                    '0x9072b3814fc2de5b4e122f73703ff313317d4ed6',
-                    'Nj36aekV3CLybZQJ5NfjYoFgRXEzhV9GtS'
-                )
-            ),
-        ];
-
-        //
         // DB contracts aka Deployed
         //
         const dbContractEntities = await this.smartContractRepository.find();
         const dbContracts = dbContractEntities.map(BlockchainSmartContract.fromEntity);
 
-        const allContracts = [...nativeContracts, ...manuallyDeployedContracts, ...dbContracts];
+        const allContracts = [...nativeContracts, ...dbContracts];
 
         return allContracts;
     }

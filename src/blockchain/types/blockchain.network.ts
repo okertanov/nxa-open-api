@@ -24,7 +24,6 @@ export class BlockchainNetwork {
         '199',
         'NXA-TESTNET',
         'http://neonode.nft.teamxi.cloud:20332'
-        // 'http://192.168.1.191:20332' /* aka nxa-testnet-public.lan */
     );
 
     public static readonly Default = BlockchainNetwork.Nxa;

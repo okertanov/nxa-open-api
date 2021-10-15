@@ -16,7 +16,6 @@ export class AssetsService {
         const preDefinedAssets = [
             BlockchainAssetDto.DVITA_ASSET,
             BlockchainAssetDto.DVG_ASSET,
-            BlockchainAssetDto.T11_ASSET
         ];
 
         try {
