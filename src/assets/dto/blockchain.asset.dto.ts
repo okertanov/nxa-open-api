@@ -91,16 +91,16 @@ export class BlockchainAssetDto {
     readonly hash: string;
 
     @ApiProperty()
-    readonly code: string;
+    /*TODO: readonly*/ code: string;
 
     @ApiPropertyOptional()
-    readonly name?: string;
+    /*TODO: readonly*/ name?: string;
 
     @ApiPropertyOptional()
-    readonly decimals?: string;
+    /*TODO: readonly*/ decimals?: string;
 
     @ApiPropertyOptional()
-    readonly metadata?: BlockchainAssetMetadata | undefined;
+    /*TODO: readonly*/ metadata?: BlockchainAssetMetadata | undefined;
 
     constructor(
         hash: string,
