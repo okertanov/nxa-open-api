@@ -15,6 +15,7 @@ import { TransactionModule } from '../transaction/transaction.module';
 import { WalletModule } from '../wallet/wallet.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PartnerModule } from '../partner/partner.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { AppService } from './app.service';
     StatisticModule,
     ContractsModule,
     FaucetModule,
-    SearchModule
+    SearchModule,
+    PartnerModule
   ],
   controllers: [AppController],
   providers: [AppService],
