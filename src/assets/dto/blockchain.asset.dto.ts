@@ -188,13 +188,14 @@ export class BlockchainAssetDto {
             return BlockchainAssetDto.GAS_ASSET;
         }
 
+        // TODO:
         // Other by code or hash
         if (codeOrHash.toLowerCase().startsWith('0x')) {
             // By hash
             return new BlockchainAssetDto(codeOrHash, codeOrHash, codeOrHash, 0, undefined);
         } else {
             // By code
-            return new BlockchainAssetDto(undefined, codeOrHash, '', undefined, undefined);
+            return new BlockchainAssetDto(undefined, codeOrHash, codeOrHash, 0, undefined);
         }
     }
 }

@@ -238,7 +238,7 @@ export class ContractsService {
         entity.type = SmartContractType.NEP17;
         entity.code = dto.symbol;
         entity.name = dto.name;
-        entity.decimals = dto.decimals;
+        entity.decimals = 0, // TODO: Since SC compiles with 0 atm: dto.decimals;
         entity.initial = dto.initial;
         entity.tokenUrl = dto.tokenUrl;
         entity.iconUrl = dto.iconUrl;
