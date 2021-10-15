@@ -72,7 +72,13 @@ export class WalletService {
     }
 
     private async enrichBalances(balances: BlockchainBalanceDto[]): Promise<BlockchainBalanceDto[]> {
-        const allContracts = await this.contractsService.getAllContracts();
+        let allContracts = undefined;
+        try {
+            allContracts = await this.contractsService.getAllContracts();
+        } catch(e) {
+            // Silently if not found
+        }
+
         balances = balances.map(b => {
             if (b.asset?.code === b.asset?.hash && b.asset?.name === b.asset?.hash) {
                 const contract = allContracts.find(c => c.scriptHash === b.asset?.hash);
@@ -89,7 +95,13 @@ export class WalletService {
     }
 
     private async enrichBalance(balance: BlockchainBalanceDto): Promise<BlockchainBalanceDto> {
-        const contract = await this.contractsService.getContractByHash(balance.asset.hash);
+        let contract = undefined;
+        try {
+            contract = await this.contractsService.getContractByHash(balance.asset.hash);
+        } catch(e) {
+            // Silently if not found
+        }
+
         if (balance.asset?.code === balance.asset?.hash && balance.asset?.name === balance.asset?.hash) {
             if (contract && contract.token) {
                 balance.asset.code = contract.token.symbol;
