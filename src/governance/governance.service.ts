@@ -24,7 +24,7 @@ export class GovernanceService {
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Governance candidates should include Foundation members
+        // Governance candidates should include Foundation members
         const foundationMembers = await this.blockchainGovernanceService.getFoundationMembers();
         const candidates = await this.blockchainGovernanceService.getCandidates();
         const allCandidates = [...foundationMembers, ...candidates];

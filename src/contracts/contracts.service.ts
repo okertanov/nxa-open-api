@@ -25,7 +25,6 @@ export class ContractsService {
     }
 
     async getNativeContracts(): Promise<BlockchainSmartContract[]> {
-        // TODO: to call ExtRPC for that (to impl first)
         // See list nativecontract
         const nativeContracts = [
             new BlockchainSmartContract(

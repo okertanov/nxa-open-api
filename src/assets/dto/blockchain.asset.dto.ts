@@ -3,7 +3,6 @@ import { BlockchainSmartContract } from "../../blockchain/types/blockchain.smart
 import { BlockchainAssetMetadata } from "./blockchain.asset.metadata";
 
 export class BlockchainAssetDto {
-    // TODO: Improve currency code/hash mapper here
     private static readonly DVITA_HASH = '0xb34e1025391e953a918231df11478ec21b039e5f';
     private static readonly DVG_HASH = '0xd2a4cff31913016155e38e474a2c06d08be276cf';
 
@@ -77,13 +76,13 @@ export class BlockchainAssetDto {
     /*TODO: readonly*/ code: string;
 
     @ApiPropertyOptional()
-    /*TODO: readonly*/ name?: string;
+    name?: string;
 
     @ApiPropertyOptional()
-    /*TODO: readonly*/ decimals?: string;
+    decimals?: string;
 
     @ApiPropertyOptional()
-    /*TODO: readonly*/ metadata?: BlockchainAssetMetadata | undefined;
+    metadata?: BlockchainAssetMetadata | undefined;
 
     constructor(
         hash: string,
@@ -159,7 +158,6 @@ export class BlockchainAssetDto {
             return BlockchainAssetDto.GAS_ASSET;
         }
 
-        // TODO:
         // Other by code or hash
         if (codeOrHash.toLowerCase().startsWith('0x')) {
             // By hash

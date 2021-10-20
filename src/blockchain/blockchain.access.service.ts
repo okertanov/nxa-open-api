@@ -14,6 +14,7 @@ import { BlockchainTransfer } from "./types/blockchain.transfer";
 import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 import { BlockchainGovernanceMemberDto } from "../governance/dto/blockchain.governance.member.dto";
 import { NxaBlockchainExtProvider } from "./providers/nxa/nxa.blockchain.ext.provider";
+import { BlockchainInfoDto } from "./dto/blockchain.info.dto";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
@@ -37,6 +38,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     async testConnection(): Promise<void> {
         await this.provider.testConnection();
+    }
+
+    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
+        await this.provider.getBlockchainInfo();
     }
 
     isAddressValid(address: string): boolean {

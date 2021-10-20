@@ -21,7 +21,6 @@ export class WalletService {
 
         let balances = await this.blockchainAccessService.balanceOf(address);
         
-        // TODO:
         balances = await this.enrichBalances(balances);
 
         return balances;
@@ -55,14 +54,16 @@ export class WalletService {
         const asset = BlockchainAssetDto.fromCodeOrHash(hash);
         let balance = await this.blockchainAccessService.balanceByAssetOf(asset.hash, address);
 
-        // TODO:
         balance = await this.enrichBalance(balance);
 
         return balance;
     }
 
     async getTransfersByAddress(address: string): Promise<BlockchainTransfer[]> {
-        const transfers = this.blockchainAccessService.getTransfersByAddress(address);
+        let transfers = await this.blockchainAccessService.getTransfersByAddress(address);
+        
+        transfers = await this.enrichTransfers(transfers);
+
         return transfers;
     }
 
@@ -72,12 +73,7 @@ export class WalletService {
     }
 
     private async enrichBalances(balances: BlockchainBalanceDto[]): Promise<BlockchainBalanceDto[]> {
-        let allContracts = undefined;
-        try {
-            allContracts = await this.contractsService.getAllContracts();
-        } catch(e) {
-            // Silently if not found
-        }
+        const allContracts = await this.contractsService.getAllContracts();
 
         balances = balances.map(b => {
             if (b.asset?.code === b.asset?.hash && b.asset?.name === b.asset?.hash) {
@@ -111,5 +107,24 @@ export class WalletService {
             }
         }
         return balance;
+    }
+
+    private async enrichTransfers(transfers: BlockchainTransfer[]): Promise<BlockchainTransfer[]> {
+        const allContracts = await this.contractsService.getAllContracts();
+
+        transfers = transfers.map(t => {
+            console.dir(t);
+            if (t.asset?.code === t.asset?.hash && t.asset?.name === t.asset?.hash) {
+                const contract = allContracts.find(c => c.scriptHash === t.asset?.hash);
+                if (contract && contract.token) {
+                    t.asset.code = contract.token.symbol;
+                    t.asset.name = contract.token.name;
+                    // TODO: t.asset.decimals = contract.token.decimals.toString();
+                    t.asset.metadata = new BlockchainAssetMetadata(contract.token.iconUrl, contract.token.iconUrl)
+                }
+            }
+            return t;
+        });
+        return transfers;
     }
 }

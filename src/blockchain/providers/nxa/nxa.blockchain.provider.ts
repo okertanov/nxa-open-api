@@ -13,6 +13,7 @@ import { BlockchainTransaction } from '../../../blockchain/types/blockchain.tran
 import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 import { ArgumentOutOfRangeError } from 'rxjs';
+import { BlockchainInfoDto, BlockchainType } from '../../../blockchain/dto/blockchain.info.dto';
 
 //
 // NxaBlockchainProvider
@@ -67,6 +68,15 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
 
         const nep17Balances = await this.apiRpcClient.getNep17Balances('NVGLB1NDt49nChTZmYemYEx1hQrmcviu2k');
         console.dir(nep17Balances);
+    }
+
+    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
+        const version = await this.apiRpcClient.getVersion();
+        const versionStr = version.useragent.replace('/', '');
+        const networkStr = version.network.toString();
+        const block = await this.getLastBlock();
+        const info = new BlockchainInfoDto(BlockchainType.NXA, versionStr, networkStr, true, block.index);
+        return info;
     }
 
     isAddressValid(address: string): boolean {

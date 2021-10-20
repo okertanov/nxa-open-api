@@ -13,7 +13,7 @@ export class BlockchainGovernanceService {
     private readonly providerExt: NxaBlockchainExtProvider;
 
     constructor(
-        readonly bBlockchainAccessService: BlockchainAccessService,
+        readonly blockchainAccessService: BlockchainAccessService,
         readonly nxaBlockchainExtProvider: NxaBlockchainExtProvider
     ) {
         this.providerExt = nxaBlockchainExtProvider;
@@ -32,13 +32,11 @@ export class BlockchainGovernanceService {
     }
 
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Receiving via Original RPC
-        return this.bBlockchainAccessService.getFoundationMembers();
+        return this.blockchainAccessService.getFoundationMembers();
     }
 
     async getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]> {
-        // TODO: Receiving via Original RPC
-        return this.bBlockchainAccessService.getCouncilMembers();
+        return this.blockchainAccessService.getCouncilMembers();
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {

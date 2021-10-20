@@ -23,18 +23,6 @@ export class AssetsController {
         return this.assetsService.getAllAssets();
     }
 
-    @Get('/:identifier')
-    @ApiOperation({ summary: 'Get Asset by identifier' })
-    @ApiResponse({ status: 200, description: 'Asset by identifier', type: BlockchainAssetDto })
-    @ApiResponse({ status: 500, description: 'Internal Server Error' })
-    async getAssetByIdentifier(
-        @Req() req: Request,
-        @Param('identifier') identifier: string
-    ): Promise<BlockchainAssetDto> {
-        this.logger.verbose(`${req.method} : ${req.url}`);
-        return this.assetsService.getAssetByIdentifier(identifier);
-    }
-
     @Get('/hash/:hash')
     @ApiOperation({ summary: 'Get Asset by hash' })
     @ApiResponse({ status: 200, description: 'Asset by hash', type: BlockchainAssetDto })

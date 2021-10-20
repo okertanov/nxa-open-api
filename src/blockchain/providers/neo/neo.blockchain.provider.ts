@@ -12,6 +12,7 @@ import { BlockchainBlock } from '../../../blockchain/types/blockchain.block';
 import { BlockchainTransaction } from '../../../blockchain/types/blockchain.transaction';
 import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
+import { BlockchainInfoDto } from '../../../blockchain/dto/blockchain.info.dto';
 
 //
 // NeoBlockchainProvider
@@ -67,6 +68,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
 
         const nep17Balances = await this.apiRpcClient.getNep17Balances('NfnxvNk8g51rj9qBSQJzRckJoTrrcES4sP');
         console.dir(nep17Balances);
+    }
+
+    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
+        return undefined;
     }
 
     isAddressValid(address: string): boolean {

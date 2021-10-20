@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BlockchainAccessService } from './blockchain.access.service';
-import { BlockchainInfoDto, BlockchainType } from './dto/blockchain.info.dto';
+import { BlockchainInfoDto } from './dto/blockchain.info.dto';
 import { BlockchainBlock } from './types/blockchain.block';
 import { BlockchainTransaction } from './types/blockchain.transaction';
 
@@ -12,9 +12,7 @@ export class BlockchainService {
     }
 
     async getBlockchainInfo(): Promise<BlockchainInfoDto> {
-        const block = await this.blockchainAccessService.getLastBlock();
-        // TODO: Use real values
-        const info = new BlockchainInfoDto(BlockchainType.NXA, 'N3', '199', true, block.index);
+        const info = await this.blockchainAccessService.getBlockchainInfo();
         return info;
     }
 

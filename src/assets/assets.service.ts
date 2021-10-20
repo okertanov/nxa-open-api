@@ -29,15 +29,9 @@ export class AssetsService {
         }
     }
 
-    async getAssetByIdentifier(identifier: string): Promise<BlockchainAssetDto> {
-        // TODO: See above
-        const asset = BlockchainAssetDto.fromCodeOrHash(identifier);
-        return asset;
-    }
-
-    async getAssetByHash(hash: string): Promise<BlockchainAssetDto> {
-        // TODO: See above
-        const asset = BlockchainAssetDto.fromCodeOrHash(hash);
-        return asset;
+    async getAssetByHash(hash: string): Promise<BlockchainAssetDto | undefined> {
+        const allAssets = await this.getAllAssets();
+        const asset = allAssets.find(a => a.hash === hash);
+        return asset ?? undefined;
     }
 }

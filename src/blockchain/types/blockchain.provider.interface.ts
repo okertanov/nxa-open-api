@@ -8,6 +8,7 @@ import { BlockchainBlock } from "./blockchain.block";
 import { BlockchainNetwork } from "./blockchain.network";
 import { BlockchainTransaction } from "./blockchain.transaction";
 import { BlockchainTransfer } from "./blockchain.transfer";
+import { BlockchainInfoDto } from "../dto/blockchain.info.dto";
 
 //
 // BlockchainProviderInterface
@@ -16,6 +17,8 @@ export interface BlockchainProviderInterface {
     connect(network: BlockchainNetwork): void;
     disconnect(): void;
     testConnection(): Promise<void>;
+
+    getBlockchainInfo(): Promise<BlockchainInfoDto>;
 
     isAddressValid(address: string): boolean;
 
