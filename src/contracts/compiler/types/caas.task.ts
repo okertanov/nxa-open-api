@@ -10,7 +10,6 @@ export class CaasTask {
     contractName?: string;
     contractDescription?: string;
     contractSymbol?: string;
-    contractFactor?: string;
     contractDecimals?: string;
     contractInitialCoins?: string;
 
@@ -25,7 +24,6 @@ export class CaasTask {
         this.contractName = contractTemplateOptions?.contractName;
         this.contractDescription = contractTemplateOptions?.contractDescription;
         this.contractSymbol = contractTemplateOptions?.contractSymbol;
-        this.contractFactor = contractTemplateOptions?.contractFactor;
         this.contractDecimals = contractTemplateOptions?.contractDecimals;
         this.contractInitialCoins = contractTemplateOptions?.contractInitialCoins;
     }

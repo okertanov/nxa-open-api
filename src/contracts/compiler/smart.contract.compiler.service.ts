@@ -46,7 +46,6 @@ export class SmartContractCompilerService {
                 contractName: dto.name,
                 contractSymbol: dto.symbol,
                 contractDescription: dto.description,
-                contractFactor: '0',
                 contractDecimals: dto.decimals.toString(),
                 contractInitialCoins: dto.initial.toString()
             });
@@ -77,7 +76,6 @@ export class SmartContractCompilerService {
                 contractName: dto.name,
                 contractSymbol: dto.symbol,
                 contractDescription: dto.description,
-                contractFactor: '0',
                 contractDecimals: '0',
                 contractInitialCoins: '0'
             });
