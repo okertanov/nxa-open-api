@@ -72,7 +72,7 @@ export class NxaBlockchainExtProvider {
         const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistercandidatetx', params: [candidatePublicKey] });
         const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
 
-        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
+        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, rpcTx);
         return result;
     }
 
@@ -80,7 +80,7 @@ export class NxaBlockchainExtProvider {
         const rpcQuery = new NeonCore.rpc.Query({ method: 'createunregistercandidatetx', params: [candidatePublicKey] });
         const rpcTx = await this.apiRpcClient.execute<any>(rpcQuery);
 
-        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, '');
+        const result = new BlockchainGovernanceRegistrationResultDto(registrarAddress, candidatePublicKey, rpcTx);
         return result;
     }
 
@@ -96,7 +96,7 @@ export class NxaBlockchainExtProvider {
     async deploySmartContract(network: BlockchainNetwork, dto: DeploySmartContractDto): Promise<DeploySmartContractResultDto> {
         const rpcQuery1 = new NeonCore.rpc.Query({ method: 'deploycontract',
             params: [
-                'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5',
+                process.env.BLOCKCHAIN_SYS_HOT_PK,
                 dto.nefImageBase64,
                 dto.manifest
             ]

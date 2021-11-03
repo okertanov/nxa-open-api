@@ -263,7 +263,7 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
 
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
         const networkMagic = 199;
-        const systemFaucetWif = 'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5';
+        const systemFaucetWif = process.env.BLOCKCHAIN_SYS_HOT_PK;
 
         const systemFaucetAccount = new Neon.wallet.Account(systemFaucetWif);
         const receiveAccount = new Neon.wallet.Account(address);
@@ -273,7 +273,7 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
             toAccount: receiveAccount,
             tokenScriptHash: asset.hash,
             amountToTransfer: Neon.u.BigInteger.fromNumber(amount),
-            networkMagic: networkMagic,
+            networkMagic: networkMagic
         };
 
         this.logger.debug(`Transfering from system: ${amount} (${inputs.amountToTransfer.toString()}) of ${asset.code} (${asset.hash}) from ${inputs.fromAccount.address} to ${inputs.toAccount.address}`);
@@ -335,8 +335,8 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async getSystemFeeForScript(script: string): Promise<string> {
-        const systemFaucetWif = 'L26KYxNcUjcWUAic8UoX9GKuVAZRmuJvbaCjQbULRN8mLCX6tft5';
-        const systemFaucetAccount = new Neon.wallet.Account(systemFaucetWif);
+        const dummyAddress = process.env.BLOCKCHAIN_SYS_HOT_ADDRESS;
+        const systemFaucetAccount = new Neon.wallet.Account(dummyAddress);
 
         const dummyTx = new Neon.tx.Transaction({
             signers: [
