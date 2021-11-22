@@ -5,7 +5,7 @@
 ##
 ## Builder
 ##
-FROM node:16-alpine AS builder
+FROM node:16-alpine3.12 AS builder
 
 RUN apk add make
 
@@ -22,7 +22,7 @@ RUN make build
 ##
 ## Development
 ##
-FROM node:16-alpine as development
+FROM node:16-alpine3.12 as development
 
 RUN apk add make
 
@@ -43,7 +43,7 @@ CMD make start-dev
 ##
 ## Production
 ##
-FROM node:16-alpine as production
+FROM node:16-alpine3.12 as production
 
 RUN apk add make
 
