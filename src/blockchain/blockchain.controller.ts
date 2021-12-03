@@ -31,7 +31,7 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
             this.blockchainGovernanceService.connect(BlockchainNetwork.Default);
             await this.blockchainGovernanceService.testConnection();
         } catch(e) {
-            this.logger.error(e);
+            this.logger.error(e, e.stack);
         }
     }
 
@@ -42,7 +42,7 @@ export class BlockchainController implements OnApplicationBootstrap, OnApplicati
             this.blockchainGovernanceService.disconnect();
             this.blockchainAccessService.disconnect();
         } catch(e) {
-            this.logger.error(e);
+            this.logger.error(e, e.stack);
         }
     }
 

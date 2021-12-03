@@ -58,7 +58,7 @@ export class FaucetService {
             });
             const saved = await this.faucetActivityRepository.save(faucetActivity);
         } catch(e) {
-            this.logger.error(e);
+            this.logger.error(e, e.stack);
         }
         
         return [dvtTxStatus, dvgTxStatus];

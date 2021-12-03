@@ -26,7 +26,7 @@ export class CaasClient implements OnApplicationBootstrap {
             const status = await this.getStatus();
             this.logger.debug(`Version: ${JSON.stringify(version)}, Status: ${JSON.stringify(status)}`);
         } catch(e) {
-            this.logger.error(e);
+            this.logger.error(e, e.stack);
         }
     }
 
