@@ -91,7 +91,7 @@ export class ContractsController {
     @ApiResponse({ status: 200, description: 'Created a NEP11 NFT token', type: BlockchainSmartContract })
     @ApiResponse({ status: 400, description: 'Bad Request' })
     @ApiResponse({ status: 500, description: 'Internal Server Error' })
-    async postRegisterCandidate(
+    async createNftContract(
         @Req() req: Request,
         @Body() body: CreateSmartContractNep11Dto
     ): Promise<BlockchainSmartContract> {
