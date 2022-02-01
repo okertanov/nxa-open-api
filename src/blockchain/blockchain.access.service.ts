@@ -40,14 +40,14 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
         await this.provider.testConnection();
     }
 
-    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
-        return await this.provider.getBlockchainInfo();
-    }
-
     isAddressValid(address: string): boolean {
         return this.provider.isAddressValid(address);
     }
 
+    async getBlockchainInfo(): Promise<BlockchainInfoDto> {
+        return await this.provider.getBlockchainInfo();
+    }
+    
     async getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]> {
         return this.provider.getFoundationMembers();
     }

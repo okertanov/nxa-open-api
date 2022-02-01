@@ -93,6 +93,16 @@ export class SearchService {
                 } catch(e) {
                     this.logger.warn(e, e.stack);
                 }
+
+                // 6. Address
+                try {
+                    const valid = this.blockchainService.isAddressValid(normalizedTerm);
+                    if (valid) {
+                        return [ new SearchResultDto(dto.term, dto.context, normalizedTerm, SearchResultArea.address) ];
+                    }
+                } catch(e) {
+                    this.logger.warn(e, e.stack);
+                }
             }
         } catch(e) {
             this.logger.warn(e, e.stack);

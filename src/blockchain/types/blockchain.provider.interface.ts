@@ -17,10 +17,10 @@ export interface BlockchainProviderInterface {
     connect(network: BlockchainNetwork): void;
     disconnect(): void;
     testConnection(): Promise<void>;
+    
+    isAddressValid(address: string): boolean;
 
     getBlockchainInfo(): Promise<BlockchainInfoDto>;
-
-    isAddressValid(address: string): boolean;
 
     getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]>;
     getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]>;

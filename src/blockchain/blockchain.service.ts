@@ -11,6 +11,11 @@ export class BlockchainService {
     ) {
     }
 
+    isAddressValid(address: string): boolean {
+        const valid = this.blockchainAccessService.isAddressValid(address);
+        return valid;
+    }
+
     async getBlockchainInfo(): Promise<BlockchainInfoDto> {
         const info = await this.blockchainAccessService.getBlockchainInfo();
         return info;
