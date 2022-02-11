@@ -8,7 +8,7 @@ services:
 
   nxa-open-api:
     # image: nxa-open-api:latest
-    image: registry.teamxi.cloud/nxa-nft/nxa-open-api:latest
+    image: registry.team11.lv/nxa/nxa-open-api:latest
     container_name: nxa-open-api
     hostname: "nxa-open-api"
     # build:
