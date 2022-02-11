@@ -1,5 +1,5 @@
 variables:
-  REGISTRY_IMAGE: registry.teamxi.cloud/nxa-nft/nxa-open-api
+  REGISTRY_IMAGE: ${HARBOR_REGISTRY}/nxa/nxa-open-api
   DOCKER_TLS_CERTDIR: "/certs"
   REMOTE_HOST: openapi.nft.teamxi.cloud
   T11_REMOTE_HOST: openapi.testnet.dvita.com
