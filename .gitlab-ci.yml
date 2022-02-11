@@ -2,7 +2,7 @@ variables:
   REGISTRY_IMAGE: ${HARBOR_REGISTRY}/nxa/nxa-open-api
   DOCKER_TLS_CERTDIR: "/certs"
   REMOTE_HOST: openapi.nft.teamxi.cloud
-  T11_REMOTE_HOST: openapi.testnet.dvita.com
+  T11_REMOTE_HOST: 13.49.28.32
 
 stages:
   - build
