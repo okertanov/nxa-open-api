@@ -16,14 +16,14 @@ export class BlockchainNetwork {
         BlockchainNetworkType.NEO,
         '844378958',
         'NEO3RC3-TESTNET',
-        'https://neonode.testnet.dvita.com:20332'
+        'http://rpc.testnet.dvita.com:20332'
     );
 
     public static readonly Nxa = new BlockchainNetwork(
         BlockchainNetworkType.NXA,
         '199',
         'NXA-TESTNET',
-        'https://neonode.testnet.dvita.com:20332'
+        'http://rpc.testnet.dvita.com:20332'
     );
 
     public static readonly Default = BlockchainNetwork.Nxa;

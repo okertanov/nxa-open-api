@@ -16,11 +16,11 @@ export class BlockchainAssetDto {
         'DVITA',
         0,
         new BlockchainAssetMetadata(
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
             'Dvita is a platform that supports DLT to improve financial inclusion, transparency and the UN’s SDGs.',
-            'https://dvita.teamxi.cloud/',
-            'https://dvita.teamxi.cloud/blocks'
+            'https://foundation.dvita.com/',
+            'https://foundation.dvita.com/blocks'
         )
     );
 
@@ -31,11 +31,11 @@ export class BlockchainAssetDto {
         'DVG',
         8,
         new BlockchainAssetMetadata(
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
             'Dvita is a platform that supports DLT to improve financial inclusion, transparency and the UN’s SDGs.',
-            'https://dvita.teamxi.cloud/',
-            'https://dvita.teamxi.cloud/blocks'
+            'https://foundation.dvita.com/',
+            'https://foundation.dvita.com/blocks'
         )
     );
 
@@ -46,8 +46,8 @@ export class BlockchainAssetDto {
         'NEO',
         0,
         new BlockchainAssetMetadata(
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
             'Neo is unique in that it was the first public blockchain platform to adopt a dual token mechanism. It separates the rights of governance from the rights of using the network. It also provides a means of acquiring the tokens needing to pay transaction fees.',
             'https://neo.org/',
             'https://neo3.neotube.io/'
@@ -61,8 +61,8 @@ export class BlockchainAssetDto {
         'GAS',
         8,
         new BlockchainAssetMetadata(
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
-            'https://dvita.teamxi.cloud/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
+            'https://foundation.dvita.com/assets/logos/logo2.svg',
             'The Neo network charges GAS for the operation and storage of tokens and smart contracts, preventing the abuse of node resources.',
             'https://neo.org/',
             'https://neo3.neotube.io/'

@@ -12,7 +12,7 @@ import { BlockchainSmartContract } from '../../../blockchain/types/blockchain.sm
 
 //
 // NxaBlockchainExtProvider
-// See https://gitlab.teamxi.cloud/nxa/nxa-modules
+// See https://gitlab.team11.lv/nxa/nxa-modules
 //
 @Injectable()
 export class NxaBlockchainExtProvider {
