@@ -113,7 +113,7 @@ export class WalletService {
         const allContracts = await this.contractsService.getAllContracts();
 
         transfers = transfers.map(t => {
-            console.dir(t);
+            // console.dir(t);
             if (t.asset?.code === t.asset?.hash && t.asset?.name === t.asset?.hash) {
                 const contract = allContracts.find(c => c.scriptHash === t.asset?.hash);
                 if (contract && contract.token) {
