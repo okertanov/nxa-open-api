@@ -71,9 +71,9 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async getBlockchainInfo(): Promise<BlockchainInfoDto> {
-        const version = await this.apiRpcClient.getVersion();
-        const versionStr = version.useragent.replace('/', '');
-        const networkStr = (version as any).protocol.toString();
+        const versionRpc = await this.apiRpcClient.getVersion();
+        const versionStr = versionRpc.useragent.replace('/', '');
+        const networkStr = (versionRpc as any).protocol.network.toString();
         const block = await this.getLastBlock();
         const info = new BlockchainInfoDto(BlockchainType.NXA, versionStr, networkStr, true, block.index);
         return info;
