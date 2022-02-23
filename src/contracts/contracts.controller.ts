@@ -98,4 +98,16 @@ export class ContractsController {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
         return this.contractsService.createNftContract(body);
     }
+
+    @Get('/state/:scriptHash')
+    @ApiOperation({ summary: 'Get Contract State by its script hash' })
+    @ApiResponse({ status: 200, description: 'Contract State by its script hash', type: Object })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getContractStateByScriptHash(
+        @Req() req: Request,
+        @Param('scriptHash') scriptHash: string
+    ): Promise<Object> {
+        this.logger.verbose(`${req.method} : ${req.url} : ${scriptHash}`);
+        return this.contractsService.getContractByHash(scriptHash);
+    }
 }

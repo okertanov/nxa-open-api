@@ -261,6 +261,11 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         return txhash;
     }
 
+    async getContractState(scriptHash: string): Promise<any> {
+        const scState = await this.apiRpcClient.getContractState(scriptHash);
+        return scState;
+    }
+
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
         const networkMagic = 199;
         const systemFaucetWif = process.env.BLOCKCHAIN_SYS_HOT_PK;

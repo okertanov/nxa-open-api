@@ -259,4 +259,8 @@ export class ContractsService {
         
         return savedDto;
     }
+
+    async getContractState(scriptHash: string): Promise<any> {
+        return this.blockchainAccessService.getContractState(scriptHash);
+    }
 }

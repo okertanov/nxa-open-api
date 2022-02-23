@@ -194,6 +194,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
         return undefined;
     }
 
+    async getContractState(scriptHash: string): Promise<any> {
+        return undefined;
+    }
+
     async getNetworkFeeForLength(length: number): Promise<string> {
         return undefined;
     }

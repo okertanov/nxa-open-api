@@ -27,7 +27,7 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
     ) {
         this.provider = nxaBlockchainProvider;
     }
-
+    
     connect(network: BlockchainNetwork): void {
         this.provider.connect(network);
     }
@@ -110,6 +110,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     async broadcastTransaction(tx: string): Promise<string> {
         return this.provider.broadcastTransaction(tx);
+    }
+
+    async getContractState(scriptHash: string): Promise<any> {
+        return this.provider.getContractState(scriptHash);
     }
 
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
