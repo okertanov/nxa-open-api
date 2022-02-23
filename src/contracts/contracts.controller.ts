@@ -108,6 +108,6 @@ export class ContractsController {
         @Param('scriptHash') scriptHash: string
     ): Promise<Object> {
         this.logger.verbose(`${req.method} : ${req.url} : ${scriptHash}`);
-        return this.contractsService.getContractByHash(scriptHash);
+        return this.contractsService.getContractState(scriptHash);
     }
 }
