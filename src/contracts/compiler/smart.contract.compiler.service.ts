@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { CreateSmartContractNep11Dto } from "../dto/create.smart.contract.nep11.dto";
 import { CreateSmartContractNep17Dto } from "../dto/create.smart.contract.nep17.dto";
 import { CaasClient } from "./caas.client";
-import { CaasTask } from "./types/caas.task";
+import { CaasTask, CompilerTaskType } from "./types/caas.task";
 import { CaasResult } from "./types/caas.task.result";
 
 @Injectable()
@@ -20,7 +20,7 @@ export class SmartContractCompilerService {
 
     async compileSource(source: string): Promise<CaasResult> {
         try {
-            const task = new CaasTask(source);
+            const task = new CaasTask(CompilerTaskType.CSHARP, source, {});
             this.logger.debug(`Compiling ${task.contractSource}...`);
             const createResult = await this.caasClient.createCompilerTask(task);
             this.logger.debug(JSON.stringify(createResult));
@@ -37,18 +37,16 @@ export class SmartContractCompilerService {
     async compileTokenNep17(dto: CreateSmartContractNep17Dto): Promise<CaasResult> {
         try {
             const source = this.getNep17TemplateSrc();
-            const task = new CaasTask(source, [], {
-                contractSource: source,
-                contractCompileOptions: [''],
-                systemOwnerAddress: dto.ownerAddress,
-                contractAuthorAddress: dto.ownerAddress,
-                contractAuthorName: 'Team11',
-                contractAuthorEmail: 'info@dvita.com',
-                contractName: dto.name,
-                contractSymbol: dto.symbol,
-                contractDescription: dto.description,
-                contractDecimals: dto.decimals.toString(),
-                contractInitialCoins: dto.initial.toString()
+            const task = new CaasTask(CompilerTaskType.CSHARP, source, {
+                "ContractName": dto.name,
+                "ContractSymbol": dto.symbol,
+                "SystemOwnerAddress": dto.ownerAddress,
+                "ContractAuthorAddress": dto.ownerAddress,
+                "ContractAuthorName": 'Team11',
+                "ContractAuthorEmail": 'info@dvita.com',
+                "ContractDescription": dto.description,
+                "ContractDecimals":  dto.decimals.toString(),
+                "ContractInitialCoins": dto.initial.toString()
             });
             this.logger.debug(`Compiling ${JSON.stringify(task).substring(0, 64)}...`);
             const createResult = await this.caasClient.createCompilerTask(task);
@@ -67,18 +65,16 @@ export class SmartContractCompilerService {
     async compileNftNep11(dto: CreateSmartContractNep11Dto): Promise<CaasResult> {
         try {
             const source = this.getNep11TemplateSrc();
-            const task = new CaasTask(source, [], {
-                contractSource: source,
-                contractCompileOptions: [''],
-                systemOwnerAddress: dto.ownerAddress,
-                contractAuthorAddress: dto.ownerAddress,
-                contractAuthorName: 'Team11',
-                contractAuthorEmail: 'info@dvita.com',
-                contractName: dto.name,
-                contractSymbol: dto.symbol,
-                contractDescription: dto.description,
-                contractDecimals: '0',
-                contractInitialCoins: '0'
+            const task = new CaasTask(CompilerTaskType.CSHARP, source, {
+                "ContractName": dto.name,
+                "ContractSymbol": dto.symbol,
+                "SystemOwnerAddress": dto.ownerAddress,
+                "ContractAuthorAddress": dto.ownerAddress,
+                "ContractAuthorName": 'Team11',
+                "ContractAuthorEmail": 'info@dvita.com',
+                "ContractDescription": dto.description,
+                "ContractDecimals":  '0',
+                "ContractInitialCoins": '0'
             });
             this.logger.debug(`Compiling ${JSON.stringify(task).substring(0, 64)}...`);
             const createResult = await this.caasClient.createCompilerTask(task);

@@ -1,30 +1,23 @@
+export enum CompilerTaskType {
+    CSHARP = 'CSHARP',
+    SOLIDITY = 'SOLIDITY'
+}
+
 export class CaasTask {
-    contractSource: string;
+    readonly compilerTaskType: CompilerTaskType;
+    readonly contractSource: string;
+    readonly contractCompileOptions: string[];
+    readonly contractValues: {[key: string]: any};
 
-    contractCompileOptions: string[];
-
-    systemOwnerAddress?: string;
-    contractAuthorAddress?: string;
-    contractAuthorName?: string;
-    contractAuthorEmail?: string;
-    contractName?: string;
-    contractDescription?: string;
-    contractSymbol?: string;
-    contractDecimals?: string;
-    contractInitialCoins?: string;
-
-    constructor(contractSource: string, contractCompileOptions?: string[], contractTemplateOptions?: any) {
+    constructor(
+        compilerTaskType: CompilerTaskType,
+        contractSource: string,
+        contractValues: {[key: string]: any},
+        contractCompileOptions?: string[],
+    ) {
+        this.compilerTaskType = compilerTaskType;
         this.contractSource = contractSource;
+        this.contractValues = contractValues;
         this.contractCompileOptions = contractCompileOptions ?? [];
-
-        this.systemOwnerAddress = contractTemplateOptions?.systemOwnerAddress;
-        this.contractAuthorAddress = contractTemplateOptions?.contractAuthorAddress;
-        this.contractAuthorName = contractTemplateOptions?.contractAuthorName;
-        this.contractAuthorEmail = contractTemplateOptions?.contractAuthorEmail;
-        this.contractName = contractTemplateOptions?.contractName;
-        this.contractDescription = contractTemplateOptions?.contractDescription;
-        this.contractSymbol = contractTemplateOptions?.contractSymbol;
-        this.contractDecimals = contractTemplateOptions?.contractDecimals;
-        this.contractInitialCoins = contractTemplateOptions?.contractInitialCoins;
     }
 }
