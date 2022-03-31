@@ -6,6 +6,7 @@ import { BlockchainService } from './blockchain.service';
 import { NeoBlockchainProvider } from './providers/neo/neo.blockchain.provider';
 import { NxaBlockchainExtProvider } from './providers/nxa/nxa.blockchain.ext.provider';
 import { NxaBlockchainProvider } from './providers/nxa/nxa.blockchain.provider';
+import { BlockchainCnrService } from './blockchain.cnr.service';
 
 @Module({
     imports: [
@@ -17,12 +18,14 @@ import { NxaBlockchainProvider } from './providers/nxa/nxa.blockchain.provider';
         NxaBlockchainExtProvider,
         BlockchainAccessService,
         BlockchainGovernanceService,
-        BlockchainService
+        BlockchainService,
+        BlockchainCnrService
     ],
     exports: [
         BlockchainAccessService,
         BlockchainGovernanceService,
-        BlockchainService
+        BlockchainService,
+        BlockchainCnrService
     ]
 })
 export class BlockchainModule {

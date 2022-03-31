@@ -9,6 +9,9 @@ import { DeploySmartContractDto } from '../../../blockchain/dto/deploy.smart.con
 import { DeploySmartContractResultDto } from '../../../blockchain/dto/deploy.smart.contract.result.dto';
 import { DeploySmartContractItemDto } from '../../../blockchain/dto/deploy.smart.contract.item';
 import { BlockchainSmartContract } from '../../../blockchain/types/blockchain.smart.contract';
+import { BlockchainCnrResolveResultDto } from "../../../cnr/dto/blockchain.cnr.resolve.result";
+import { BlockchainCnrRegisterResultDto } from "../../../cnr/dto/blockchain.cnr.register.result";
+import { BlockchainCnrUnregisterResultDto } from "../../../cnr/dto/blockchain.cnr.unregister.result";
 
 //
 // NxaBlockchainExtProvider
@@ -112,5 +115,32 @@ export class NxaBlockchainExtProvider {
 
     async deploySmartContractItem(network: BlockchainNetwork, dto: DeploySmartContractItemDto): Promise<DeploySmartContractResultDto> {
         return new DeploySmartContractResultDto(undefined, undefined, undefined ,undefined);
+    }
+
+    async resolve(cname: string): Promise<BlockchainCnrResolveResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'resolve', params: [cname] });
+        const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
+        console.dir(rpcResult);
+
+        const result = new BlockchainCnrResolveResultDto(cname, rpcResult.address);
+        return result;
+    }
+
+    async register(cname: string, address: string, signerPubKey: string): Promise<BlockchainCnrRegisterResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createregistertx', params: [cname, address, signerPubKey] });
+        const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
+        console.dir(rpcResult);
+
+        const result = new BlockchainCnrRegisterResultDto(cname, address, JSON.stringify(rpcResult.tx));
+        return result;
+    }
+
+    async unregister(cname: string, signerPubKey: string): Promise<BlockchainCnrUnregisterResultDto> {
+        const rpcQuery = new NeonCore.rpc.Query({ method: 'createunregistertx', params: [cname, signerPubKey] });
+        const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
+        console.dir(rpcResult);
+
+        const result = new BlockchainCnrUnregisterResultDto(cname, JSON.stringify(rpcResult.tx));
+        return result;
     }
 }
