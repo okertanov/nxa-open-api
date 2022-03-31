@@ -38,7 +38,7 @@ export class SmartContractCompilerService {
         try {
             const source = this.getNep17TemplateSrc();
             const task = new CaasTask(CompilerTaskType.CSHARP, source, {
-                "ContractName": dto.name,
+                "ContractName": dto.name.replace(/ /g, ''),
                 "ContractSymbol": dto.symbol,
                 "SystemOwnerAddress": dto.ownerAddress,
                 "ContractAuthorAddress": dto.ownerAddress,
@@ -66,7 +66,7 @@ export class SmartContractCompilerService {
         try {
             const source = this.getNep11TemplateSrc();
             const task = new CaasTask(CompilerTaskType.CSHARP, source, {
-                "ContractName": dto.name,
+                "ContractName": dto.name.replace(/ /g, ''),
                 "ContractSymbol": dto.symbol,
                 "SystemOwnerAddress": dto.ownerAddress,
                 "ContractAuthorAddress": dto.ownerAddress,

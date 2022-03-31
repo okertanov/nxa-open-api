@@ -16,6 +16,7 @@ import { WalletModule } from '../wallet/wallet.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PartnerModule } from '../partner/partner.module';
+import { CnrModule } from '../cnr/cnr.module';
 
 @Module({
   imports: [
@@ -51,7 +52,8 @@ import { PartnerModule } from '../partner/partner.module';
     ContractsModule,
     FaucetModule,
     SearchModule,
-    PartnerModule
+    PartnerModule,
+    CnrModule
   ],
   controllers: [AppController],
   providers: [AppService],
