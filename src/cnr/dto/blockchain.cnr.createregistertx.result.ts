@@ -1,20 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class BlockchainCnrRegisterResultDto {
+export class BlockchainCnrCreateRegisterTxResultDto {
     @ApiProperty()
     cname: string;
     @ApiProperty()
     address: string;
     @ApiProperty()
-    txHash: string;
+    rawTx: string;
 
     constructor(
         cname: string,
         address: string,
-        txHash: string
+        rawTx: string
     ) {
         this.cname = cname;
         this.address = address;
-        this.txHash = txHash;
+        this.rawTx = rawTx;
     }
 }

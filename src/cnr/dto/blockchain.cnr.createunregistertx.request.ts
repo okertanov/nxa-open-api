@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class BlockchainCnrUnregisterRequestDto {
+export class BlockchainCnrCreateUnregisterTxRequestDto {
     @ApiProperty()
     cname: string;
     @ApiProperty()
-    privKey: string;
+    signerPubKey: string;
 }
