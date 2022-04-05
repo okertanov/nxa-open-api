@@ -146,7 +146,8 @@ export class NxaBlockchainExtProvider {
         return result;
     }
 
-    async register(cname: string, address: string, privKey: string): Promise<BlockchainCnrRegisterResultDto> {
+    async register(cname: string, address: string): Promise<BlockchainCnrRegisterResultDto> {
+        const privKey = process.env.BLOCKCHAIN_SYS_HOT_PK;
         const rpcQuery = new NeonCore.rpc.Query({ method: 'register', params: [cname, address, privKey] });
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
@@ -155,7 +156,8 @@ export class NxaBlockchainExtProvider {
         return result;
     }
 
-    async unregister(cname: string, privKey: string): Promise<BlockchainCnrUnregisterResultDto> {
+    async unregister(cname: string): Promise<BlockchainCnrUnregisterResultDto> {
+        const privKey = process.env.BLOCKCHAIN_SYS_HOT_PK;
         const rpcQuery = new NeonCore.rpc.Query({ method: 'unregister', params: [cname, privKey] });
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
