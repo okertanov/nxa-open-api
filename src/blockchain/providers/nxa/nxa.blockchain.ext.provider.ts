@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as Neon from '@cityofzion/neon-js';
 import * as NeonCore from '@cityofzion/neon-core';
 import { BlockchainNetwork } from '../../../blockchain/types/blockchain.network';
@@ -124,9 +124,7 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
-        if (rpcResult.error) {
-            throw new Error(rpcResult.error);
-        }
+        this.handleCnrRpcError(rpcResult.error);
 
         const result = new BlockchainCnrResolveResultDto(cname, rpcResult.address);
         return result;
@@ -137,9 +135,7 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
-        if (rpcResult.error) {
-            throw new Error(rpcResult.error);
-        }
+        this.handleCnrRpcError(rpcResult.error);
 
         const result = new BlockchainCnrCreateRegisterTxResultDto(cname, address, JSON.stringify(rpcResult.tx));
         return result;
@@ -150,9 +146,7 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
-        if (rpcResult.error) {
-            throw new Error(rpcResult.error);
-        }
+        this.handleCnrRpcError(rpcResult.error);
 
         const result = new BlockchainCnrCreateUnregisterTxResultDto(cname, JSON.stringify(rpcResult.tx));
         return result;
@@ -164,9 +158,7 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
-        if (rpcResult.error) {
-            throw new Error(rpcResult.error);
-        }
+        this.handleCnrRpcError(rpcResult.error);
 
         const result = new BlockchainCnrRegisterResultDto(cname, address, rpcResult.txHash);
         return result;
@@ -178,11 +170,30 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
-        if (rpcResult.error) {
-            throw new Error(rpcResult.error);
-        }
+        this.handleCnrRpcError(rpcResult.error);
 
         const result = new BlockchainCnrUnregisterResultDto(cname, rpcResult.txHash);
         return result;
+    }
+
+    private handleCnrRpcError(error: string): void {
+        if (!error) {
+            return;
+        }
+
+        // We have only textual messages from the NEOVM here
+        // See https://gitlab.team11.lv/nxa/neo-frontier-launchpad-2021/nxa-nft-smart-contracts/-/tree/master/DVITA/Resolver
+
+        if (error.includes('Error: Caller is not the owner.')) {
+            throw new ForbiddenException('Error: Caller is not the owner.');
+        } else if (error.includes('Error: No Authorization')) {
+            throw new UnauthorizedException('Error: No Authorization');
+        } else if (error.includes('Error: Name already exists.')) {
+            throw new ConflictException('Error: Name already exists.');
+        } else if (error.includes('Error: Name not found.')) {
+            throw new NotFoundException('Error: Name not found.');
+        }
+
+        throw new InternalServerErrorException(error, 'Unknown RPC exception');
     }
 }
