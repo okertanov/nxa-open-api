@@ -5,6 +5,4 @@ export class BlockchainCnrRegisterRequestDto {
     cname: string;
     @ApiProperty()
     address: string;
-    @ApiProperty()
-    privKey: string;
 }

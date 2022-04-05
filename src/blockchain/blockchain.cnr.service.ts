@@ -48,10 +48,10 @@ export class BlockchainCnrService {
     }
 
     async register(request: BlockchainCnrRegisterRequestDto): Promise<BlockchainCnrRegisterResultDto> {
-        return this.nxaBlockchainExtProvider.register(request.cname, request.address, request.privKey);
+        return this.nxaBlockchainExtProvider.register(request.cname, request.address);
     }
 
     async unregister(request: BlockchainCnrUnregisterRequestDto): Promise<BlockchainCnrUnregisterResultDto> {
-        return this.nxaBlockchainExtProvider.unregister(request.cname, request.privKey);
+        return this.nxaBlockchainExtProvider.unregister(request.cname);
     }
 }
