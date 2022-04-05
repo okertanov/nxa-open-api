@@ -124,6 +124,10 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
+        if (rpcResult.error) {
+            throw new Error(rpcResult.error);
+        }
+
         const result = new BlockchainCnrResolveResultDto(cname, rpcResult.address);
         return result;
     }
@@ -133,6 +137,10 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
+        if (rpcResult.error) {
+            throw new Error(rpcResult.error);
+        }
+
         const result = new BlockchainCnrCreateRegisterTxResultDto(cname, address, JSON.stringify(rpcResult.tx));
         return result;
     }
@@ -141,6 +149,10 @@ export class NxaBlockchainExtProvider {
         const rpcQuery = new NeonCore.rpc.Query({ method: 'createunregistertx', params: [cname, signerPubKey] });
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
+
+        if (rpcResult.error) {
+            throw new Error(rpcResult.error);
+        }
 
         const result = new BlockchainCnrCreateUnregisterTxResultDto(cname, JSON.stringify(rpcResult.tx));
         return result;
@@ -152,6 +164,10 @@ export class NxaBlockchainExtProvider {
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
 
+        if (rpcResult.error) {
+            throw new Error(rpcResult.error);
+        }
+
         const result = new BlockchainCnrRegisterResultDto(cname, address, rpcResult.txHash);
         return result;
     }
@@ -161,6 +177,10 @@ export class NxaBlockchainExtProvider {
         const rpcQuery = new NeonCore.rpc.Query({ method: 'unregister', params: [cname, privKey] });
         const rpcResult = await this.apiRpcClient.execute<any>(rpcQuery);
         console.dir(rpcResult);
+
+        if (rpcResult.error) {
+            throw new Error(rpcResult.error);
+        }
 
         const result = new BlockchainCnrUnregisterResultDto(cname, rpcResult.txHash);
         return result;

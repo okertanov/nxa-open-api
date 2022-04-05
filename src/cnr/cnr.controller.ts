@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { BlockchainCnrService } from '../blockchain/blockchain.cnr.service';
 import { BlockchainCnrResolveResultDto } from "./dto/blockchain.cnr.resolve.result";
 import { BlockchainCnrCreateRegisterTxRequestDto } from "./dto/blockchain.cnr.createregistertx.request";
 import { BlockchainCnrCreateRegisterTxResultDto } from "./dto/blockchain.cnr.createregistertx.result";
@@ -11,13 +10,14 @@ import { BlockchainCnrUnregisterRequestDto } from "./dto/blockchain.cnr.unregist
 import { BlockchainCnrUnregisterResultDto } from "./dto/blockchain.cnr.unregister.result";
 import { BlockchainCnrRegisterRequestDto } from "./dto/blockchain.cnr.register.request";
 import { BlockchainCnrRegisterResultDto } from "./dto/blockchain.cnr.register.result";
+import { CnrService } from './cnr.service';
 
 @ApiTags('CNR')
 @Controller('/cnr')
 export class CnrController {
     private readonly logger = new Logger(CnrController.name);
 
-    constructor(private readonly blockchainCnrService: BlockchainCnrService) {
+    constructor(private readonly cnrService: CnrService) {
     }
 
     @Get('/resolve/:cname')
@@ -30,7 +30,7 @@ export class CnrController {
     ): Promise<BlockchainCnrResolveResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${cname}`);
 
-        return this.blockchainCnrService.resolve(cname);
+        return this.cnrService.resolve(cname);
     }
 
     @Post('/createregistertx')
@@ -43,7 +43,7 @@ export class CnrController {
     ): Promise<BlockchainCnrCreateRegisterTxResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
 
-        return this.blockchainCnrService.createregistertx(body);
+        return this.cnrService.createregistertx(body);
     }
 
     @Post('/createunregistertx')
@@ -56,7 +56,7 @@ export class CnrController {
     ): Promise<BlockchainCnrCreateUnregisterTxResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
 
-        return this.blockchainCnrService.createunregistertx(body);
+        return this.cnrService.createunregistertx(body);
     }
 
     @Post('/register')
@@ -69,7 +69,7 @@ export class CnrController {
     ): Promise<BlockchainCnrRegisterResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
 
-        return this.blockchainCnrService.register(body);
+        return this.cnrService.register(body);
     }
 
     @Post('/unregister')
@@ -82,6 +82,6 @@ export class CnrController {
     ): Promise<BlockchainCnrUnregisterResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
 
-        return this.blockchainCnrService.unregister(body);
+        return this.cnrService.unregister(body);
     }
 }
