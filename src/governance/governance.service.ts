@@ -5,6 +5,7 @@ import { BlockchainGovernanceRegistrationRequestDto } from './dto/blockchain.gov
 import { BlockchainGovernanceRegistrationResultDto } from './dto/blockchain.governance.registration.result.dto';
 import { BlockchainGovernanceVoteRequestDto } from './dto/blockchain.governance.vote.request';
 import { BlockchainGovernanceVoteResultDto } from './dto/blockchain.governance.vote.result.dto';
+import { BlockchainGovernanceVoteStatusDto } from './dto/blockchain.governance.vote.status.dto';
 
 @Injectable()
 export class GovernanceService {
@@ -43,6 +44,11 @@ export class GovernanceService {
 
     async vote(request: BlockchainGovernanceVoteRequestDto): Promise<BlockchainGovernanceVoteResultDto> {
         const result = await this.blockchainGovernanceService.vote(request);
+        return result;
+    }
+
+    async getVoteStatus(address: string): Promise<BlockchainGovernanceVoteStatusDto> {
+        const result = await this.blockchainGovernanceService.getVoteStatus(address);
         return result;
     }
 }

@@ -6,6 +6,7 @@ import { BlockchainGovernanceRegistrationRequestDto } from './dto/blockchain.gov
 import { BlockchainGovernanceRegistrationResultDto } from './dto/blockchain.governance.registration.result.dto';
 import { BlockchainGovernanceVoteRequestDto } from './dto/blockchain.governance.vote.request';
 import { BlockchainGovernanceVoteResultDto } from './dto/blockchain.governance.vote.result.dto';
+import { BlockchainGovernanceVoteStatusDto } from './dto/blockchain.governance.vote.status.dto';
 import { GovernanceService } from './governance.service';
 
 @ApiTags('Governance')
@@ -83,5 +84,17 @@ export class GovernanceController {
     ): Promise<BlockchainGovernanceRegistrationResultDto> {
         this.logger.verbose(`${req.method} : ${req.url} : ${JSON.stringify(body)}`);
         return this.governanceService.unregisterCandidate(body);
+    }
+
+    @Get('/vote/status/:address')
+    @ApiOperation({ summary: 'Receive voting status by address' })
+    @ApiResponse({ status: 200, description: 'Voting status by address', type: BlockchainGovernanceVoteStatusDto })
+    @ApiResponse({ status: 500, description: 'Internal Server Error' })
+    async getVoteStatus(
+        @Req() req: Request,
+        @Param('address') address: string
+    ): Promise<BlockchainGovernanceVoteStatusDto> {
+        this.logger.verbose(`${req.method} : ${req.url} : ${address}`);
+        return this.governanceService.getVoteStatus(address);
     }
 }

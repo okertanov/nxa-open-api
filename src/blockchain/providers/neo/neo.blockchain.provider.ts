@@ -13,6 +13,7 @@ import { BlockchainTransaction } from '../../../blockchain/types/blockchain.tran
 import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/types/blockchain.transfer';
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 import { BlockchainInfoDto } from '../../../blockchain/dto/blockchain.info.dto';
+import { BlockchainGovernanceVoteStatusDto } from '../../../governance/dto/blockchain.governance.vote.status.dto';
 
 //
 // NeoBlockchainProvider
@@ -87,6 +88,10 @@ export class NeoBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
+        return undefined;
+    }
+
+    async getVoteStatus(address: string): Promise<BlockchainGovernanceVoteStatusDto> {
         return undefined;
     }
 

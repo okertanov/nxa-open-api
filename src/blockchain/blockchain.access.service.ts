@@ -15,6 +15,7 @@ import { BlockchainAssetDto } from "../assets/dto/blockchain.asset.dto";
 import { BlockchainGovernanceMemberDto } from "../governance/dto/blockchain.governance.member.dto";
 import { NxaBlockchainExtProvider } from "./providers/nxa/nxa.blockchain.ext.provider";
 import { BlockchainInfoDto } from "./dto/blockchain.info.dto";
+import { BlockchainGovernanceVoteStatusDto } from "../governance/dto/blockchain.governance.vote.status.dto";
 
 @Injectable()
 export class BlockchainAccessService implements BlockchainAccessServiceInterface {
@@ -58,6 +59,10 @@ export class BlockchainAccessService implements BlockchainAccessServiceInterface
 
     async getCandidates(): Promise<BlockchainGovernanceMemberDto[]> {
         return this.provider.getCandidates();
+    }
+
+    async getVoteStatus(address: string): Promise<BlockchainGovernanceVoteStatusDto> {
+        return this.provider.getVoteStatus(address);
     }
 
     async getGenesisBlock(): Promise<BlockchainBlock> {

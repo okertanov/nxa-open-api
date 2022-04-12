@@ -9,6 +9,7 @@ import { BlockchainNetwork } from "./blockchain.network";
 import { BlockchainTransaction } from "./blockchain.transaction";
 import { BlockchainTransfer } from "./blockchain.transfer";
 import { BlockchainInfoDto } from "../dto/blockchain.info.dto";
+import { BlockchainGovernanceVoteStatusDto } from "../../governance/dto/blockchain.governance.vote.status.dto";
 
 //
 // BlockchainProviderInterface
@@ -25,6 +26,8 @@ export interface BlockchainProviderInterface {
     getFoundationMembers(): Promise<BlockchainGovernanceMemberDto[]>;
     getCouncilMembers(): Promise<BlockchainGovernanceMemberDto[]>;
     getCandidates(): Promise<BlockchainGovernanceMemberDto[]>;
+
+    getVoteStatus(address: string): Promise<BlockchainGovernanceVoteStatusDto>;
 
     getGenesisBlock(): Promise<BlockchainBlock>;
     getLastBlock(): Promise<BlockchainBlock>;

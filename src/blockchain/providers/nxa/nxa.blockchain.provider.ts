@@ -14,6 +14,7 @@ import { BlockchainTransfer, BlockchainTransferType } from '../../../blockchain/
 import { BlockchainGovernanceMemberDto } from '../../../governance/dto/blockchain.governance.member.dto';
 import { ArgumentOutOfRangeError } from 'rxjs';
 import { BlockchainInfoDto, BlockchainType } from '../../../blockchain/dto/blockchain.info.dto';
+import { BlockchainGovernanceVoteStatusDto } from '../../../governance/dto/blockchain.governance.vote.status.dto';
 
 //
 // NxaBlockchainProvider
@@ -121,6 +122,10 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
         const publicKeys = await this.apiRpcClient.execute<string[]>(rpcQuery);
         const candidates = publicKeys.map(pk => new BlockchainGovernanceMemberDto(pk, '', true, true));
         return candidates;
+    }
+
+    async getVoteStatus(address: string): Promise<BlockchainGovernanceVoteStatusDto> {
+        return undefined;
     }
 
     async getGenesisBlock(): Promise<BlockchainBlock> {
