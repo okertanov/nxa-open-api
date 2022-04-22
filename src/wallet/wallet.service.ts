@@ -15,9 +15,9 @@ export class WalletService {
     }
 
     async getAddressBalances(address: string): Promise<BlockchainBalanceDto[]> {
-        if (!this.blockchainAccessService.isAddressValid(address)) {
-            throw new BadRequestException(address, 'Invalid address')
-        }
+        // if (!this.blockchainAccessService.isAddressValid(address)) {
+        //     throw new BadRequestException(address, 'Invalid address')
+        // }
 
         let balances = await this.blockchainAccessService.balanceOf(address);
         
