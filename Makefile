@@ -81,12 +81,25 @@ docker-e2e:
 docker-clean:
 	docker-compose -f ${DOCKER_COMPOSE_FILE} rm -s -f -v
 
+##
+## Publish targets
+##
+
+HUB_REGISTRY_NAME=${PROJECT_NAME}
+HUB_REGISTRY_USER=okertanov
+HUB_REGISTRY_TOKEN=5bd37ac1-045d-4923-8c94-b0f9fbfbe19b
+
+docker-publish: docker-build
+	@echo ${HUB_REGISTRY_TOKEN} | docker login --username ${HUB_REGISTRY_USER} --password-stdin
+	docker tag ${PROJECT_NAME}:latest ${HUB_REGISTRY_USER}/${HUB_REGISTRY_NAME}:latest
+	docker push ${HUB_REGISTRY_USER}/${HUB_REGISTRY_NAME}:latest
+
 .PHONY: all build install \
 		start start-dev start-prod \
 		test e2e \
 		clean distclean \
 		docker-build docker-rebuild docker-start-dev docker-start-prod docker-stop \
 		docker-test docker-e2e \
-		docker-clean
+		docker-clean docker-publish
 
 .SILENT: clean docker-clean distclean
