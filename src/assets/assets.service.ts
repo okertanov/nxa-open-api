@@ -14,6 +14,8 @@ export class AssetsService {
 
     async getAllAssets(): Promise<BlockchainAssetDto[]> {
         const preDefinedAssets = [
+            BlockchainAssetDto.NEO_ASSET,
+            BlockchainAssetDto.GAS_ASSET,
             BlockchainAssetDto.DVITA_ASSET,
             BlockchainAssetDto.DVG_ASSET,
         ];
