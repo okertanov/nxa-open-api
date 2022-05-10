@@ -84,6 +84,26 @@ export class ContractsService {
                 'NTz4UrybSL4C7HSfaVpXV6hcsWTkks8Nrj'
             ),
             new BlockchainSmartContract(
+                'NeoToken',
+                'Neo Token',
+                undefined,
+                undefined,
+                undefined,
+                '0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5',
+                'NiHURyS83nX2mpxtA7xq84cGxVbHojj5Wc',
+                undefined,
+                new Date(2021, 0, 1, 0, 0, 0, 0),
+                undefined,
+                new BlockchainToken(
+                    BlockchainTokenType.NEP17,
+                    BlockchainAssetDto.NEO_ASSET.code,
+                    BlockchainAssetDto.NEO_ASSET.name,
+                    parseInt(BlockchainAssetDto.NEO_ASSET.decimals, 10),
+                    BlockchainAssetDto.NEO_ASSET.hash,
+                    'NiHURyS83nX2mpxtA7xq84cGxVbHojj5Wc'
+                )
+            ),
+            new BlockchainSmartContract(
                 'DvitaToken',
                 'Dvita Token',
                 undefined,
@@ -203,7 +223,7 @@ export class ContractsService {
 
         // 2. Deploy
         const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest);
-        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Nxa, deployDto);
+        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Default, deployDto);
         console.dir(deployResult);
 
         // 3. Persist
@@ -236,7 +256,7 @@ export class ContractsService {
 
         // 2. Deploy
         const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest);
-        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Nxa, deployDto);
+        const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Default, deployDto);
         console.dir(deployResult);
 
         // 3. Persist

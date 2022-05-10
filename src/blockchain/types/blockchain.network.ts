@@ -14,8 +14,8 @@ export enum BlockchainNetworkType {
 export class BlockchainNetwork {
     public static readonly Neo = new BlockchainNetwork(
         BlockchainNetworkType.NEO,
-        '844378958',
-        'NEO3RC3-TESTNET',
+        '877933390',
+        'NEO3-TESTNET4',
         String(process.env.BLOCKCHAIN_RPC_ENDPOINT)
     );
 
