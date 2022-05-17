@@ -123,15 +123,15 @@ namespace Neo.SmartContract.Examples
 
         [Safe]
         [DisplayName("name")]
-        public static override string TokenName() => "{{ContractName}}";
+        public static string TokenName() => "{{ContractName}}";
 
         [Safe]
         [DisplayName("symbol")]
-        public static override string Symbol() => "{{ContractSymbol}}";
+        public static string Symbol() => "{{ContractSymbol}}";
 
         [Safe]
         [DisplayName("decimals")]
-        public static override byte Decimals() => {{ContractDecimals}};
+        public static byte Decimals() => {{ContractDecimals}};
         
         public static void _deploy(object data, bool update)
         {
