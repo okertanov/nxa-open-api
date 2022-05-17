@@ -142,7 +142,7 @@ namespace Neo.SmartContract.Examples
             if (update) return;
             if (InitialCoins > 0) {
                 var coins = new BigInteger(InitialCoins);
-                var factor = BigInteger.Pow(10, Decimals);
+                var factor = BigInteger.Pow(10, Decimals());
                 var scaledCoins = BigInteger.Multiply(coins, factor);
                 Mint(owner, scaledCoins);
             }

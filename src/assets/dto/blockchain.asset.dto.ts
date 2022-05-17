@@ -109,6 +109,29 @@ export class BlockchainAssetDto {
     }
 
     static fromCodeOrHash(codeOrHash: string): BlockchainAssetDto {
+        //
+        // NEO
+        //
+
+        if (codeOrHash.toLowerCase() === BlockchainAssetDto.NEO_HASH.toLowerCase()) {
+            return BlockchainAssetDto.NEO_ASSET;
+        }
+
+        if (codeOrHash.toUpperCase() === 'NEO') {
+            return BlockchainAssetDto.NEO_ASSET;
+        }
+
+        //
+        // GAS
+        //
+
+        if (codeOrHash.toLowerCase() === BlockchainAssetDto.GAS_HASH.toLowerCase()) {
+            return BlockchainAssetDto.GAS_ASSET;
+        }
+
+        if (codeOrHash.toUpperCase() === 'GAS') {
+            return BlockchainAssetDto.GAS_ASSET;
+        }
 
         //
         // DVITA
@@ -132,30 +155,6 @@ export class BlockchainAssetDto {
 
         if (codeOrHash.toUpperCase() === 'DVG') {
             return BlockchainAssetDto.DVG_ASSET;
-        }
-
-        //
-        // NEO
-        //
-
-        if (codeOrHash.toLowerCase() === BlockchainAssetDto.NEO_HASH.toLowerCase()) {
-            return BlockchainAssetDto.NEO_ASSET;
-        }
-
-        if (codeOrHash.toUpperCase() === 'NEO') {
-            return BlockchainAssetDto.NEO_ASSET;
-        }
-
-        //
-        // GAS
-        //
-
-        if (codeOrHash.toLowerCase() === BlockchainAssetDto.GAS_HASH.toLowerCase()) {
-            return BlockchainAssetDto.GAS_ASSET;
-        }
-
-        if (codeOrHash.toUpperCase() === 'GAS') {
-            return BlockchainAssetDto.GAS_ASSET;
         }
 
         // Other by code or hash
