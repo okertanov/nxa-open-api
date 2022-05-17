@@ -136,10 +136,10 @@ export class ContractsService {
                 undefined,
                 new BlockchainToken(
                     BlockchainTokenType.NEP17,
-                    BlockchainAssetDto.DVG_ASSET.code,
-                    BlockchainAssetDto.DVG_ASSET.name,
-                    parseInt(BlockchainAssetDto.DVG_ASSET.decimals, 10),
-                    BlockchainAssetDto.DVG_ASSET.hash,
+                    BlockchainAssetDto.GAS_ASSET.code,
+                    BlockchainAssetDto.GAS_ASSET.name,
+                    parseInt(BlockchainAssetDto.GAS_ASSET.decimals, 10),
+                    BlockchainAssetDto.GAS_ASSET.hash,
                     'NepwUjd9GhqgNkrfXaxj9mmsFhFzGoFuWM'
                 )
             ),
@@ -231,7 +231,7 @@ export class ContractsService {
         entity.type = SmartContractType.NEP17;
         entity.code = dto.symbol;
         entity.name = dto.name;
-        entity.decimals = 0, // TODO: Since SC compiles with 0 atm: dto.decimals;
+        entity.decimals = dto.decimals;
         entity.initial = dto.initial;
         entity.tokenUrl = dto.tokenUrl;
         entity.iconUrl = dto.iconUrl;

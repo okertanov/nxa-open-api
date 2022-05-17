@@ -76,10 +76,10 @@ export class BlockchainAssetDto {
     /*TODO: readonly*/ code: string;
 
     @ApiPropertyOptional()
-    name?: string;
+    /*TODO: readonly*/ name?: string;
 
     @ApiPropertyOptional()
-    decimals?: string;
+    /*TODO: readonly*/ decimals?: string;
 
     @ApiPropertyOptional()
     metadata?: BlockchainAssetMetadata | undefined;

@@ -81,7 +81,7 @@ export class WalletService {
                 if (contract && contract.token) {
                     b.asset.code = contract.token.symbol;
                     b.asset.name = contract.token.name;
-                    // TODO: b.asset.decimals = contract.token.decimals.toString();
+                    b.asset.decimals = contract.token.decimals.toString();
                     b.asset.metadata = new BlockchainAssetMetadata(contract.token.iconUrl, contract.token.iconUrl)
                 }
             }
@@ -102,7 +102,7 @@ export class WalletService {
             if (contract && contract.token) {
                 balance.asset.code = contract.token.symbol;
                 balance.asset.name = contract.token.name;
-                // TODO: balance.asset.decimals = contract.token.decimals.toString();
+                balance.asset.decimals = contract.token.decimals.toString();
                 balance.asset.metadata = new BlockchainAssetMetadata(contract.token.iconUrl, contract.token.iconUrl)
             }
         }
@@ -119,7 +119,7 @@ export class WalletService {
                 if (contract && contract.token) {
                     t.asset.code = contract.token.symbol;
                     t.asset.name = contract.token.name;
-                    // TODO: t.asset.decimals = contract.token.decimals.toString();
+                    t.asset.decimals = contract.token.decimals.toString();
                     t.asset.metadata = new BlockchainAssetMetadata(contract.token.iconUrl, contract.token.iconUrl)
                 }
             }
