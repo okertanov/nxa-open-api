@@ -85,7 +85,7 @@ export class WalletService {
                     b.asset.metadata = new BlockchainAssetMetadata(contract.token.iconUrl, contract.token.iconUrl)
                 }
             }
-            return b;
+            return new BlockchainBalanceDto(b.asset, b.lastUpdatedBlockIndex, b.address, b.amount);
         });
         return balances;
     }
