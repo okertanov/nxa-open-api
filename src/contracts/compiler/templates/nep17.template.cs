@@ -120,7 +120,7 @@ namespace Neo.SmartContract.Examples
         private const byte Prefix_Contract = 0x02;
         public static readonly StorageMap ContractMap = new StorageMap(Storage.CurrentContext, Prefix_Contract);
         
-        private static readonly BigInteger InitialCoins => {{ContractInitialCoins}};
+        private static BigInteger InitialCoins => {{ContractInitialCoins}};
         private static readonly BigInteger Factor = BigInteger.Pow(10, Decimals());
 
         [Safe]
