@@ -15,16 +15,6 @@ namespace Neo.SmartContract.Examples
         protected const byte Prefix_Balance = 0x01;
 
         [Safe]
-        [DisplayName("Name")]
-        public abstract string TokenName();
-
-        [Safe]
-        public abstract string Symbol();
-
-        [Safe]
-        public abstract byte Decimals();
-
-        [Safe]
         public static BigInteger TotalSupply() => (BigInteger)Storage.Get(Storage.CurrentContext, new byte[] { Prefix_TotalSupply });
 
         [Safe]
@@ -127,15 +117,21 @@ namespace Neo.SmartContract.Examples
         [InitialValue("{{SystemOwnerAddress}}", ContractParameterType.Hash160)]
         private static readonly UInt160 deployer = default;
 
-        // Prefix_TotalSupply = 0x00; Prefix_Balance = 0x01;
         private const byte Prefix_Contract = 0x02;
         public static readonly StorageMap ContractMap = new StorageMap(Storage.CurrentContext, Prefix_Contract);
         private static int InitialCoins => {{ContractInitialCoins}};
 
-        [DisplayName("Name")]
-        public override string TokenName() => "{{ContractName}}";
-        public override string Symbol() => "{{ContractSymbol}}";
-        public override byte Decimals() => {{ContractDecimals}};
+        [Safe]
+        [DisplayName("name")]
+        public static override string TokenName() => "{{ContractName}}";
+
+        [Safe]
+        [DisplayName("symbol")]
+        public static override string Symbol() => "{{ContractSymbol}}";
+
+        [Safe]
+        [DisplayName("decimals")]
+        public static override byte Decimals() => {{ContractDecimals}};
         
         public static void _deploy(object data, bool update)
         {
