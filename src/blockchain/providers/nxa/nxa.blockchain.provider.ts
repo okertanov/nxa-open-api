@@ -275,7 +275,7 @@ export class NxaBlockchainProvider implements BlockchainProviderInterface {
     }
 
     async transferFromSystem(asset: BlockchainAssetDto, address: string, amount: string): Promise<string> {
-        const networkMagic = BlockchainNetwork.Default.networkId;
+        const networkMagic = parseInt(BlockchainNetwork.Default.networkId, 10);
         const systemFaucetWif = process.env.BLOCKCHAIN_SYS_HOT_PK;
 
         const systemFaucetAccount = new Neon.wallet.Account(systemFaucetWif);
