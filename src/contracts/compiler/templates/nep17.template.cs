@@ -119,7 +119,7 @@ namespace Neo.SmartContract.Examples
 
         private const byte Prefix_Contract = 0x02;
         public static readonly StorageMap ContractMap = new StorageMap(Storage.CurrentContext, Prefix_Contract);
-        private static int InitialCoins => {{ContractInitialCoins}};
+        private static decimal InitialCoins => {{ContractInitialCoins}};
 
         [Safe]
         [DisplayName("name")]
@@ -137,9 +137,8 @@ namespace Neo.SmartContract.Examples
         {
             if (update) return;
             if (InitialCoins > 0) {
-                var coins = new BigInteger(InitialCoins);
                 var factor = BigInteger.Pow(10, Decimals());
-                var scaledCoins = BigInteger.Multiply(coins, factor);
+                var scaledCoins = BigInteger.Multiply(InitialCoins, factor);
                 Mint(owner, scaledCoins);
             }
         }
