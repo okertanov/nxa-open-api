@@ -26,7 +26,7 @@ export class BlockchainNetwork {
         String(process.env.BLOCKCHAIN_RPC_ENDPOINT)
     );
 
-    public static readonly Default = BlockchainNetwork.Nxa;
+    public static readonly Default = BlockchainNetwork.Neo;
 
     @ApiProperty()
     type: BlockchainNetworkType;
