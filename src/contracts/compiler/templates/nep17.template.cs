@@ -136,12 +136,15 @@ namespace Neo.SmartContract.Examples
         public override string TokenName() => "{{ContractName}}";
         public override string Symbol() => "{{ContractSymbol}}";
         public override byte Decimals() => {{ContractDecimals}};
-
+        
         public static void _deploy(object data, bool update)
         {
             if (update) return;
             if (InitialCoins > 0) {
-                Mint(owner, InitialCoins);
+                var coins = new BigInteger(InitialCoins);
+                var factor = BigInteger.Pow(10, Decimals);
+                var scaledCoins = BigInteger.Multiply(coins, factor);
+                Mint(owner, scaledCoins);
             }
         }
 
