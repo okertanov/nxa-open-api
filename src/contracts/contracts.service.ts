@@ -256,16 +256,17 @@ export class ContractsService {
         console.dir(compileResult);
 
         // 2.1 
-        const to = dto.ownerAddress;
-        const to160 = Neon.sc.ContractParam.hash160(to);
-        const uri = dto.tokenUrl ?? dto.iconUrl ?? '';
+        const toAddress = dto.ownerAddress;
+        const toAccount = new Neon.wallet.Account(toAddress);
+        const toAddress160 = Neon.sc.ContractParam.hash160(toAccount.address);
+        const uri = dto.iconUrl ?? dto.tokenUrl ?? '';
         const name = dto.name;
         const desc = dto.description;
 
         // 2. 2. Create Deploy payload in NEO Type-Value format
         const deployPayload = {
             type: 'Map', value: [
-//                { key: { type: 'String', value: 'to' }, value: to160 },
+                { key: { type: 'String', value: 'to' }, value: toAddress160 },
                 { key: { type: 'String', value: 'uri' }, value: { type: 'String', value: uri } },
                 { key: { type: 'String', value: 'name' }, value: { type: 'String', value: name } },
                 { key: { type: 'String', value: 'desc' }, value: { type: 'String', value: desc } },
