@@ -266,7 +266,7 @@ export class ContractsService {
         // 2. 2. Create Deploy payload in NEO Type-Value format
         const deployPayload = {
             type: 'Map', value: [
-                { key: { type: 'String', value: 'to' }, value: { type: 'Hash160', value: toAccount.address } },
+                { key: { type: 'String', value: 'to' }, value: { type: 'Hash160', value: toAccount.scriptHash } },
                 { key: { type: 'String', value: 'uri' }, value: { type: 'String', value: uri } },
                 { key: { type: 'String', value: 'name' }, value: { type: 'String', value: name } },
                 { key: { type: 'String', value: 'desc' }, value: { type: 'String', value: desc } },
