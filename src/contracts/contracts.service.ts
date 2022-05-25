@@ -254,12 +254,20 @@ export class ContractsService {
         const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
         console.dir(compileResult);
 
-        // 2. Create Deploy payload
+        // 2.1 
+        const to = dto.ownerAddress;
+        const uri = dto.tokenUrl ?? dto.iconUrl ?? '';
+        const name = dto.name;
+        const desc = dto.description;
+
+        // 2. 2. Create Deploy payload in NEO Type-Value format
         const deployPayload = {
-            to: dto.ownerAddress,
-            uri: dto.tokenUrl ?? dto.iconUrl ?? '',
-            name: dto.name,
-            desc: dto.description
+            type: 'Map', value: [
+                { key: { type: 'String', value: 'to'}, value: { type: 'String', value: to }},
+                { key: { type: 'String', value: 'uri'}, value: { type: 'String', value: uri }},
+                { key: { type: 'String', value: 'name'}, value: { type: 'String', value: name }},
+                { key: { type: 'String', value: 'desc'}, value: { type: 'String', value: desc }},
+            ]
         };
 
         // 3. Deploy
