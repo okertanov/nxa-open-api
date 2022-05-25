@@ -7,15 +7,25 @@ using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 using Neo.SmartContract.Framework.Attributes;
 
-namespace TantalisNFT
+namespace Dvita.SC.CaaS
 {
-    [DisplayName("Teamxi.TantalisNFTContract")]
-    [ManifestExtra("Author", "Teamxi")]
-    [ManifestExtra("Email", "Teamxi@mail.com")]
-    [ManifestExtra("Description", "Tantalis NFT")]
+    public class TokenState
+    {
+        public UInt160 Owner;
+        public string Name;
+        public string Description;
+        public string TokenURI;
+        public ulong CreatedTime;
+        public UInt160 Creator;
+    }
+
+    [ManifestExtra("Author", "{{ContractAuthorName}}")]
+    [ManifestExtra("Email", "{{ContractAuthorEmail}}")]
+    [ManifestExtra("Description", "{{ContractDescription}}")]
+    [ManifestExtra("Version", "1.0")]
     [SupportedStandards("NEP-11")]
 	[ContractPermission("*", "*")]
-    sealed public class TantalisNFTContract : SmartContract
+    sealed public class {{ContractName}}Contract : Neo.SmartContract.Framework.SmartContract
     {
         private static readonly ByteString trueInByteString = (ByteString)new byte[] {0x01};
         private static readonly byte[] blockListPrefix = new byte[] { 0x01, 0x01 };
@@ -29,7 +39,6 @@ namespace TantalisNFT
         private const byte prefixTokenId = 0x02;
         private const byte prefixToken = 0x03;
         private const byte prefixAccountToken = 0x04;
-        public byte Decimals() => 0;
 
         // events
         public delegate void OnTransferDelegate(UInt160 from, UInt160 to, BigInteger amount, ByteString tokenId);
@@ -45,7 +54,15 @@ namespace TantalisNFT
 
         private static bool IsOwner() => Runtime.CheckWitness(GetOwner());
 
-        public string Symbol() => "TantalisSMBL";
+        [Safe]
+        [DisplayName("name")]
+        public static string TokenName() => "{{ContractName}}";
+
+        [Safe]
+        public string Symbol() => "{{ContractSymbol}}";
+
+        [Safe]
+        public byte Decimals() => 0;
 
         [Safe]
         public static BigInteger TotalSupply() => (BigInteger)Storage.Get(Storage.CurrentContext, new byte[] { prefixTotalSupply });
@@ -211,12 +228,13 @@ namespace TantalisNFT
             return true;
         }
 
+        [Safe]
         public static UInt160 GetOwner()
         {
             return (UInt160)ContractMap.Get(ownerKey);
         }
 
-         public static bool TransferOwnership(UInt160 newOwner)
+        public static bool TransferOwnership(UInt160 newOwner)
         {
             if (!newOwner.IsValid)
             {
@@ -262,6 +280,7 @@ namespace TantalisNFT
             return true;
         }
 
+        [Safe]
         [DisplayName("isblocked")]
         public static bool IsBlocked(UInt160 userAddress)
         {
@@ -298,6 +317,7 @@ namespace TantalisNFT
             return true;
         }
 
+        [Safe]
         [DisplayName("paused")]
         public static bool Paused()
         {
@@ -429,15 +449,3 @@ namespace TantalisNFT
     }
 }
 
-namespace TantalisNFT
-{
-    public class TokenState
-    {
-        public UInt160 Owner;
-        public string Name;
-        public string Description;
-        public string TokenURI;
-        public ulong CreatedTime;
-        public UInt160 Creator;
-    }
-}

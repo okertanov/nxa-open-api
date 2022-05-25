@@ -7,9 +7,9 @@ using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 using Neo.SmartContract.Framework.Attributes;
 
-namespace Neo.SmartContract.Examples
+namespace Dvita.SC.CaaS
 {
-    public abstract class NXATokenContract : SmartContract.Framework.SmartContract
+    public abstract class NXATokenContract : Neo.SmartContract.Framework.SmartContract
     {
         protected const byte Prefix_TotalSupply = 0x00;
         protected const byte Prefix_Balance = 0x01;
