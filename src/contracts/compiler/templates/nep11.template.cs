@@ -323,10 +323,11 @@ namespace TantalisNFT
                     customData["uri"] is not null &&
                     customData["name"] is not null &&
                     customData["desc"] is not null) {
+                    var owner = (UInt160)(ByteString)customData["to"];
                     
                     Mint(NewTokenId(), new TokenState
                     {
-                        Owner = tx.Sender,
+                        Owner = owner,
                         Creator = tx.Sender,
                         Name = customData["name"],
                         TokenURI = customData["uri"],
