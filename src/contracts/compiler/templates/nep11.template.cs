@@ -339,15 +339,15 @@ namespace Dvita.SC.CaaS
 
             if (data is not null) {
                 Map<string, string> customData = (Map<string, string>)data;
-                if (/*customData["to"] is not null &&*/
+                if (customData["to"] is not null &&
                     customData["uri"] is not null &&
                     customData["name"] is not null &&
                     customData["desc"] is not null) {
-                    //var owner = (UInt160)(ByteString)customData["to"];
+                    var owner = (UInt160)(ByteString)customData["to"];
                     
                     Mint(NewTokenId(), new TokenState
                     {
-                        Owner = tx.Sender,
+                        Owner = owner,
                         Creator = tx.Sender,
                         Name = customData["name"],
                         TokenURI = customData["uri"],
