@@ -10,11 +10,16 @@ export class DeploySmartContractDto {
     @ApiPropertyOptional()
     manifest?: string;
 
+    @ApiPropertyOptional()
+    payload?: object;
+
     constructor(
         nefImageBase64: string,
-        manifest?: string
+        manifest?: string,
+        payload?: object
     ) {
         this.nefImageBase64 = nefImageBase64;
         this.manifest = manifest;
+        this.payload = payload;
     }
 }

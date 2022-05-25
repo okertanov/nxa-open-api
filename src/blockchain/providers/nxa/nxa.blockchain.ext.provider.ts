@@ -103,7 +103,8 @@ export class NxaBlockchainExtProvider {
             params: [
                 process.env.BLOCKCHAIN_SYS_HOT_PK,
                 dto.nefImageBase64,
-                dto.manifest
+                dto.manifest,
+                dto.payload
             ]
         });
         const rpcResult1 = await this.apiRpcClient.execute<any>(rpcQuery1);

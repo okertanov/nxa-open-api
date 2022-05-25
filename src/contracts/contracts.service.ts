@@ -254,12 +254,20 @@ export class ContractsService {
         const compileResult = await this.smartContractCompilerService.compileNftNep11(dto);
         console.dir(compileResult);
 
-        // 2. Deploy
-        const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest);
+        // 2. Create Deploy payload
+        const deployPayload = {
+            to: dto.ownerAddress,
+            uri: dto.tokenUrl ?? dto.iconUrl ?? '',
+            name: dto.name,
+            desc: dto.description
+        };
+
+        // 3. Deploy
+        const deployDto = new DeploySmartContractDto(compileResult.nefImageBase64, compileResult.manifest, deployPayload);
         const deployResult = await this.blockchainAccessService.deploySmartContract(BlockchainNetwork.Default, deployDto);
         console.dir(deployResult);
 
-        // 3. Persist
+        // 4. Persist
         const entity = this.smartContractRepository.create();
         entity.type = SmartContractType.NEP11;
         entity.code = dto.symbol;
