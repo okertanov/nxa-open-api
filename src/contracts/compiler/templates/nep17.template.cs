@@ -1,7 +1,6 @@
 using System;
 using System.Numerics;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Neo;
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Native;
