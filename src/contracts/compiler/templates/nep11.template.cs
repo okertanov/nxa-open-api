@@ -95,9 +95,10 @@ namespace Dvita.SC.CaaS
             StorageMap tokenMap = new(Storage.CurrentContext, prefixToken);
             var token = (TokenState)StdLib.Deserialize(tokenMap[tokenId]);
             Map<string, object> map = new();
-            map["desc"] = token.Description;
             map["name"] = token.Name;
+            map["description"] = token.Description;
             map["uri"] = token.TokenURI;
+            map["image"] = token.TokenURI;
             map["owner"] = token.Owner;
             map["creator"] = token.Creator;
             map["createdTime"] = token.CreatedTime;
